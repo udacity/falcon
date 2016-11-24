@@ -111,4 +111,4 @@ def convert_json_string_to_feedback(results):
             return all_feedback
         else:
             # main generated some an error, so display it!
-            return 'An error occurred while testing your code.\n\nCheck to ensure these items are true:\n\n- clicking **TEST RUN** doesn\'t produce any issues\n- you\'ve followed all instructions\n- you\'ve used the correct names\n\nIf you make all these checks, but it still doesn\'t fix the error, then please contact us at *ios-support@udacity.com* and provide a link to the quiz and a copy of your code.\n\nNOTE: If you cannot find the instructions, click **RESET QUIZ** to reset the quiz to its original state.'
+            return 'An error occurred while testing your code.\n\nCheck to ensure these items are true:\n\n- clicking **TEST RUN** doesn\'t produce any issues\n- you\'ve followed all instructions\n- you\'ve used the correct names\n\nIf you make all these checks, but it still doesn\'t fix the error, then please contact *support@udacity.com* and provide a link to the quiz and a copy of your code.\n\nNOTE: If you cannot find the instructions, click **RESET QUIZ** to reset the quiz to its original state.'
