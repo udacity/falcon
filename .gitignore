@@ -1,0 +1,15 @@
+# Local Config
+config/
+config.json
+
+# Temp Text Files
+temp/*.txt
+
+# Python pyc files
+*.pyc
+
+# Don't track NPM modules
+node_modules
+npm-debug.log
+
+*.DS_Store

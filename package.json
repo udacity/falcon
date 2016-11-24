@@ -1,0 +1,25 @@
+{
+  "name": "falcon",
+  "version": "1.0.0",
+  "description": "Test and submit programming quizzes.",
+  "main": "falcon.py",
+  "directories": {
+    "example": "examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udacity/falcon.git"
+  },
+  "author": "Jarrod Parkes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/udacity/falcon/issues"
+  },
+  "homepage": "https://github.com/udacity/falcon#readme",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "esprima": "^3.1.1",
+    "esquery": "^0.4.0",
+    "mocha": "^3.1.2"
+  }
+}
