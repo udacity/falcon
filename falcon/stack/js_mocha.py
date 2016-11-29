@@ -159,7 +159,12 @@ def transform(eval_output):
         evaluating the student's code for a programming quiz.
     """
     lines = []
-    grading_response = json.loads(eval_output)
+    try:
+        grading_response = json.loads(eval_output)
+    except:
+        print "student-err.txt ==> " + util.get_file_contents(files.STUDENT_ERR)
+        print "results-err.txt ==> " + util.get_file_contents(files.RESULTS_ERR)
+        raise
 
     # loop through tests that failed
     for fails in grading_response['failures']:
