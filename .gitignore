@@ -1,6 +1,5 @@
 # Local Config
-config/
-config.json
+config/*.sh
 
 # Temp Text Files
 temp/*.txt
