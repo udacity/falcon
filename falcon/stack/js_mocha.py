@@ -163,6 +163,8 @@ def transform(eval_output):
 
     # loop through tests that failed
     for fails in grading_response['failures']:
+        # remove expected statement added by chai on a failed assert
+        fails['err']['message'] = fails['err']['message'].split(": expected", 1)[0]
         lines.append("<FAIL::>" + fails['err']['message'])
 
     # loop through tests that passed
