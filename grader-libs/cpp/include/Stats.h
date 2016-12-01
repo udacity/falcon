@@ -9,6 +9,9 @@
 
 using namespace nlohmann; // for json
 
+/**
+  Record stats against RubricItems that have run.
+*/
 class Stats
 {
 public:
@@ -21,6 +24,7 @@ public:
 
   std::vector<RubricItem*> items;
 
+  // assumes that the RubricItem already ran
   void record(RubricItem&);
   std::string json_dump();
   json get_results();

@@ -34,6 +34,12 @@ void RubricItem::evaluate()
   callback() == true ? has_passed = true : has_passed = false;
   end = std::chrono::high_resolution_clock::now();
   evaluation_duration = end - start;
+  has_run = true;
+}
+
+bool RubricItem::ran()
+{
+  return has_run;
 }
 
 bool RubricItem::passed()
