@@ -19,7 +19,7 @@ def run_program(args, out_path = None, err_path = None):
     # if out_path and err_path are None, then run program and don't pipe output anywhere
     if out_path == None and err_path == None:
         try:
-            program = os.Popen(args)
+            program = Popen(args)
             out, err = program.communicate()
             if err:
                 print err
