@@ -27,12 +27,14 @@ public:
   void when_incorrect(const string&, const string&);
 
   void evaluate();
+  bool ran();
   bool passed();
   bool failed();
   Feedback* get_feedback();
   double evaluation_time_ms();
 
 private:
+  bool has_run{false};
   function<bool()> callback;
 
   Feedback correct_feedback, incorrect_feedback;

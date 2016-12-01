@@ -16,13 +16,31 @@ std::string join_with_newline(std::vector<std::string>& vec)
   return joined;
 }
 
+Stats& Stats::operator+=(const Stats& rhs)
+{
+  for_each(rhs.items.cbegin(), rhs.items.cend(), [this](RubricItem* item) {
+    record(*item);
+  });
+
+  return *this;
+}
+
+Stats Stats::operator+(const Stats& rhs)
+{
+  Stats lhs = *this;
+  return lhs += rhs;
+}
+
 void Stats::record(RubricItem& item)
 {
-  item.passed() ? num_passed++ : num_failed++;
-  num_run++;
-  is_correct = (num_passed > 0u && num_failed == 0u) ? true : false;
-  append_feedback(item);
-  items.push_back(&item);
+  if (item.ran())
+  {
+    item.passed() ? num_passed++ : num_failed++;
+    num_run++;
+    is_correct = (num_passed > 0u && num_failed == 0u) ? true : false;
+    append_feedback(item);
+    items.push_back(&item);
+  }
 }
 
 void Stats::append_feedback(RubricItem& item)
@@ -48,20 +66,4 @@ std::string Stats::json_dump()
 {
   build_json_results();
   return report.dump();
-}
-
-Stats& Stats::operator+=(const Stats& rhs)
-{
-  for_each(rhs.items.cbegin(), rhs.items.cend(), [this](RubricItem* item) {
-    record(*item);
-  });
-
-  return *this;
-}
-
-Stats Stats::operator+(const Stats& rhs)
-{
-  Stats lhs = *this;
-  lhs += rhs;
-  return lhs;
 }
