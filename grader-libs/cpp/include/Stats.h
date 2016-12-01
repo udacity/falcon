@@ -12,12 +12,16 @@ using namespace nlohmann; // for json
 class Stats
 {
 public:
-  void record(RubricItem&);
+  Stats& operator+=(const Stats&);
+  Stats operator+(const Stats&);
 
   unsigned num_run{0};
   unsigned num_passed{0};
   unsigned num_failed{0};
 
+  std::vector<RubricItem*> items;
+
+  void record(RubricItem&);
   std::string json_dump();
   json get_results();
 

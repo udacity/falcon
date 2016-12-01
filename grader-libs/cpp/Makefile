@@ -48,10 +48,10 @@ RM = /usr/local/Cellar/cmake/3.7.0/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/cameron/Udacity/etc/ios-nd-falcon/Falcon/cpp
+CMAKE_SOURCE_DIR = /Users/cameron/Udacity/etc/falcon/grader-libs/cpp
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/cameron/Udacity/etc/ios-nd-falcon/Falcon/cpp
+CMAKE_BINARY_DIR = /Users/cameron/Udacity/etc/falcon/grader-libs/cpp
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/cameron/Udacity/etc/ios-nd-falcon/Falcon/cpp/CMakeFiles /Users/cameron/Udacity/etc/ios-nd-falcon/Falcon/cpp/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/cameron/Udacity/etc/falcon/grader-libs/cpp/CMakeFiles /Users/cameron/Udacity/etc/falcon/grader-libs/cpp/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/cameron/Udacity/etc/ios-nd-falcon/Falcon/cpp/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/cameron/Udacity/etc/falcon/grader-libs/cpp/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,141 +123,6 @@ grader_test/fast:
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/build
 .PHONY : grader_test/fast
 
-FeedbackTest.o: FeedbackTest.cpp.o
-
-.PHONY : FeedbackTest.o
-
-# target to build an object file
-FeedbackTest.cpp.o:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/FeedbackTest.cpp.o
-.PHONY : FeedbackTest.cpp.o
-
-FeedbackTest.i: FeedbackTest.cpp.i
-
-.PHONY : FeedbackTest.i
-
-# target to preprocess a source file
-FeedbackTest.cpp.i:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/FeedbackTest.cpp.i
-.PHONY : FeedbackTest.cpp.i
-
-FeedbackTest.s: FeedbackTest.cpp.s
-
-.PHONY : FeedbackTest.s
-
-# target to generate assembly for a file
-FeedbackTest.cpp.s:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/FeedbackTest.cpp.s
-.PHONY : FeedbackTest.cpp.s
-
-Grader.o: Grader.cpp.o
-
-.PHONY : Grader.o
-
-# target to build an object file
-Grader.cpp.o:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/Grader.cpp.o
-.PHONY : Grader.cpp.o
-
-Grader.i: Grader.cpp.i
-
-.PHONY : Grader.i
-
-# target to preprocess a source file
-Grader.cpp.i:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/Grader.cpp.i
-.PHONY : Grader.cpp.i
-
-Grader.s: Grader.cpp.s
-
-.PHONY : Grader.s
-
-# target to generate assembly for a file
-Grader.cpp.s:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/Grader.cpp.s
-.PHONY : Grader.cpp.s
-
-GraderTest.o: GraderTest.cpp.o
-
-.PHONY : GraderTest.o
-
-# target to build an object file
-GraderTest.cpp.o:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/GraderTest.cpp.o
-.PHONY : GraderTest.cpp.o
-
-GraderTest.i: GraderTest.cpp.i
-
-.PHONY : GraderTest.i
-
-# target to preprocess a source file
-GraderTest.cpp.i:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/GraderTest.cpp.i
-.PHONY : GraderTest.cpp.i
-
-GraderTest.s: GraderTest.cpp.s
-
-.PHONY : GraderTest.s
-
-# target to generate assembly for a file
-GraderTest.cpp.s:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/GraderTest.cpp.s
-.PHONY : GraderTest.cpp.s
-
-RubricItemTest.o: RubricItemTest.cpp.o
-
-.PHONY : RubricItemTest.o
-
-# target to build an object file
-RubricItemTest.cpp.o:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/RubricItemTest.cpp.o
-.PHONY : RubricItemTest.cpp.o
-
-RubricItemTest.i: RubricItemTest.cpp.i
-
-.PHONY : RubricItemTest.i
-
-# target to preprocess a source file
-RubricItemTest.cpp.i:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/RubricItemTest.cpp.i
-.PHONY : RubricItemTest.cpp.i
-
-RubricItemTest.s: RubricItemTest.cpp.s
-
-.PHONY : RubricItemTest.s
-
-# target to generate assembly for a file
-RubricItemTest.cpp.s:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/RubricItemTest.cpp.s
-.PHONY : RubricItemTest.cpp.s
-
-StatsTest.o: StatsTest.cpp.o
-
-.PHONY : StatsTest.o
-
-# target to build an object file
-StatsTest.cpp.o:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/StatsTest.cpp.o
-.PHONY : StatsTest.cpp.o
-
-StatsTest.i: StatsTest.cpp.i
-
-.PHONY : StatsTest.i
-
-# target to preprocess a source file
-StatsTest.cpp.i:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/StatsTest.cpp.i
-.PHONY : StatsTest.cpp.i
-
-StatsTest.s: StatsTest.cpp.s
-
-.PHONY : StatsTest.s
-
-# target to generate assembly for a file
-StatsTest.cpp.s:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/StatsTest.cpp.s
-.PHONY : StatsTest.cpp.s
-
 include/Feedback.o: include/Feedback.cpp.o
 
 .PHONY : include/Feedback.o
@@ -284,6 +149,33 @@ include/Feedback.s: include/Feedback.cpp.s
 include/Feedback.cpp.s:
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Feedback.cpp.s
 .PHONY : include/Feedback.cpp.s
+
+include/Grader.o: include/Grader.cpp.o
+
+.PHONY : include/Grader.o
+
+# target to build an object file
+include/Grader.cpp.o:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Grader.cpp.o
+.PHONY : include/Grader.cpp.o
+
+include/Grader.i: include/Grader.cpp.i
+
+.PHONY : include/Grader.i
+
+# target to preprocess a source file
+include/Grader.cpp.i:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Grader.cpp.i
+.PHONY : include/Grader.cpp.i
+
+include/Grader.s: include/Grader.cpp.s
+
+.PHONY : include/Grader.s
+
+# target to generate assembly for a file
+include/Grader.cpp.s:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Grader.cpp.s
+.PHONY : include/Grader.cpp.s
 
 include/RubricItem.o: include/RubricItem.cpp.o
 
@@ -339,32 +231,140 @@ include/Stats.cpp.s:
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Stats.cpp.s
 .PHONY : include/Stats.cpp.s
 
-test_main.o: test_main.cpp.o
+test/FeedbackTest.o: test/FeedbackTest.cpp.o
 
-.PHONY : test_main.o
+.PHONY : test/FeedbackTest.o
 
 # target to build an object file
-test_main.cpp.o:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test_main.cpp.o
-.PHONY : test_main.cpp.o
+test/FeedbackTest.cpp.o:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/FeedbackTest.cpp.o
+.PHONY : test/FeedbackTest.cpp.o
 
-test_main.i: test_main.cpp.i
+test/FeedbackTest.i: test/FeedbackTest.cpp.i
 
-.PHONY : test_main.i
+.PHONY : test/FeedbackTest.i
 
 # target to preprocess a source file
-test_main.cpp.i:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test_main.cpp.i
-.PHONY : test_main.cpp.i
+test/FeedbackTest.cpp.i:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/FeedbackTest.cpp.i
+.PHONY : test/FeedbackTest.cpp.i
 
-test_main.s: test_main.cpp.s
+test/FeedbackTest.s: test/FeedbackTest.cpp.s
 
-.PHONY : test_main.s
+.PHONY : test/FeedbackTest.s
 
 # target to generate assembly for a file
-test_main.cpp.s:
-	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test_main.cpp.s
-.PHONY : test_main.cpp.s
+test/FeedbackTest.cpp.s:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/FeedbackTest.cpp.s
+.PHONY : test/FeedbackTest.cpp.s
+
+test/GraderTest.o: test/GraderTest.cpp.o
+
+.PHONY : test/GraderTest.o
+
+# target to build an object file
+test/GraderTest.cpp.o:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/GraderTest.cpp.o
+.PHONY : test/GraderTest.cpp.o
+
+test/GraderTest.i: test/GraderTest.cpp.i
+
+.PHONY : test/GraderTest.i
+
+# target to preprocess a source file
+test/GraderTest.cpp.i:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/GraderTest.cpp.i
+.PHONY : test/GraderTest.cpp.i
+
+test/GraderTest.s: test/GraderTest.cpp.s
+
+.PHONY : test/GraderTest.s
+
+# target to generate assembly for a file
+test/GraderTest.cpp.s:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/GraderTest.cpp.s
+.PHONY : test/GraderTest.cpp.s
+
+test/RubricItemTest.o: test/RubricItemTest.cpp.o
+
+.PHONY : test/RubricItemTest.o
+
+# target to build an object file
+test/RubricItemTest.cpp.o:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/RubricItemTest.cpp.o
+.PHONY : test/RubricItemTest.cpp.o
+
+test/RubricItemTest.i: test/RubricItemTest.cpp.i
+
+.PHONY : test/RubricItemTest.i
+
+# target to preprocess a source file
+test/RubricItemTest.cpp.i:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/RubricItemTest.cpp.i
+.PHONY : test/RubricItemTest.cpp.i
+
+test/RubricItemTest.s: test/RubricItemTest.cpp.s
+
+.PHONY : test/RubricItemTest.s
+
+# target to generate assembly for a file
+test/RubricItemTest.cpp.s:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/RubricItemTest.cpp.s
+.PHONY : test/RubricItemTest.cpp.s
+
+test/StatsTest.o: test/StatsTest.cpp.o
+
+.PHONY : test/StatsTest.o
+
+# target to build an object file
+test/StatsTest.cpp.o:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/StatsTest.cpp.o
+.PHONY : test/StatsTest.cpp.o
+
+test/StatsTest.i: test/StatsTest.cpp.i
+
+.PHONY : test/StatsTest.i
+
+# target to preprocess a source file
+test/StatsTest.cpp.i:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/StatsTest.cpp.i
+.PHONY : test/StatsTest.cpp.i
+
+test/StatsTest.s: test/StatsTest.cpp.s
+
+.PHONY : test/StatsTest.s
+
+# target to generate assembly for a file
+test/StatsTest.cpp.s:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/StatsTest.cpp.s
+.PHONY : test/StatsTest.cpp.s
+
+test/test_main.o: test/test_main.cpp.o
+
+.PHONY : test/test_main.o
+
+# target to build an object file
+test/test_main.cpp.o:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/test_main.cpp.o
+.PHONY : test/test_main.cpp.o
+
+test/test_main.i: test/test_main.cpp.i
+
+.PHONY : test/test_main.i
+
+# target to preprocess a source file
+test/test_main.cpp.i:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/test_main.cpp.i
+.PHONY : test/test_main.cpp.i
+
+test/test_main.s: test/test_main.cpp.s
+
+.PHONY : test/test_main.s
+
+# target to generate assembly for a file
+test/test_main.cpp.s:
+	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/test/test_main.cpp.s
+.PHONY : test/test_main.cpp.s
 
 # Help Target
 help:
@@ -375,33 +375,33 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... grader_test"
-	@echo "... FeedbackTest.o"
-	@echo "... FeedbackTest.i"
-	@echo "... FeedbackTest.s"
-	@echo "... Grader.o"
-	@echo "... Grader.i"
-	@echo "... Grader.s"
-	@echo "... GraderTest.o"
-	@echo "... GraderTest.i"
-	@echo "... GraderTest.s"
-	@echo "... RubricItemTest.o"
-	@echo "... RubricItemTest.i"
-	@echo "... RubricItemTest.s"
-	@echo "... StatsTest.o"
-	@echo "... StatsTest.i"
-	@echo "... StatsTest.s"
 	@echo "... include/Feedback.o"
 	@echo "... include/Feedback.i"
 	@echo "... include/Feedback.s"
+	@echo "... include/Grader.o"
+	@echo "... include/Grader.i"
+	@echo "... include/Grader.s"
 	@echo "... include/RubricItem.o"
 	@echo "... include/RubricItem.i"
 	@echo "... include/RubricItem.s"
 	@echo "... include/Stats.o"
 	@echo "... include/Stats.i"
 	@echo "... include/Stats.s"
-	@echo "... test_main.o"
-	@echo "... test_main.i"
-	@echo "... test_main.s"
+	@echo "... test/FeedbackTest.o"
+	@echo "... test/FeedbackTest.i"
+	@echo "... test/FeedbackTest.s"
+	@echo "... test/GraderTest.o"
+	@echo "... test/GraderTest.i"
+	@echo "... test/GraderTest.s"
+	@echo "... test/RubricItemTest.o"
+	@echo "... test/RubricItemTest.i"
+	@echo "... test/RubricItemTest.s"
+	@echo "... test/StatsTest.o"
+	@echo "... test/StatsTest.i"
+	@echo "... test/StatsTest.s"
+	@echo "... test/test_main.o"
+	@echo "... test/test_main.i"
+	@echo "... test/test_main.s"
 .PHONY : help
 
 

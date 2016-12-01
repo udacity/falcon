@@ -22,6 +22,7 @@ void Stats::record(RubricItem& item)
   num_run++;
   is_correct = (num_passed > 0u && num_failed == 0u) ? true : false;
   append_feedback(item);
+  items.push_back(&item);
 }
 
 void Stats::append_feedback(RubricItem& item)
@@ -47,4 +48,20 @@ std::string Stats::json_dump()
 {
   build_json_results();
   return report.dump();
+}
+
+Stats& Stats::operator+=(const Stats& rhs)
+{
+  for_each(rhs.items.cbegin(), rhs.items.cend(), [this](RubricItem* item) {
+    record(*item);
+  });
+
+  return *this;
+}
+
+Stats Stats::operator+(const Stats& rhs)
+{
+  Stats lhs = *this;
+  lhs += rhs;
+  return lhs;
 }
