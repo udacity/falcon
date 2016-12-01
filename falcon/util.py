@@ -22,9 +22,9 @@ def run_program(args, out_path = None, err_path = None):
             program = Popen(args)
             out, err = program.communicate()
             if err:
-                print err
+                return err
             else:
-                print out
+                return out
         except Exception, runerr:
             print str(runerr)
             raise
