@@ -7,11 +7,15 @@ import falcon.files as files
 
 def setup_local_test():
     """Configure environment (namely the root directory) for local execution."""
-    util.move_swizzle_files_for_local_test('swift')
+    util.move_sandbox_files_to_root('swift', ['SwizzleInclude.swift', 'SwizzleBefore.swift', 'StudentMain.swift', 'SwizzleAfter.swift'])
+
+def setup_remote():
+    """Configure environment (namely the root directory) for remote execution."""
+    util.move_sandbox_files_to_root('swift', ['SwizzleInclude.swift'])
 
 def tear_down_local_test():
     """Tear down environment (namely the root directory) after local execution."""
-    util.remove_swizzle_files_for_local_test('swift')
+    util.remove_files_from_root(['SwizzleInclude.swift', 'SwizzleBefore.swift', 'StudentMain.swift', 'SwizzleAfter.swift', 'SwizzledMain.swift'])
 
 def test(run_local, bash_config):
     """Test (run) student's code without evaluating it for correctness.
