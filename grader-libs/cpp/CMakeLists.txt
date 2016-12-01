@@ -10,12 +10,12 @@ add_definitions(-std=c++0x)
 set(CMAKE_CXX_FLAGS "${CMAXE_CXX_FLAGS} -Wall")
 
 set(sources
-   test_main.cpp
-   FeedbackTest.cpp
-   GraderTest.cpp
-   RubricItemTest.cpp
-   StatsTest.cpp
-   Grader.cpp
+   test/test_main.cpp
+   test/FeedbackTest.cpp
+   test/GraderTest.cpp
+   test/RubricItemTest.cpp
+   test/StatsTest.cpp
+   include/Grader.cpp
    include/Feedback.cpp
    include/RubricItem.cpp
    include/Stats.cpp)
