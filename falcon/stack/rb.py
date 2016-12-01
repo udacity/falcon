@@ -92,7 +92,7 @@ def transform(test_output):
             in the "What Went Well" section
         - <FAIL::>
             represents something the student did incorrectly and is displayed
-            in the "What Went Well" section
+            in the "What Went Wrong" section
         - <FEEDBACK::>
             additional feedback to either guide or congradulate the student
             that appears in the "Feedback" section
