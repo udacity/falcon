@@ -7,25 +7,23 @@
 #include <string>
 #include "Feedback.h"
 
-using namespace std;
-
 class RubricItem
 {
 public:
   RubricItem() = default;
-  RubricItem(const function<bool()>& _callback) : callback(_callback) {};
-  RubricItem(const string& _name) : name(_name) {};
-  RubricItem(const string& _name, const function<bool()>& _callback) : name(_name), callback(_callback) {};
+  RubricItem(const std::function<bool()>& _callback) : callback(_callback) {};
+  RubricItem(const std::string& _name) : name(_name) {};
+  RubricItem(const std::string& _name, const std::function<bool()>& _callback) : name(_name), callback(_callback) {};
 
-  string name;
+  std::string name;
   bool checkpoint = false;
 
-  void set_callback(const function<bool()>&);
+  void set_callback(const std::function<bool()>&);
 
-  void when_correct(const string&);
-  void when_correct(const string&, const string&);
-  void when_incorrect(const string&);
-  void when_incorrect(const string&, const string&);
+  void when_correct(const std::string&);
+  void when_correct(const std::string&, const std::string&);
+  void when_incorrect(const std::string&);
+  void when_incorrect(const std::string&, const std::string&);
 
   void evaluate();
   bool ran();
@@ -36,12 +34,12 @@ public:
 
 private:
   bool has_run{false};
-  function<bool()> callback;
+  std::function<bool()> callback;
 
   Feedback correct_feedback, incorrect_feedback;
 
-  chrono::time_point<chrono::high_resolution_clock> start, end;
-  chrono::duration<double, ratio<1, 1000000>> evaluation_duration {chrono::duration<double, ratio<1, 1000000>>::zero()};
+  std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+  std::chrono::duration<double, std::ratio<1, 1000000>> evaluation_duration {std::chrono::duration<double, std::ratio<1, 1000000>>::zero()};
 
   bool has_passed = false;
 };

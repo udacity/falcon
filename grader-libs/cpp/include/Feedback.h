@@ -3,19 +3,17 @@
 
 #include <string>
 
-using namespace std;
-
 class Feedback
 {
 public:
-  string msg{""};
-  string tag{""};
+  std::string msg{""};
+  std::string tag{""};
 
   Feedback() = default;
-  Feedback(const string& _msg) : msg(_msg) {};
-  Feedback(const string& _msg, const string& _tag) : msg(_msg), tag(_tag) {};
+  Feedback(const std::string& _msg) : msg(_msg) {};
+  Feedback(const std::string& _msg, const std::string& _tag) : msg(_msg), tag(_tag) {};
 
-  string format();
+  std::string format();
 };
 
 #endif

@@ -3,6 +3,8 @@
 #include "Feedback.h"
 #include "RubricItem.h"
 
+using namespace std;
+
 void RubricItem::set_callback(const function<bool()>& _callback)
 {
   callback = _callback;
