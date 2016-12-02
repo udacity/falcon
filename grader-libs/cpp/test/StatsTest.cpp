@@ -65,7 +65,7 @@ const json generate_sample_stats(Grader& grader, Stats& stats, int times)
     else
       run_failing_eval(grader, stats, "a different name");
   }
-  string executor_results = stats.jsonDump();
+  string executor_results = stats.results();
   json results = json::parse(executor_results);
   return results;
 }
@@ -79,7 +79,7 @@ const json generate_sample_stats(Grader& grader, int times)
     else
       run_failing_eval(grader, grader.stats, "a different name");
   }
-  string executor_results = grader.stats.jsonDump();
+  string executor_results = grader.stats.results();
   json results = json::parse(executor_results);
   return results;
 }
@@ -105,10 +105,17 @@ TEST_F(AStats, CanRecordWhetherAnEvaluatedRubricItemFailed)
   ASSERT_EQ(stats.num_failed, 1u);
 }
 
+TEST_F(AStats, DoesNotBreakIfYouTryToExportStatsWithoutRunningTests)
+{
+  json results = stats.resultsJson();
+  const string actual_feedback = results["feedback"];
+  ASSERT_TRUE(actual_feedback.empty());
+}
+
 TEST_F(AStats, CanRecordRightStudentFeedback)
 {
   run_passing_eval(grader, stats);
-  json results = stats.getResults();
+  json results = stats.resultsJson();
   const string actual_feedback = results["feedback"];
   ASSERT_EQ(actual_feedback, right_feedback);
 }
@@ -117,7 +124,7 @@ TEST_F(AStats, CanRecordFeedbackForTwoRubricItems)
 {
   run_passing_eval(grader, stats);
   run_failing_eval(grader, stats);
-  json results = stats.getResults();
+  json results = stats.resultsJson();
   const string actual_feedback = results["feedback"];
   ASSERT_EQ(actual_feedback, right_feedback + "\n" + wrong_feedback);
 }
@@ -125,7 +132,7 @@ TEST_F(AStats, CanRecordFeedbackForTwoRubricItems)
 TEST_F(AStats, CanRecordRightPassingAfterOneRubricItem)
 {
   run_passing_eval(grader, stats);
-  json results = stats.getResults();
+  json results = stats.resultsJson();
   const bool is_correct = results["is_correct"];
   ASSERT_TRUE(is_correct);
 }

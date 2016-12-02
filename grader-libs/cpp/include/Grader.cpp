@@ -1,8 +1,10 @@
 #include <memory>
+#include "json.hpp"
 #include "Grader.h"
 #include "RubricItem.h"
 
 using namespace std;
+using namespace nlohmann;
 
 void Grader::run()
 {
@@ -37,4 +39,24 @@ void Grader::post_createRubricItem(shared_ptr<RubricItem> item)
 {
   items.push_back(item);
   stats.num_created = static_cast<unsigned>(items.size());
+}
+
+bool Grader::passed()
+{
+  return stats.passed();
+}
+
+bool Grader::failed()
+{
+  return stats.failed();
+}
+
+json Grader::resultsJson()
+{
+  return stats.resultsJson();
+}
+
+string Grader::results()
+{
+  return stats.results();
 }

@@ -11,10 +11,15 @@ using namespace std;
 
 string join_with_newline(vector<string>& vec)
 {
-  string joined = accumulate(++vec.begin(), vec.end(), vec[0], [] (string& a, string& b) {
-    return a + '\n' + b;
-  });
-
+  string joined;
+  if (vec.size() > 1)
+  {
+    joined = accumulate(++vec.begin(), vec.end(), vec[0], [] (string& a, string& b) {
+      return a + '\n' + b;
+    });
+  }
+  else if (vec.size() == 1)
+    joined = vec[0];
   return joined;
 }
 
@@ -33,27 +38,34 @@ Stats Stats::operator+(const Stats& rhs)
   return lhs += rhs;
 }
 
+bool Stats::passed()
+{
+  return is_correct;
+}
+
+bool Stats::failed()
+{
+  return !is_correct;
+}
+
 void Stats::record(shared_ptr<RubricItem> item)
 {
   if (item->ran())
   {
     item->passed() ? num_passed++ : num_failed++;
     num_run++;
+    // recalculate the overall pass/fail state
     is_correct = (num_passed > 0u && num_failed == 0u) ? true : false;
+    // add student feedback
     appendFeedback(item);
     items.push_back(item);
   }
 }
 
-void Stats::appendFeedback(shared_ptr<RubricItem> item)
-{
-  student_feedback.push_back(item->getFeedback()->format());
-}
-
-json Stats::getResults()
+string Stats::results()
 {
   buildJsonResults();
-  return report;
+  return report.dump();
 }
 
 json Stats::buildRubricItemReport(shared_ptr<RubricItem> item)
@@ -98,8 +110,14 @@ void Stats::buildJsonResults()
   report["num_failed"] = num_failed;
 }
 
-string Stats::jsonDump()
+json Stats::resultsJson()
 {
   buildJsonResults();
-  return report.dump();
+  return report;
+}
+
+void Stats::appendFeedback(shared_ptr<RubricItem> item)
+{
+  // assumes that we want the tag shown
+  student_feedback.push_back(item->getFeedback()->format());
 }

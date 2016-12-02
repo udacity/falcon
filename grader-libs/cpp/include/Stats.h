@@ -24,10 +24,13 @@ public:
 
   std::vector<std::shared_ptr<RubricItem>> items;
 
+  bool passed();
+  bool failed();
+
   // assumes that the RubricItem already ran
   void record(std::shared_ptr<RubricItem>);
-  std::string jsonDump();
-  nlohmann::json getResults();
+  std::string results();
+  nlohmann::json resultsJson();
 
 private:
   nlohmann::json report;
