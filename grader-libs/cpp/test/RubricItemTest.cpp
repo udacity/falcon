@@ -18,20 +18,20 @@ const std::string wrong_feedback("wrooooong");
 
 void evaluate(RubricItem& item)
 {
-  item.when_incorrect(wrong_feedback);
-  item.when_correct(right_feedback);
+  item.whenIncorrect(wrong_feedback);
+  item.whenCorrect(right_feedback);
   item.evaluate();
 }
 
 void run_passing_eval(RubricItem& item)
 {
-  item.set_callback([]() { return true; });
+  item.setCallback([]() { return true; });
   evaluate(item);
 }
 
 void run_failing_eval(RubricItem& item)
 {
-  item.set_callback([]() { return true; });
+  item.setCallback([]() { return true; });
   evaluate(item);
 }
 
@@ -67,7 +67,7 @@ TEST_F(ARubricItem, RecordsTimeToEvaluate) {
 TEST_F(ARubricItem, CanReportRightFeedbackAfterEvaluation)
 {
   run_passing_eval(item);
-  ASSERT_EQ(item.get_feedback()->msg, right_feedback);
+  ASSERT_EQ(item.getFeedback()->msg, right_feedback);
 }
 
 // go back up to grader and make sure it reads the output
