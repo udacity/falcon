@@ -37,6 +37,14 @@ void create_failing_item(Grader& grader)
   set_feedback(item);
 }
 
+void create_failing_item(Grader& grader, bool optional)
+{
+  shared_ptr<RubricItem> item = grader.createRubricItem("this item fails");
+  item->setCallback([]() { return false; });
+  item->optional = optional;
+  set_feedback(item);
+}
+
 /* actual tests */
 
 TEST_F(AGrader, CanKeepTrackOfTheNumberOfTests)
@@ -54,7 +62,7 @@ TEST_F(AGrader, CanGenerateAReportBeforeRunningItems)
 TEST_F(AGrader, KnowsWhenItRanAtLeastOneTest)
 {
   grader.run();
-  ASSERT_TRUE(grader.has_run);
+  ASSERT_TRUE(grader.has_evaluated);
 }
 
 TEST_F(AGrader, CanRunMoreThanOneTest) {
@@ -78,4 +86,31 @@ TEST_F(AGrader, CanDetermineOverallFailState)
   create_failing_item(grader);
   grader.run();
   ASSERT_FALSE(grader.resultsJson()["is_correct"].get<bool>());
+}
+
+TEST_F(AGrader, StopsRunningAfterACheckpoint)
+{
+  create_passing_item(grader);
+  create_failing_item(grader);
+  create_passing_item(grader);
+  grader.run();
+  ASSERT_EQ(grader.resultsJson()["num_run"].get<unsigned>(), 2u);
+}
+
+TEST_F(AGrader, KeepsRunningWhenAnOptionalCheckpointFails)
+{
+  create_passing_item(grader);
+  create_failing_item(grader, true);
+  create_passing_item(grader);
+  grader.run();
+  ASSERT_EQ(grader.resultsJson()["num_run"].get<unsigned>(), 3u);
+}
+
+TEST_F(AGrader, RunsThroughCheckpointsWhenDebugging)
+{
+  create_passing_item(grader);
+  create_failing_item(grader);
+  create_passing_item(grader);
+  grader.run_debug();
+  ASSERT_EQ(grader.resultsJson()["num_run"].get<unsigned>(), 3u);
 }

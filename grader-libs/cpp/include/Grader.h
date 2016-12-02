@@ -10,7 +10,7 @@
 class Grader
 {
 public:
-  bool has_run = false;
+  bool has_evaluated = false;
 
   Stats stats; // public for testing purposes
 

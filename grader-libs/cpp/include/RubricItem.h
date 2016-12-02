@@ -17,6 +17,7 @@ public:
 
   std::string name;
   bool checkpoint = false;
+  bool optional = false;
 
   void setCallback(const std::function<bool()>&);
 
