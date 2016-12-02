@@ -12,7 +12,6 @@ class Grader
 public:
   bool has_run = false;
   Stats stats;
-  size_t num_tests;
 
   std::shared_ptr<RubricItem> createRubricItem();
   std::shared_ptr<RubricItem> createRubricItem(const std::string&);

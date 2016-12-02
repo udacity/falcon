@@ -17,7 +17,7 @@ public:
 
 TEST_F(AGrader, CanKeepTrackOfTheNumberOfTests) {
   grader.createRubricItem();
-  ASSERT_EQ(grader.num_tests, 1u);
+  ASSERT_EQ(grader.stats.num_created, 1u);
 }
 
 TEST_F(AGrader, KnowsWhenItRanAtLeastOneTest) {
