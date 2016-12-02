@@ -12,8 +12,20 @@ void Grader::run()
   {
     i->evaluate();
     stats.record(i);
+
+    if (i->failed() && !i->optional)
+      break;
   }
-  has_run = true;
+  has_evaluated = true;
+}
+
+void Grader::run_debug()
+{
+  for (auto i: items)
+  {
+    i->evaluate();
+    stats.record(i);
+  }
 }
 
 shared_ptr<RubricItem> Grader::createRubricItem()
