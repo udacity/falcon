@@ -14,6 +14,7 @@ class RubricItem
 public:
   RubricItem() = default;
   RubricItem(const function<bool()>& _callback) : callback(_callback) {};
+  RubricItem(const string& _name) : name(_name) {};
   RubricItem(const string& _name, const function<bool()>& _callback) : name(_name), callback(_callback) {};
 
   string name;

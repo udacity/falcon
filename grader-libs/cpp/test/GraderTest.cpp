@@ -9,8 +9,14 @@ public:
  Grader grader;
 };
 
+/* useful methods */
+
+
+
+/* actual tests */
+
 TEST_F(AGrader, CanKeepTrackOfTheNumberOfTests) {
-  grader.create_test();
+  grader.create_rubric_item();
   ASSERT_EQ(grader.num_tests, 1u);
 }
 

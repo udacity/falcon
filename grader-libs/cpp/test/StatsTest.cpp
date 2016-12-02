@@ -1,12 +1,15 @@
 #include <iostream>
+#include <memory>
 #include <string>
 #include "gtest/gtest.h"
 #include "json.hpp"
+#include "Grader.h"
 #include "RubricItem.h"
 #include "Stats.h"
 
 using namespace ::testing;
 using namespace nlohmann; // for json
+using namespace std;
 
 class AStats: public Test {
 public:
@@ -15,26 +18,34 @@ public:
 
 /* useful methods */
 
-const std::string right_feedback("riiiiight");
-const std::string wrong_feedback("wrooooong");
+const string right_feedback("riiiiight");
+const string wrong_feedback("wrooooong");
+Grader grader;
 
-void evaluate(Stats& stats, RubricItem& item)
+void evaluate(Stats& stats, shared_ptr<RubricItem> item)
 {
-  item.when_incorrect(wrong_feedback);
-  item.when_correct(right_feedback);
-  item.evaluate();
+  item->when_incorrect(wrong_feedback);
+  item->when_correct(right_feedback);
+  item->evaluate();
   stats.record(item);
 }
 
 void run_passing_eval(Stats& stats)
 {
-  RubricItem item([]() { return true; });
+  auto item = grader.create_rubric_item([]() { return true; });
+  evaluate(stats, item);
+}
+
+void run_passing_eval(Stats& stats, string name)
+{
+  auto item = grader.create_rubric_item([]() { return true; });
+  item->name = name;
   evaluate(stats, item);
 }
 
 void run_failing_eval(Stats& stats)
 {
-  RubricItem item([]() { return false; });
+  auto item = grader.create_rubric_item([]() { return false; });
   evaluate(stats, item);
 }
 
@@ -63,7 +74,7 @@ TEST_F(AStats, CanRecordRightStudentFeedback)
 {
   run_passing_eval(stats);
   json results = stats.get_results();
-  const std::string actual_feedback = results["feedback"];
+  const string actual_feedback = results["feedback"];
   ASSERT_EQ(actual_feedback, right_feedback);
 }
 
@@ -72,7 +83,7 @@ TEST_F(AStats, CanRecordFeedbackForTwoRubricItems)
   run_passing_eval(stats);
   run_failing_eval(stats);
   json results = stats.get_results();
-  const std::string actual_feedback = results["feedback"];
+  const string actual_feedback = results["feedback"];
   ASSERT_EQ(actual_feedback, right_feedback + "\n" + wrong_feedback);
 }
 
@@ -89,7 +100,22 @@ TEST_F(AStats, CanCombineWithAnotherStats)
   Stats stats2;
   run_passing_eval(stats);
   run_failing_eval(stats2);
+  ASSERT_EQ((stats += stats2).num_run, 2u);
+}
+
+TEST_F(AStats, CanAddStats)
+{
+  Stats stats2;
+  run_passing_eval(stats);
+  run_failing_eval(stats2);
   Stats combo = stats + stats2;
   ASSERT_EQ(combo.num_run, 2u);
-  ASSERT_EQ((stats += stats2).num_run, 2u);
+}
+
+TEST_F(AStats, ReportsJSONStatsOnNumberOfTestsRun)
+{
+  run_passing_eval(stats, "a name");
+  string executor_results = stats.json_dump();
+  json results = json::parse(executor_results);
+  ASSERT_EQ(results["num_run"].get<unsigned>(), 1u);
 }

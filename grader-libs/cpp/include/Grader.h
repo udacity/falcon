@@ -1,6 +1,7 @@
 #ifndef Grader_H_
 #define Grader_H_
 
+#include <memory>
 #include <string>
 #include <vector>
 #include "Stats.h"
@@ -13,7 +14,9 @@ public:
   Stats stats;
   size_t num_tests;
 
-  void create_test();
+  shared_ptr<RubricItem> create_rubric_item();
+  shared_ptr<RubricItem> create_rubric_item(const string&);
+  shared_ptr<RubricItem> create_rubric_item(const function<bool()>&);
   void run();
   void run_debug();
 
@@ -25,8 +28,9 @@ public:
   std::vector<std::string> report(); // will switch to json
 
 private:
-  std::vector<RubricItem> tests;
+  std::vector<shared_ptr<RubricItem>> items;
 
+  void post_create_rubric_item(shared_ptr<RubricItem>);
 };
 
 #endif
