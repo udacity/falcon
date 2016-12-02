@@ -45,22 +45,37 @@ TEST_F(AGrader, CanKeepTrackOfTheNumberOfTests)
   ASSERT_EQ(grader.stats.num_created, 1u);
 }
 
+TEST_F(AGrader, CanGenerateAReportBeforeRunningItems)
+{
+  json report = grader.resultsJson();
+  ASSERT_EQ(report["num_created"].get<unsigned>(), 0u);
+}
+
 TEST_F(AGrader, KnowsWhenItRanAtLeastOneTest)
 {
   grader.run();
   ASSERT_TRUE(grader.has_run);
 }
 
-TEST_F(AGrader, CanGenerateAReport)
-{
-  json report = grader.resultsJson();
+TEST_F(AGrader, CanRunMoreThanOneTest) {
+  create_passing_item(grader);
+  create_passing_item(grader);
+  grader.run();
+  ASSERT_EQ(grader.resultsJson()["num_run"].get<unsigned>(), 2u);
 }
 
-// TEST_F(AGrader, CanRunMoreThanOneTest) {
-//   create_passing_item(grader);
-//   create_passing_item(grader);
-//   grader.run();
-//   ASSERT_EQ(grader.report()["num_run"], 2u);
-// }
+TEST_F(AGrader, CanDetermineOverallPassState)
+{
+  create_passing_item(grader);
+  create_passing_item(grader);
+  grader.run();
+  ASSERT_TRUE(grader.resultsJson()["is_correct"].get<bool>());
+}
 
-// generate stats
+TEST_F(AGrader, CanDetermineOverallFailState)
+{
+  create_passing_item(grader);
+  create_failing_item(grader);
+  grader.run();
+  ASSERT_FALSE(grader.resultsJson()["is_correct"].get<bool>());
+}

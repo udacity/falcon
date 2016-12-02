@@ -37,6 +37,8 @@ private:
   bool is_correct = false;
   std::vector<std::string> student_feedback;
 
+  double getTotalEvalTime();
+
   nlohmann::json buildRubricItemReport(std::shared_ptr<RubricItem>);
   nlohmann::json buildRubricItemsReport();
   void buildJsonResults();

@@ -30,7 +30,7 @@ public:
   bool passed();
   bool failed();
   Feedback* getFeedback();
-  double evaluation_time_ms();
+  double evaluationTimeMs();
 
 private:
   bool has_run{false};

@@ -61,7 +61,7 @@ TEST_F(ARubricItem, CanChangePassFailStateAfterEvaluation) {
 
 TEST_F(ARubricItem, RecordsTimeToEvaluate) {
   run_passing_eval(item);
-  ASSERT_GT(item.evaluation_time_ms(), 0.0);
+  ASSERT_GT(item.evaluationTimeMs(), 0.0);
 }
 
 TEST_F(ARubricItem, CanReportRightFeedbackAfterEvaluation)

@@ -8,9 +8,11 @@ using namespace nlohmann;
 
 void Grader::run()
 {
-  // TODO: placeholder
-  // some kind of loop through items
-
+  for (auto i: items)
+  {
+    i->evaluate();
+    stats.record(i);
+  }
   has_run = true;
 }
 
