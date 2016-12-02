@@ -1,8 +1,11 @@
 #include <iostream>
 #include "gtest/gtest.h"
+#include "json.hpp"
 #include "Grader.h"
 
 using namespace ::testing;
+using namespace std;
+using namespace nlohmann;
 
 class AGrader: public Test {
 public:
@@ -11,24 +14,53 @@ public:
 
 /* useful methods */
 
+const string right_feedback("riiiiight");
+const string wrong_feedback("wrooooong");
 
+void set_feedback(shared_ptr<RubricItem> item)
+{
+  item->whenIncorrect(wrong_feedback);
+  item->whenCorrect(right_feedback);
+}
+
+void create_passing_item(Grader& grader)
+{
+  shared_ptr<RubricItem> item = grader.createRubricItem("this item passes");
+  item->setCallback([]() { return true; });
+  set_feedback(item);
+}
+
+void create_failing_item(Grader& grader)
+{
+  shared_ptr<RubricItem> item = grader.createRubricItem("this item fails");
+  item->setCallback([]() { return false; });
+  set_feedback(item);
+}
 
 /* actual tests */
 
-TEST_F(AGrader, CanKeepTrackOfTheNumberOfTests) {
+TEST_F(AGrader, CanKeepTrackOfTheNumberOfTests)
+{
   grader.createRubricItem();
   ASSERT_EQ(grader.stats.num_created, 1u);
 }
 
-TEST_F(AGrader, KnowsWhenItRanAtLeastOneTest) {
+TEST_F(AGrader, KnowsWhenItRanAtLeastOneTest)
+{
   grader.run();
   ASSERT_TRUE(grader.has_run);
 }
 
+TEST_F(AGrader, CanGenerateAReport)
+{
+  json report = grader.resultsJson();
+}
+
 // TEST_F(AGrader, CanRunMoreThanOneTest) {
-//   // add two tests
-//   Grader.run();
-//   ASSERT_
+//   create_passing_item(grader);
+//   create_passing_item(grader);
+//   grader.run();
+//   ASSERT_EQ(grader.report()["num_run"], 2u);
 // }
 
 // generate stats

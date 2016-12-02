@@ -11,7 +11,8 @@ class Grader
 {
 public:
   bool has_run = false;
-  Stats stats;
+
+  Stats stats; // public for testing purposes
 
   std::shared_ptr<RubricItem> createRubricItem();
   std::shared_ptr<RubricItem> createRubricItem(const std::string&);
@@ -24,7 +25,8 @@ public:
 
   std::string getFeedback();
 
-  std::vector<std::string> report(); // will switch to json
+  nlohmann::json resultsJson();
+  std::string results();
 
 private:
   std::vector<std::shared_ptr<RubricItem>> items;

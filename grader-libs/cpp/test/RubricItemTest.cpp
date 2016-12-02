@@ -31,7 +31,7 @@ void run_passing_eval(RubricItem& item)
 
 void run_failing_eval(RubricItem& item)
 {
-  item.setCallback([]() { return true; });
+  item.setCallback([]() { return false; });
   evaluate(item);
 }
 
