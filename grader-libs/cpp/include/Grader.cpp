@@ -36,5 +36,5 @@ shared_ptr<RubricItem> Grader::createRubricItem(const function<bool()>& _callbac
 void Grader::post_createRubricItem(shared_ptr<RubricItem> item)
 {
   items.push_back(item);
-  num_tests = items.size();
+  stats.num_created = static_cast<unsigned>(items.size());
 }

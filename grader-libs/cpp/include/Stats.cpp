@@ -58,26 +58,38 @@ json Stats::getResults()
 
 json Stats::buildRubricItemReport(shared_ptr<RubricItem> item)
 {
-  string name = item->name;
   Feedback* feedback = item->getFeedback();
-  return json::parse("{}");
+
+  json itemReport;
+  itemReport["name"] = item->name;
+  itemReport["message"] = feedback->msg;
+  itemReport["tag"] = feedback->tag;
+  itemReport["elapsed_time"] = item->evaluation_time_ms();
+
+  return itemReport;
 }
 
 json Stats::buildRubricItemsReport()
 {
-  vector<json> tests;
+  json tests;
+  tests["passed"] = {};
+  tests["failed"] = {};
   for (auto i : items)
   {
     json item = buildRubricItemReport(i);
-    tests.push_back(item);
+    if (i->passed())
+      tests["passed"].push_back(item);
+    else
+      tests["failed"].push_back(item);
   }
   return tests;
 }
 
 void Stats::buildJsonResults()
 {
-  vector<json> tests = buildRubricItemsReport();
-  report["tests"] = tests;
+  json tests = buildRubricItemsReport();
+  report["passed"] = tests["passed"];
+  report["failed"] = tests["failed"];
   report["feedback"] = join_with_newline(student_feedback);
   report["is_correct"] = is_correct;
   report["num_created"] = num_created;
