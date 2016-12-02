@@ -87,6 +87,8 @@ json Stats::buildRubricItemReport(shared_ptr<RubricItem> item)
   itemReport["message"] = feedback->msg;
   itemReport["tag"] = feedback->tag;
   itemReport["elapsed_time"] = item->evaluationTimeMs();
+  itemReport["optional"] = item->optional;
+  itemReport["checkpoint"] = item->checkpoint;
 
   return itemReport;
 }
