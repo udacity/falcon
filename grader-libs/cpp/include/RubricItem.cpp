@@ -62,7 +62,7 @@ Feedback* RubricItem::getFeedback()
     return &incorrect_feedback;
 }
 
-double RubricItem::evaluation_time_ms()
+double RubricItem::evaluationTimeMs()
 {
   return evaluation_duration.count();
 }

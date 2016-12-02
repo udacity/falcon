@@ -68,6 +68,16 @@ string Stats::results()
   return report.dump();
 }
 
+double Stats::getTotalEvalTime()
+{
+  double total(0.0);
+  for (auto i : items)
+  {
+    total += i->evaluationTimeMs();
+  }
+  return total;
+}
+
 json Stats::buildRubricItemReport(shared_ptr<RubricItem> item)
 {
   Feedback* feedback = item->getFeedback();
@@ -76,7 +86,7 @@ json Stats::buildRubricItemReport(shared_ptr<RubricItem> item)
   itemReport["name"] = item->name;
   itemReport["message"] = feedback->msg;
   itemReport["tag"] = feedback->tag;
-  itemReport["elapsed_time"] = item->evaluation_time_ms();
+  itemReport["elapsed_time"] = item->evaluationTimeMs();
 
   return itemReport;
 }
@@ -102,6 +112,7 @@ void Stats::buildJsonResults()
   json tests = buildRubricItemsReport();
   report["passed"] = tests["passed"];
   report["failed"] = tests["failed"];
+  report["elapsed_time"] = getTotalEvalTime();
   report["feedback"] = join_with_newline(student_feedback);
   report["is_correct"] = is_correct;
   report["num_created"] = num_created;

@@ -180,3 +180,11 @@ TEST_F(AStats, ReportsJSONStatsOnARunRubricItem)
   ASSERT_EQ(results["failed"][0]["message"], wrong_feedback);
   ASSERT_GT(results["failed"][0]["elapsed_time"].get<double>(), 0.0);
 }
+
+TEST_F(AStats, KnowsHowLongItSpentEvaluating)
+{
+  run_passing_eval(grader, grader.stats);
+  run_passing_eval(grader, grader.stats);
+  run_passing_eval(grader, grader.stats);
+  ASSERT_GT(grader.resultsJson()["elapsed_time"].get<double>(), 0.0);
+}
