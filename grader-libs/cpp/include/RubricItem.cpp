@@ -5,27 +5,27 @@
 
 using namespace std;
 
-void RubricItem::set_callback(const function<bool()>& _callback)
+void RubricItem::setCallback(const function<bool()>& _callback)
 {
   callback = _callback;
 }
 
-void RubricItem::when_correct(const string& message)
+void RubricItem::whenCorrect(const string& message)
 {
   correct_feedback = Feedback(message);
 }
 
-void RubricItem::when_correct(const string& message, const string& tag)
+void RubricItem::whenCorrect(const string& message, const string& tag)
 {
   correct_feedback = Feedback(message, tag);
 }
 
-void RubricItem::when_incorrect(const string& message)
+void RubricItem::whenIncorrect(const string& message)
 {
   incorrect_feedback = Feedback(message);
 }
 
-void RubricItem::when_incorrect(const string& message, const string& tag)
+void RubricItem::whenIncorrect(const string& message, const string& tag)
 {
   incorrect_feedback = Feedback(message, tag);
 }
@@ -54,7 +54,7 @@ bool RubricItem::failed()
   return !has_passed;
 }
 
-Feedback* RubricItem::get_feedback()
+Feedback* RubricItem::getFeedback()
 {
   if (has_passed == true)
     return &correct_feedback;

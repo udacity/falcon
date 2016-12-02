@@ -18,18 +18,18 @@ public:
   std::string name;
   bool checkpoint = false;
 
-  void set_callback(const std::function<bool()>&);
+  void setCallback(const std::function<bool()>&);
 
-  void when_correct(const std::string&);
-  void when_correct(const std::string&, const std::string&);
-  void when_incorrect(const std::string&);
-  void when_incorrect(const std::string&, const std::string&);
+  void whenCorrect(const std::string&);
+  void whenCorrect(const std::string&, const std::string&);
+  void whenIncorrect(const std::string&);
+  void whenIncorrect(const std::string&, const std::string&);
 
   void evaluate();
   bool ran();
   bool passed();
   bool failed();
-  Feedback* get_feedback();
+  Feedback* getFeedback();
   double evaluation_time_ms();
 
 private:

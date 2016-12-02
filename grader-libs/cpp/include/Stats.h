@@ -26,18 +26,18 @@ public:
 
   // assumes that the RubricItem already ran
   void record(std::shared_ptr<RubricItem>);
-  std::string json_dump();
-  nlohmann::json get_results();
+  std::string jsonDump();
+  nlohmann::json getResults();
 
 private:
   nlohmann::json report;
   bool is_correct = false;
   std::vector<std::string> student_feedback;
 
-  nlohmann::json build_rubric_item_report(std::shared_ptr<RubricItem>);
-  nlohmann::json build_rubric_items_report();
-  void build_json_results();
-  void append_feedback(std::shared_ptr<RubricItem>);
+  nlohmann::json buildRubricItemReport(std::shared_ptr<RubricItem>);
+  nlohmann::json buildRubricItemsReport();
+  void buildJsonResults();
+  void appendFeedback(std::shared_ptr<RubricItem>);
 };
 
 #endif

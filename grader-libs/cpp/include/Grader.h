@@ -14,23 +14,23 @@ public:
   Stats stats;
   size_t num_tests;
 
-  std::shared_ptr<RubricItem> create_rubric_item();
-  std::shared_ptr<RubricItem> create_rubric_item(const std::string&);
-  std::shared_ptr<RubricItem> create_rubric_item(const std::function<bool()>&);
+  std::shared_ptr<RubricItem> createRubricItem();
+  std::shared_ptr<RubricItem> createRubricItem(const std::string&);
+  std::shared_ptr<RubricItem> createRubricItem(const std::function<bool()>&);
   void run();
   void run_debug();
 
   bool failed();
   bool passed();
 
-  std::string get_feedback();
+  std::string getFeedback();
 
   std::vector<std::string> report(); // will switch to json
 
 private:
   std::vector<std::shared_ptr<RubricItem>> items;
 
-  void post_create_rubric_item(std::shared_ptr<RubricItem>);
+  void post_createRubricItem(std::shared_ptr<RubricItem>);
 };
 
 #endif

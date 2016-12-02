@@ -24,28 +24,28 @@ Grader grader;
 
 void evaluate(Stats& stats, shared_ptr<RubricItem> item)
 {
-  item->when_incorrect(wrong_feedback);
-  item->when_correct(right_feedback);
+  item->whenIncorrect(wrong_feedback);
+  item->whenCorrect(right_feedback);
   item->evaluate();
   stats.record(item);
 }
 
 void run_passing_eval(Stats& stats)
 {
-  auto item = grader.create_rubric_item([]() { return true; });
+  auto item = grader.createRubricItem([]() { return true; });
   evaluate(stats, item);
 }
 
 void run_passing_eval(Stats& stats, string name)
 {
-  auto item = grader.create_rubric_item([]() { return true; });
+  auto item = grader.createRubricItem([]() { return true; });
   item->name = name;
   evaluate(stats, item);
 }
 
 void run_failing_eval(Stats& stats)
 {
-  auto item = grader.create_rubric_item([]() { return false; });
+  auto item = grader.createRubricItem([]() { return false; });
   evaluate(stats, item);
 }
 
@@ -73,7 +73,7 @@ TEST_F(AStats, CanRecordWhetherAnEvaluatedRubricItemFailed)
 TEST_F(AStats, CanRecordRightStudentFeedback)
 {
   run_passing_eval(stats);
-  json results = stats.get_results();
+  json results = stats.getResults();
   const string actual_feedback = results["feedback"];
   ASSERT_EQ(actual_feedback, right_feedback);
 }
@@ -82,7 +82,7 @@ TEST_F(AStats, CanRecordFeedbackForTwoRubricItems)
 {
   run_passing_eval(stats);
   run_failing_eval(stats);
-  json results = stats.get_results();
+  json results = stats.getResults();
   const string actual_feedback = results["feedback"];
   ASSERT_EQ(actual_feedback, right_feedback + "\n" + wrong_feedback);
 }
@@ -90,7 +90,7 @@ TEST_F(AStats, CanRecordFeedbackForTwoRubricItems)
 TEST_F(AStats, CanRecordRightPassingAfterOneRubricItem)
 {
   run_passing_eval(stats);
-  json results = stats.get_results();
+  json results = stats.getResults();
   const bool is_correct = results["is_correct"];
   ASSERT_TRUE(is_correct);
 }
@@ -115,7 +115,9 @@ TEST_F(AStats, CanAddStats)
 TEST_F(AStats, ReportsJSONStatsOnNumberOfTestsRun)
 {
   run_passing_eval(stats, "a name");
-  string executor_results = stats.json_dump();
+  string executor_results = stats.jsonDump();
   json results = json::parse(executor_results);
   ASSERT_EQ(results["num_run"].get<unsigned>(), 1u);
 }
+
+// test structure of stats

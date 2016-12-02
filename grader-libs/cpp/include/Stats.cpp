@@ -40,43 +40,43 @@ void Stats::record(shared_ptr<RubricItem> item)
     item->passed() ? num_passed++ : num_failed++;
     num_run++;
     is_correct = (num_passed > 0u && num_failed == 0u) ? true : false;
-    append_feedback(item);
+    appendFeedback(item);
     items.push_back(item);
   }
 }
 
-void Stats::append_feedback(shared_ptr<RubricItem> item)
+void Stats::appendFeedback(shared_ptr<RubricItem> item)
 {
-  student_feedback.push_back(item->get_feedback()->format());
+  student_feedback.push_back(item->getFeedback()->format());
 }
 
-json Stats::get_results()
+json Stats::getResults()
 {
-  build_json_results();
+  buildJsonResults();
   return report;
 }
 
-json Stats::build_rubric_item_report(shared_ptr<RubricItem> item)
+json Stats::buildRubricItemReport(shared_ptr<RubricItem> item)
 {
   string name = item->name;
-  Feedback* feedback = item->get_feedback();
+  Feedback* feedback = item->getFeedback();
   return json::parse("{}");
 }
 
-json Stats::build_rubric_items_report()
+json Stats::buildRubricItemsReport()
 {
   vector<json> tests;
   for (auto i : items)
   {
-    json item = build_rubric_item_report(i);
+    json item = buildRubricItemReport(i);
     tests.push_back(item);
   }
   return tests;
 }
 
-void Stats::build_json_results()
+void Stats::buildJsonResults()
 {
-  vector<json> tests = build_rubric_items_report();
+  vector<json> tests = buildRubricItemsReport();
   report["tests"] = tests;
   report["feedback"] = join_with_newline(student_feedback);
   report["is_correct"] = is_correct;
@@ -86,8 +86,8 @@ void Stats::build_json_results()
   report["num_failed"] = num_failed;
 }
 
-string Stats::json_dump()
+string Stats::jsonDump()
 {
-  build_json_results();
+  buildJsonResults();
   return report.dump();
 }
