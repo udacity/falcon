@@ -93,6 +93,7 @@ json Stats::buildRubricItemReport(shared_ptr<RubricItem> item)
   itemReport["elapsed_time"] = item->evaluationTimeMs();
   itemReport["optional"] = item->optional;
   itemReport["checkpoint"] = item->checkpoint;
+  itemReport["passed"] = item->passed();
 
   return itemReport;
 }

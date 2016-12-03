@@ -223,6 +223,7 @@ TEST_F(AStats, ReportsJSONStatsOnARunRubricItem)
   ASSERT_EQ(results["failed"][0]["message"], wrong_feedback);
   ASSERT_GT(results["failed"][0]["elapsed_time"].get<double>(), 0.0);
   ASSERT_FALSE(results["failed"][0]["optional"].get<bool>());
+  ASSERT_FALSE(results["failed"][0]["passed"].get<bool>());
 }
 
 TEST_F(AStats, KnowsHowLongItSpentEvaluating)
