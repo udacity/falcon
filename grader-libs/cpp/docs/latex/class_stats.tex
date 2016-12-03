@@ -1,0 +1,123 @@
+\hypertarget{class_stats}{}\section{Stats Class Reference}
+\label{class_stats}\index{Stats@{Stats}}
+
+
+{\ttfamily \#include $<$Stats.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_stats}{Stats} \& \hyperlink{class_stats_a40fa54dfb9b36d73bd77c5db4b294a79}{operator+=} (const \hyperlink{class_stats}{Stats} \&)
+\item 
+\hyperlink{class_stats}{Stats} \hyperlink{class_stats_a32ab6b479ad79fe923e2264e09080806}{operator+} (const \hyperlink{class_stats}{Stats} \&)
+\item 
+bool \hyperlink{class_stats_aeadd76aff06c7e684370251d2e75abf3}{passed} ()
+\item 
+bool \hyperlink{class_stats_afa92b4d8fa48ee7cd6e349ae6a5bf539}{failed} ()
+\item 
+void \hyperlink{class_stats_ad80ca89a4ce1578b41d0b64b873457af}{record} (std\+::shared\+\_\+ptr$<$ \hyperlink{class_rubric_item}{Rubric\+Item} $>$)
+\item 
+std\+::string \hyperlink{class_stats_a0c05e0e2304a9ac271fc0e95493c9aeb}{results} ()
+\item 
+nlohmann\+::json \hyperlink{class_stats_a6d0361dcb25186d1d168009a66cb675d}{results\+Json} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \hyperlink{class_stats_aae6907517029159a56582d4050d37ba9}{num\+\_\+created} \{0\}
+\item 
+unsigned \hyperlink{class_stats_aad4b62381ae2f53d8449ed2adda1f112}{num\+\_\+run} \{0\}
+\item 
+unsigned \hyperlink{class_stats_a23aed2b3b568c55072f0bbf67cb98766}{num\+\_\+passed} \{0\}
+\item 
+unsigned \hyperlink{class_stats_a157cacc8bc1d42348107d4beb98bb0bf}{num\+\_\+failed} \{0\}
+\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{class_rubric_item}{Rubric\+Item} $>$ $>$ \hyperlink{class_stats_a07121ba8a0b750122d182cbb782b9658}{items}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Record stats against Rubric\+Items that have run. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_stats_afa92b4d8fa48ee7cd6e349ae6a5bf539}{}\label{class_stats_afa92b4d8fa48ee7cd6e349ae6a5bf539} 
+\index{Stats@{Stats}!failed@{failed}}
+\index{failed@{failed}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{failed()}{failed()}}
+{\footnotesize\ttfamily bool Stats\+::failed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\hypertarget{class_stats_a32ab6b479ad79fe923e2264e09080806}{}\label{class_stats_a32ab6b479ad79fe923e2264e09080806} 
+\index{Stats@{Stats}!operator+@{operator+}}
+\index{operator+@{operator+}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \hyperlink{class_stats}{Stats} Stats\+::operator+ (\begin{DoxyParamCaption}\item[{const \hyperlink{class_stats}{Stats} \&}]{rhs }\end{DoxyParamCaption})}
+
+\hypertarget{class_stats_a40fa54dfb9b36d73bd77c5db4b294a79}{}\label{class_stats_a40fa54dfb9b36d73bd77c5db4b294a79} 
+\index{Stats@{Stats}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily \hyperlink{class_stats}{Stats} \& Stats\+::operator+= (\begin{DoxyParamCaption}\item[{const \hyperlink{class_stats}{Stats} \&}]{rhs }\end{DoxyParamCaption})}
+
+\hypertarget{class_stats_aeadd76aff06c7e684370251d2e75abf3}{}\label{class_stats_aeadd76aff06c7e684370251d2e75abf3} 
+\index{Stats@{Stats}!passed@{passed}}
+\index{passed@{passed}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{passed()}{passed()}}
+{\footnotesize\ttfamily bool Stats\+::passed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\hypertarget{class_stats_ad80ca89a4ce1578b41d0b64b873457af}{}\label{class_stats_ad80ca89a4ce1578b41d0b64b873457af} 
+\index{Stats@{Stats}!record@{record}}
+\index{record@{record}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{record()}{record()}}
+{\footnotesize\ttfamily void Stats\+::record (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \hyperlink{class_rubric_item}{Rubric\+Item} $>$}]{ }\end{DoxyParamCaption})}
+
+\hypertarget{class_stats_a0c05e0e2304a9ac271fc0e95493c9aeb}{}\label{class_stats_a0c05e0e2304a9ac271fc0e95493c9aeb} 
+\index{Stats@{Stats}!results@{results}}
+\index{results@{results}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{results()}{results()}}
+{\footnotesize\ttfamily string Stats\+::results (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\hypertarget{class_stats_a6d0361dcb25186d1d168009a66cb675d}{}\label{class_stats_a6d0361dcb25186d1d168009a66cb675d} 
+\index{Stats@{Stats}!results\+Json@{results\+Json}}
+\index{results\+Json@{results\+Json}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{results\+Json()}{resultsJson()}}
+{\footnotesize\ttfamily json Stats\+::results\+Json (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_stats_a07121ba8a0b750122d182cbb782b9658}{}\label{class_stats_a07121ba8a0b750122d182cbb782b9658} 
+\index{Stats@{Stats}!items@{items}}
+\index{items@{items}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{items}{items}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::shared\+\_\+ptr$<$\hyperlink{class_rubric_item}{Rubric\+Item}$>$ $>$ Stats\+::items}
+
+\hypertarget{class_stats_aae6907517029159a56582d4050d37ba9}{}\label{class_stats_aae6907517029159a56582d4050d37ba9} 
+\index{Stats@{Stats}!num\+\_\+created@{num\+\_\+created}}
+\index{num\+\_\+created@{num\+\_\+created}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{num\+\_\+created}{num\_created}}
+{\footnotesize\ttfamily unsigned Stats\+::num\+\_\+created \{0\}}
+
+\hypertarget{class_stats_a157cacc8bc1d42348107d4beb98bb0bf}{}\label{class_stats_a157cacc8bc1d42348107d4beb98bb0bf} 
+\index{Stats@{Stats}!num\+\_\+failed@{num\+\_\+failed}}
+\index{num\+\_\+failed@{num\+\_\+failed}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{num\+\_\+failed}{num\_failed}}
+{\footnotesize\ttfamily unsigned Stats\+::num\+\_\+failed \{0\}}
+
+\hypertarget{class_stats_a23aed2b3b568c55072f0bbf67cb98766}{}\label{class_stats_a23aed2b3b568c55072f0bbf67cb98766} 
+\index{Stats@{Stats}!num\+\_\+passed@{num\+\_\+passed}}
+\index{num\+\_\+passed@{num\+\_\+passed}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{num\+\_\+passed}{num\_passed}}
+{\footnotesize\ttfamily unsigned Stats\+::num\+\_\+passed \{0\}}
+
+\hypertarget{class_stats_aad4b62381ae2f53d8449ed2adda1f112}{}\label{class_stats_aad4b62381ae2f53d8449ed2adda1f112} 
+\index{Stats@{Stats}!num\+\_\+run@{num\+\_\+run}}
+\index{num\+\_\+run@{num\+\_\+run}!Stats@{Stats}}
+\subsubsection{\texorpdfstring{num\+\_\+run}{num\_run}}
+{\footnotesize\ttfamily unsigned Stats\+::num\+\_\+run \{0\}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{_stats_8h}{Stats.\+h}\item 
+include/\hyperlink{_stats_8cpp}{Stats.\+cpp}\end{DoxyCompactItemize}
