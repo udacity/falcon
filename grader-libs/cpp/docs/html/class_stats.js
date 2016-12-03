@@ -10,6 +10,7 @@ var class_stats =
     [ "items", "class_stats.html#a07121ba8a0b750122d182cbb782b9658", null ],
     [ "num_created", "class_stats.html#aae6907517029159a56582d4050d37ba9", null ],
     [ "num_failed", "class_stats.html#a157cacc8bc1d42348107d4beb98bb0bf", null ],
+    [ "num_optional", "class_stats.html#acc4c8dfff62e73a45c3002f7083f9d3d", null ],
     [ "num_passed", "class_stats.html#a23aed2b3b568c55072f0bbf67cb98766", null ],
     [ "num_run", "class_stats.html#aad4b62381ae2f53d8449ed2adda1f112", null ]
 ];
