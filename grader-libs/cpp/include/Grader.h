@@ -7,6 +7,9 @@
 #include "Stats.h"
 #include "RubricItem.h"
 
+/**
+The main Grader tool. Responsible for creating RubricItems, running them and then outputting results.
+*/
 class Grader
 {
 public:
