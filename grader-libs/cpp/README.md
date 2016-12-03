@@ -32,10 +32,12 @@ See the [tips and tricks](#tips-n-tricks) section for grading strategies.
   "num_run": 0,
   "num_passed": 0,
   "num_failed": 0,
+  "num_optional": 0,
   "elapsed_time": 0, // time to execute all tests in ms
   "student_feedback": "aggregated useful feedback from all tests to show students",
   "passed": [ {"tests"} ],
-  "failed": [ {"tests"} ]
+  "failed": [ {"tests"} ],
+  "optional": [ {"tests"} ]
 }
 ```
 
