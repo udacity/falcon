@@ -1,5 +1,6 @@
 #include <functional>
 #include <iostream>
+#include <memory>
 #include "Feedback.h"
 #include "RubricItem.h"
 
@@ -12,22 +13,22 @@ void RubricItem::setCallback(const function<bool()>& _callback)
 
 void RubricItem::whenCorrect(const string& message)
 {
-  correct_feedback = Feedback(message);
+  correct_feedback = make_shared<Feedback>(message);
 }
 
 void RubricItem::whenCorrect(const string& message, const string& tag)
 {
-  correct_feedback = Feedback(message, tag);
+  correct_feedback = make_shared<Feedback>(message, tag);
 }
 
 void RubricItem::whenIncorrect(const string& message)
 {
-  incorrect_feedback = Feedback(message);
+  incorrect_feedback = make_shared<Feedback>(message);
 }
 
 void RubricItem::whenIncorrect(const string& message, const string& tag)
 {
-  incorrect_feedback = Feedback(message, tag);
+  incorrect_feedback = make_shared<Feedback>(message, tag);
 }
 
 void RubricItem::evaluate()
@@ -54,12 +55,12 @@ bool RubricItem::failed()
   return !has_passed;
 }
 
-Feedback* RubricItem::getFeedback()
+shared_ptr<Feedback> RubricItem::getFeedback()
 {
   if (has_passed == true)
-    return &correct_feedback;
+    return correct_feedback;
   else
-    return &incorrect_feedback;
+    return incorrect_feedback;
 }
 
 double RubricItem::evaluationTimeMs()

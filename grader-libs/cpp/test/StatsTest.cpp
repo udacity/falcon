@@ -43,6 +43,21 @@ void run_passing_eval(Grader& grader, Stats& stats, string name)
   evaluate(stats, item);
 }
 
+void run_optional_passing_eval(Grader& grader, Stats& stats)
+{
+  auto item = grader.createRubricItem([]() { return true; });
+  item->optional = true;
+  evaluate(stats, item);
+}
+
+void run_optional_passing_eval(Grader& grader, Stats& stats, string name)
+{
+  auto item = grader.createRubricItem([]() { return true; });
+  item->name = name;
+  item->optional = true;
+  evaluate(stats, item);
+}
+
 void run_failing_eval(Grader& grader, Stats& stats)
 {
   auto item = grader.createRubricItem([]() { return false; });
@@ -52,6 +67,21 @@ void run_failing_eval(Grader& grader, Stats& stats)
 void run_failing_eval(Grader& grader, Stats& stats, string name)
 {
   auto item = grader.createRubricItem([]() { return false; });
+  item->name = name;
+  evaluate(stats, item);
+}
+
+void run_optional_failing_eval(Grader& grader, Stats& stats)
+{
+  auto item = grader.createRubricItem([]() { return false; });
+  item->optional = true;
+  evaluate(stats, item);
+}
+
+void run_optional_failing_eval(Grader& grader, Stats& stats, string name)
+{
+  auto item = grader.createRubricItem([]() { return false; });
+  item->optional = true;
   item->name = name;
   evaluate(stats, item);
 }
@@ -137,6 +167,13 @@ TEST_F(AStats, CanRecordRightPassingAfterOneRubricItem)
   ASSERT_TRUE(is_correct);
 }
 
+TEST_F(AStats, DoesNotRecordFailingOptionalRubricItemsAsFails)
+{
+  run_optional_failing_eval(grader, grader.stats);
+  run_passing_eval(grader, grader.stats);
+  ASSERT_TRUE(grader.stats.passed());
+}
+
 TEST_F(AStats, CanCombineWithAnotherStats)
 {
   Stats stats2;
@@ -172,6 +209,12 @@ TEST_F(AStats, ReportsJSONStatsOnPassedRubricItems)
   ASSERT_EQ(results["passed"].size(), static_cast<size_t>(3));
 }
 
+TEST_F(AStats, ReportsJSONStatsOnOptionalRubricItems)
+{
+  const json results = generate_sample_stats(grader, grader.stats, 5);
+  ASSERT_EQ(results["num_optional"].get<unsigned>(), 0u);
+}
+
 TEST_F(AStats, ReportsJSONStatsOnARunRubricItem)
 {
   const json results = generate_sample_stats(grader, grader.stats, 5);
@@ -179,6 +222,7 @@ TEST_F(AStats, ReportsJSONStatsOnARunRubricItem)
   ASSERT_EQ(results["failed"][0]["tag"], "");
   ASSERT_EQ(results["failed"][0]["message"], wrong_feedback);
   ASSERT_GT(results["failed"][0]["elapsed_time"].get<double>(), 0.0);
+  ASSERT_FALSE(results["failed"][0]["optional"].get<bool>());
 }
 
 TEST_F(AStats, KnowsHowLongItSpentEvaluating)

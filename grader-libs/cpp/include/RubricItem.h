@@ -83,7 +83,7 @@ private:
   bool has_run{false}; /**< Whether or not the RubricItem has been evaluated. */
   std::function<bool()> callback; /**< The callback to determine pass/fail. */
 
-  Feedback correct_feedback, incorrect_feedback; /**< Feedback for passing and failing */
+  std::shared_ptr<Feedback> correct_feedback, incorrect_feedback; /**< Feedback for passing and failing */
 
   std::chrono::time_point<std::chrono::high_resolution_clock> start, end; /**< Timestamps for when the callback starts and stops. */
   std::chrono::duration<double, std::ratio<1, 1000000>> evaluation_duration {std::chrono::duration<double, std::ratio<1, 1000000>>::zero()}; /**< Amount of time elapsed while the callback ran. */
