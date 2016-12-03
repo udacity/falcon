@@ -31,25 +31,25 @@ void Grader::run_debug()
 shared_ptr<RubricItem> Grader::createRubricItem()
 {
   shared_ptr<RubricItem> item = make_shared<RubricItem>();
-  post_createRubricItem(item);
+  postCreateRubricItem(item);
   return item;
 }
 
 shared_ptr<RubricItem> Grader::createRubricItem(const string& name)
 {
   shared_ptr<RubricItem> item = make_shared<RubricItem>(name);
-  post_createRubricItem(item);
+  postCreateRubricItem(item);
   return item;
 }
 
 shared_ptr<RubricItem> Grader::createRubricItem(const function<bool()>& _callback)
 {
   shared_ptr<RubricItem> item = make_shared<RubricItem>(_callback);
-  post_createRubricItem(item);
+  postCreateRubricItem(item);
   return item;
 }
 
-void Grader::post_createRubricItem(shared_ptr<RubricItem> item)
+void Grader::postCreateRubricItem(shared_ptr<RubricItem> item)
 {
   items.push_back(item);
   stats.num_created = static_cast<unsigned>(items.size());

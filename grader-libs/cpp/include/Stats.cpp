@@ -52,8 +52,12 @@ void Stats::record(shared_ptr<RubricItem> item)
 {
   if (item->ran())
   {
-    item->passed() ? num_passed++ : num_failed++;
     num_run++;
+    // only non-optional RubricItems count towards pass/fail
+    if (!item->optional)
+      item->passed() ? num_passed++ : num_failed++;
+    else
+      num_optional++;
     // recalculate the overall pass/fail state
     is_correct = (num_passed > 0u && num_failed == 0u) ? true : false;
     // add student feedback
@@ -80,7 +84,7 @@ double Stats::getTotalEvalTime()
 
 json Stats::buildRubricItemReport(shared_ptr<RubricItem> item)
 {
-  Feedback* feedback = item->getFeedback();
+  shared_ptr<Feedback> feedback = item->getFeedback();
 
   json itemReport;
   itemReport["name"] = item->name;
@@ -121,6 +125,7 @@ void Stats::buildJsonResults()
   report["num_run"] = num_run;
   report["num_passed"] = num_passed;
   report["num_failed"] = num_failed;
+  report["num_optional"] = num_optional;
 }
 
 json Stats::resultsJson()
