@@ -51,3 +51,20 @@ where each `test` in `"passed"` and `"failed"` is:
   "optional": false
 }
 ```
+
+## Development Flow
+
+#### Dependency
+
+[JSON](https://github.com/nlohmann/json) (included in lib/)
+
+#### Making Changes
+
+1. Checkout a new branch.
+2. `chmod a+x remake.sh`
+3. Make changes.
+4. `./remake.sh` to compile tests (you can just run `make` after the first time you run `./remake.sh`).
+5. `./grader_tests` to run tests.
+6. Repeat steps 3-5 as necessary.
+7. Update API in README.
+8. Submit pull request!
