@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['whencorrect',['whenCorrect',['../class_rubric_item.html#a7ab095215698e315f800bea2052f25ed',1,'RubricItem::whenCorrect(const std::string &amp;)'],['../class_rubric_item.html#a7b47b9d25ac196628033f95fda43a374',1,'RubricItem::whenCorrect(const std::string &amp;, const std::string &amp;)']]],
-  ['whenincorrect',['whenIncorrect',['../class_rubric_item.html#a236b6f498b326303d0f3ae6613e82638',1,'RubricItem::whenIncorrect(const std::string &amp;)'],['../class_rubric_item.html#aa62614e36ef2cb7bc60fdd03183ff46e',1,'RubricItem::whenIncorrect(const std::string &amp;, const std::string &amp;)']]]
+  ['whencorrect',['whenCorrect',['../class_rubric_item.html#ac12fa4604d6d09e643e1aadec0a1e8ce',1,'RubricItem::whenCorrect(const std::string &amp;message)'],['../class_rubric_item.html#aeb48935d288d2c6b0ea43e97b51b0d72',1,'RubricItem::whenCorrect(const std::string &amp;message, const std::string &amp;tag)']]],
+  ['whenincorrect',['whenIncorrect',['../class_rubric_item.html#a76e977dea00f6bb3512e4f6538e6354f',1,'RubricItem::whenIncorrect(const std::string &amp;message)'],['../class_rubric_item.html#a90a45d8e42eb51b4f85ebdb2963da26b',1,'RubricItem::whenIncorrect(const std::string &amp;message, const std::string &amp;tag)']]]
 ];

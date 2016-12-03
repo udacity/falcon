@@ -106,8 +106,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:acac97fc41ff9582c6bcb167f7537ee08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a478a74aee440cdd28c9d8c67bcf3fde1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_grader.html#a478a74aee440cdd28c9d8c67bcf3fde1">passed</a> ()</td></tr>
 <tr class="separator:a478a74aee440cdd28c9d8c67bcf3fde1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb5d0bcb78bb58b3ffcad2cd77ef9610"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_grader.html#afb5d0bcb78bb58b3ffcad2cd77ef9610">getFeedback</a> ()</td></tr>
-<tr class="separator:afb5d0bcb78bb58b3ffcad2cd77ef9610"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0eb875277cac4c26fa67e5164caa3b38"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_grader.html#a0eb875277cac4c26fa67e5164caa3b38">resultsJson</a> ()</td></tr>
 <tr class="separator:a0eb875277cac4c26fa67e5164caa3b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11aecee1c8a72a7251906df8532259b1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_grader.html#a11aecee1c8a72a7251906df8532259b1">results</a> ()</td></tr>
@@ -137,6 +135,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Generates a <a class="el" href="class_rubric_item.html">RubricItem</a>. </p>
 
 </div>
 </div>
@@ -155,6 +154,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Generates a <a class="el" href="class_rubric_item.html">RubricItem</a>. </p>
 
 </div>
 </div>
@@ -173,6 +173,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Generates a <a class="el" href="class_rubric_item.html">RubricItem</a>. </p>
 
 </div>
 </div>
@@ -190,23 +191,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="afb5d0bcb78bb58b3ffcad2cd77ef9610"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb5d0bcb78bb58b3ffcad2cd77ef9610">&sect;&nbsp;</a></span>getFeedback()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string Grader::getFeedback </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Whether or not the <a class="el" href="class_grader.html">Grader</a> as a whole has failed. </p>
 
 </div>
 </div>
@@ -224,6 +209,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Whether or not the <a class="el" href="class_grader.html">Grader</a> as a whole has passed. Every <a class="el" href="class_rubric_item.html">RubricItem</a> must pass or be optional for this to be true. </p>
 
 </div>
 </div>
@@ -241,6 +227,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get a stringified JSON representation of the evaluation results. Good for outputting to another environment. </p>
 
 </div>
 </div>
@@ -258,6 +245,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get a JSON representation of the evaluation results. </p>
 
 </div>
 </div>
@@ -275,6 +263,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Evaluates all RubricItems and respects checkpoint and optional flags. </p>
 
 </div>
 </div>
@@ -292,6 +281,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Evaluates all RubricItems regardless of flags. </p>
 
 </div>
 </div>
@@ -307,6 +297,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>True after it completes evaluating RubricItems </p>
 
 </div>
 </div>
@@ -321,6 +312,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Stores and generates info on evaluated RubricItems. public for testing purposes </p>
 
 </div>
 </div>

@@ -117,6 +117,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a23aed2b3b568c55072f0bbf67cb98766"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a157cacc8bc1d42348107d4beb98bb0bf"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_stats.html#a157cacc8bc1d42348107d4beb98bb0bf">num_failed</a> {0}</td></tr>
 <tr class="separator:a157cacc8bc1d42348107d4beb98bb0bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc4c8dfff62e73a45c3002f7083f9d3d"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_stats.html#acc4c8dfff62e73a45c3002f7083f9d3d">num_optional</a> {0}</td></tr>
+<tr class="separator:acc4c8dfff62e73a45c3002f7083f9d3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07121ba8a0b750122d182cbb782b9658"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::shared_ptr&lt; <a class="el" href="class_rubric_item.html">RubricItem</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_stats.html#a07121ba8a0b750122d182cbb782b9658">items</a></td></tr>
 <tr class="separator:a07121ba8a0b750122d182cbb782b9658"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -137,6 +139,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Whether or not at least one of the non-optional RubricItems failed. </p>
 
 </div>
 </div>
@@ -155,6 +158,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>For adding <a class="el" href="class_stats.html">Stats</a> (likely from different Graders). </p>
 
 </div>
 </div>
@@ -173,6 +177,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>For adding <a class="el" href="class_stats.html">Stats</a> (likely from different Graders). </p>
 
 </div>
 </div>
@@ -190,6 +195,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Whether or not all of the non-optional RubricItems passed. </p>
 
 </div>
 </div>
@@ -208,6 +214,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Record pass/fail/optional state and feedback. Also aggregates overall stats. Noop if the <a class="el" href="class_rubric_item.html">RubricItem</a> has not run. </p>
 
 </div>
 </div>
@@ -225,6 +232,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get a stringified JSON of the overall stats. </p>
 
 </div>
 </div>
@@ -242,6 +250,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get a JSON of the overall stats. </p>
 
 </div>
 </div>
@@ -257,6 +266,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>A collection of all the RubricItems that were evaluated. Public for overloading + and +=. </p>
 
 </div>
 </div>
@@ -271,6 +281,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Number of RubricItems created. </p>
 
 </div>
 </div>
@@ -285,6 +296,22 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Number of RubricItems that failed (and were not optional). </p>
+
+</div>
+</div>
+<a id="acc4c8dfff62e73a45c3002f7083f9d3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc4c8dfff62e73a45c3002f7083f9d3d">&sect;&nbsp;</a></span>num_optional</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned Stats::num_optional {0}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Number of RubricItems that were optional. </p>
 
 </div>
 </div>
@@ -299,6 +326,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Number of RubricItems that passed (and were not optional). </p>
 
 </div>
 </div>
@@ -313,6 +341,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Number of RubricItems that were evaluated. </p>
 
 </div>
 </div>

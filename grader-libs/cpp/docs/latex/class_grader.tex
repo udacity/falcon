@@ -21,8 +21,6 @@ bool \hyperlink{class_grader_acac97fc41ff9582c6bcb167f7537ee08}{failed} ()
 \item 
 bool \hyperlink{class_grader_a478a74aee440cdd28c9d8c67bcf3fde1}{passed} ()
 \item 
-std\+::string \hyperlink{class_grader_afb5d0bcb78bb58b3ffcad2cd77ef9610}{get\+Feedback} ()
-\item 
 nlohmann\+::json \hyperlink{class_grader_a0eb875277cac4c26fa67e5164caa3b38}{results\+Json} ()
 \item 
 std\+::string \hyperlink{class_grader_a11aecee1c8a72a7251906df8532259b1}{results} ()
@@ -46,61 +44,55 @@ The main \hyperlink{class_grader}{Grader} tool. Responsible for creating Rubric\
 \subsubsection{\texorpdfstring{create\+Rubric\+Item()}{createRubricItem()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily shared\+\_\+ptr$<$ \hyperlink{class_rubric_item}{Rubric\+Item} $>$ Grader\+::create\+Rubric\+Item (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\hypertarget{class_grader_a7867718932be3b027457c839d29b52b9}{}\label{class_grader_a7867718932be3b027457c839d29b52b9} 
+Generates a \hyperlink{class_rubric_item}{Rubric\+Item}. \hypertarget{class_grader_a7867718932be3b027457c839d29b52b9}{}\label{class_grader_a7867718932be3b027457c839d29b52b9} 
 \index{Grader@{Grader}!create\+Rubric\+Item@{create\+Rubric\+Item}}
 \index{create\+Rubric\+Item@{create\+Rubric\+Item}!Grader@{Grader}}
 \subsubsection{\texorpdfstring{create\+Rubric\+Item()}{createRubricItem()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\hyperlink{class_rubric_item}{Rubric\+Item}$>$ Grader\+::create\+Rubric\+Item (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ }\end{DoxyParamCaption})}
 
-\hypertarget{class_grader_af367b7f22b6df92f3fd9575fad107d50}{}\label{class_grader_af367b7f22b6df92f3fd9575fad107d50} 
+Generates a \hyperlink{class_rubric_item}{Rubric\+Item}. \hypertarget{class_grader_af367b7f22b6df92f3fd9575fad107d50}{}\label{class_grader_af367b7f22b6df92f3fd9575fad107d50} 
 \index{Grader@{Grader}!create\+Rubric\+Item@{create\+Rubric\+Item}}
 \index{create\+Rubric\+Item@{create\+Rubric\+Item}!Grader@{Grader}}
 \subsubsection{\texorpdfstring{create\+Rubric\+Item()}{createRubricItem()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\hyperlink{class_rubric_item}{Rubric\+Item}$>$ Grader\+::create\+Rubric\+Item (\begin{DoxyParamCaption}\item[{const std\+::function$<$ bool()$>$ \&}]{ }\end{DoxyParamCaption})}
 
-\hypertarget{class_grader_acac97fc41ff9582c6bcb167f7537ee08}{}\label{class_grader_acac97fc41ff9582c6bcb167f7537ee08} 
+Generates a \hyperlink{class_rubric_item}{Rubric\+Item}. \hypertarget{class_grader_acac97fc41ff9582c6bcb167f7537ee08}{}\label{class_grader_acac97fc41ff9582c6bcb167f7537ee08} 
 \index{Grader@{Grader}!failed@{failed}}
 \index{failed@{failed}!Grader@{Grader}}
 \subsubsection{\texorpdfstring{failed()}{failed()}}
 {\footnotesize\ttfamily bool Grader\+::failed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\hypertarget{class_grader_afb5d0bcb78bb58b3ffcad2cd77ef9610}{}\label{class_grader_afb5d0bcb78bb58b3ffcad2cd77ef9610} 
-\index{Grader@{Grader}!get\+Feedback@{get\+Feedback}}
-\index{get\+Feedback@{get\+Feedback}!Grader@{Grader}}
-\subsubsection{\texorpdfstring{get\+Feedback()}{getFeedback()}}
-{\footnotesize\ttfamily std\+::string Grader\+::get\+Feedback (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-\hypertarget{class_grader_a478a74aee440cdd28c9d8c67bcf3fde1}{}\label{class_grader_a478a74aee440cdd28c9d8c67bcf3fde1} 
+Whether or not the \hyperlink{class_grader}{Grader} as a whole has failed. \hypertarget{class_grader_a478a74aee440cdd28c9d8c67bcf3fde1}{}\label{class_grader_a478a74aee440cdd28c9d8c67bcf3fde1} 
 \index{Grader@{Grader}!passed@{passed}}
 \index{passed@{passed}!Grader@{Grader}}
 \subsubsection{\texorpdfstring{passed()}{passed()}}
 {\footnotesize\ttfamily bool Grader\+::passed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\hypertarget{class_grader_a11aecee1c8a72a7251906df8532259b1}{}\label{class_grader_a11aecee1c8a72a7251906df8532259b1} 
+Whether or not the \hyperlink{class_grader}{Grader} as a whole has passed. Every \hyperlink{class_rubric_item}{Rubric\+Item} must pass or be optional for this to be true. \hypertarget{class_grader_a11aecee1c8a72a7251906df8532259b1}{}\label{class_grader_a11aecee1c8a72a7251906df8532259b1} 
 \index{Grader@{Grader}!results@{results}}
 \index{results@{results}!Grader@{Grader}}
 \subsubsection{\texorpdfstring{results()}{results()}}
 {\footnotesize\ttfamily string Grader\+::results (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\hypertarget{class_grader_a0eb875277cac4c26fa67e5164caa3b38}{}\label{class_grader_a0eb875277cac4c26fa67e5164caa3b38} 
+Get a stringified J\+S\+ON representation of the evaluation results. Good for outputting to another environment. \hypertarget{class_grader_a0eb875277cac4c26fa67e5164caa3b38}{}\label{class_grader_a0eb875277cac4c26fa67e5164caa3b38} 
 \index{Grader@{Grader}!results\+Json@{results\+Json}}
 \index{results\+Json@{results\+Json}!Grader@{Grader}}
 \subsubsection{\texorpdfstring{results\+Json()}{resultsJson()}}
 {\footnotesize\ttfamily json Grader\+::results\+Json (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\hypertarget{class_grader_a1c0d301659e72b58cc5214663f580c85}{}\label{class_grader_a1c0d301659e72b58cc5214663f580c85} 
+Get a J\+S\+ON representation of the evaluation results. \hypertarget{class_grader_a1c0d301659e72b58cc5214663f580c85}{}\label{class_grader_a1c0d301659e72b58cc5214663f580c85} 
 \index{Grader@{Grader}!run@{run}}
 \index{run@{run}!Grader@{Grader}}
 \subsubsection{\texorpdfstring{run()}{run()}}
 {\footnotesize\ttfamily void Grader\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\hypertarget{class_grader_ac4cb9fc1094fea57d40c277f434d418d}{}\label{class_grader_ac4cb9fc1094fea57d40c277f434d418d} 
+Evaluates all Rubric\+Items and respects checkpoint and optional flags. \hypertarget{class_grader_ac4cb9fc1094fea57d40c277f434d418d}{}\label{class_grader_ac4cb9fc1094fea57d40c277f434d418d} 
 \index{Grader@{Grader}!run\+\_\+debug@{run\+\_\+debug}}
 \index{run\+\_\+debug@{run\+\_\+debug}!Grader@{Grader}}
 \subsubsection{\texorpdfstring{run\+\_\+debug()}{run\_debug()}}
 {\footnotesize\ttfamily void Grader\+::run\+\_\+debug (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-
+Evaluates all Rubric\+Items regardless of flags. 
 
 \subsection{Member Data Documentation}
 \hypertarget{class_grader_a88ad71fe69b966fa4faf4c77d4b09842}{}\label{class_grader_a88ad71fe69b966fa4faf4c77d4b09842} 
@@ -109,13 +101,13 @@ The main \hyperlink{class_grader}{Grader} tool. Responsible for creating Rubric\
 \subsubsection{\texorpdfstring{has\+\_\+evaluated}{has\_evaluated}}
 {\footnotesize\ttfamily bool Grader\+::has\+\_\+evaluated = false}
 
-\hypertarget{class_grader_aaa7a08227037ccd8b20d02d372fe567f}{}\label{class_grader_aaa7a08227037ccd8b20d02d372fe567f} 
+True after it completes evaluating Rubric\+Items \hypertarget{class_grader_aaa7a08227037ccd8b20d02d372fe567f}{}\label{class_grader_aaa7a08227037ccd8b20d02d372fe567f} 
 \index{Grader@{Grader}!stats@{stats}}
 \index{stats@{stats}!Grader@{Grader}}
 \subsubsection{\texorpdfstring{stats}{stats}}
 {\footnotesize\ttfamily \hyperlink{class_stats}{Stats} Grader\+::stats}
 
-
+Stores and generates info on evaluated Rubric\+Items. public for testing purposes 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
