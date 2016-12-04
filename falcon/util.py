@@ -19,12 +19,12 @@ def run_program(args, out_path = None, err_path = None):
     # if out_path and err_path are None, then run program and don't pipe output anywhere
     if out_path == None and err_path == None:
         try:
-            program = os.Popen(args)
+            program = Popen(args)
             out, err = program.communicate()
             if err:
-                print err
+                return err
             else:
-                print out
+                return out
         except Exception, runerr:
             print str(runerr)
             raise
@@ -98,36 +98,24 @@ def remove_temp_text_files():
     for text_file in temp_text_files:
         os.remove('./temp/' + text_file)
 
-def move_swizzle_files_for_local_test(ext):
+def move_sandbox_files_to_root(stack, files):
     """Move files needed to execute source code to the root directory.
 
     Args:
-        ext (string): File extension for sandbox source files.
+        stack (string): Name of stack for sandbox files.
+        files (list): List of files in sandbox to move to root.
     """
-    ext_short = ext.split('_')[0]
-    if os.path.isfile('./sandbox/' + ext + '/SwizzleInclude.' + ext_short):
-        shutil.copyfile('./sandbox/' + ext + '/SwizzleInclude.' + ext_short, './SwizzleInclude.' + ext_short)
-    if os.path.isfile('./sandbox/' + ext + '/SwizzleBefore.' + ext_short):
-        shutil.copyfile('./sandbox/' + ext + '/SwizzleBefore.' + ext_short, './SwizzleBefore.' + ext_short)
-    if os.path.isfile('./sandbox/' + ext + '/StudentMain.' + ext_short):
-        shutil.copyfile('./sandbox/' + ext + '/StudentMain.' + ext_short, './StudentMain.' + ext_short)
-    if os.path.isfile('./sandbox/' + ext + '/SwizzleAfter.' + ext_short):
-        shutil.copyfile('./sandbox/' + ext + '/SwizzleAfter.' + ext_short, './SwizzleAfter.' + ext_short)
+    for filename in files:
+        if os.path.isfile('sandbox/' + stack + '/' + filename):
+            shutil.copyfile('sandbox/' + stack + '/' + filename, filename)
 
-def remove_swizzle_files_for_local_test(ext):
+def remove_files_from_root(files):
     """Remove files needed to execute source code from the root directory.
 
     Args:
-        ext (string): File extension for sandbox source files.
+        stack (string): Name of stack for sandbox files.
+        files (list): List of files to remove from root.
     """
-    ext = ext.split('_')[0]
-    if os.path.isfile('./SwizzleInclude.' + ext):
-        os.remove('./SwizzleInclude.' + ext)
-    if os.path.isfile('./SwizzleBefore.' + ext):
-        os.remove('./SwizzleBefore.' + ext)
-    if os.path.isfile('./StudentMain.' + ext):
-        os.remove('./StudentMain.' + ext)
-    if os.path.isfile('./SwizzleAfter.' + ext):
-        os.remove('./SwizzleAfter.' + ext)
-    if os.path.isfile('./SwizzledMain.' + ext):
-        os.remove('./SwizzledMain.' + ext)
+    for filename in files:
+        if os.path.isfile(filename):
+            os.remove(filename)

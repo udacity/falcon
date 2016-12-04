@@ -66,6 +66,9 @@ if args.run_local:
     stack_module.setup_local_test()
     # remove any pre-existing text files
     util.remove_temp_text_files()
+else:
+    # setup remote
+    stack_module.setup_remote()
 
 # if specified, load bash config for the stack
 bash_config_path = files.CONFIG_DIR + '/' + stack_pair + '.sh'
@@ -92,6 +95,5 @@ else:
     # return full results
     sys.stdout.write(formatter.format_results_as_json_string(mode_idx, stack_module.submit_files(), args.show_pretty_submit, stack_module.transform))
 finally:
-    # if running locally, tear down local test
-    if args.run_local:
-        stack_module.tear_down_local_test()
+    # tear down any local files
+    stack_module.tear_down_local_test()
