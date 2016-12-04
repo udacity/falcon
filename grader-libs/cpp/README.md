@@ -57,9 +57,12 @@ where each `test` in `"passed"` and `"failed"` is:
 
 ## Development Flow
 
-#### Dependency
+#### Dependencies
 
-[JSON](https://github.com/nlohmann/json) (included in lib/)
+* [JSON](https://github.com/nlohmann/json) (included in lib/)
+* [Google Test](https://github.com/google/googletest) (for testing during `Grader` development, not for using `Grader` against student code.)
+  1. Create a env var called `GTEST_HOME` pointing to Google Test's home dir (eg. `export GTEST_HOME=/path/to/googletest/googletest`).
+  2. [Build googletest](https://github.com/google/googletest/tree/master/googletest#generic-build-instructions) to ${GTEST_HOME}/mybuild.
 
 #### Making Changes
 
