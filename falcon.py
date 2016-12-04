@@ -43,13 +43,13 @@ for idx, m in enumerate(modes):
 # exit for unsupported stacks
 if stack_idx == None:
     parser.print_usage()
-    print 'falcon.py: error: argument -s/-stack must be supported (' + str(', '.join(stacks)) + ')'
+    print('falcon.py: error: argument -s/-stack must be supported (' + str(', '.join(stacks)) + ')')
     sys.exit(0)
 
 # exit for unsupported evaluation modes
 if mode_idx == None:
     parser.print_usage()
-    print 'falcon.py: error: argument -m/-mode must be supported (' + str(', '.join(modes)) + ')'
+    print('falcon.py: error: argument -m/-mode must be supported (' + str(', '.join(modes)) + ')')
     sys.exit(0)
 
 # get stack-specific functionality
@@ -57,7 +57,7 @@ stack_module_path = 'falcon/stack/' + stack_pair + '.py'
 if os.path.exists(stack_module_path):
     stack_module = imp.load_source(lang, stack_module_path)
 else:
-   print 'functionality not defined for stack: ' + stack_pair
+   print('functionality not defined for stack: ' + stack_pair)
    sys.exit(0)
 
 # if running locally...

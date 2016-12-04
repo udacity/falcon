@@ -25,8 +25,8 @@ def run_program(args, out_path = None, err_path = None):
                 return err
             else:
                 return out
-        except Exception, runerr:
-            print str(runerr)
+        except Exception as runerr:
+            print(str(runerr))
             raise
         else:
             return
@@ -48,7 +48,7 @@ def run_program(args, out_path = None, err_path = None):
             sys.stderr.write('failed ' + str(program.returncode) + ' ' + err)
             raise CalledProcessError
     # incase of error when invoking program, write error to stderr file
-    except Exception, runerr:
+    except Exception as runerr:
         with open(err_path, 'w+') as err_file:
             err_file.write(str(runerr))
         raise
