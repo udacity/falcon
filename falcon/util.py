@@ -5,7 +5,7 @@ import sys
 import shutil
 from subprocess import *
 
-def run_program(args, out_path = None, err_path = None):
+def run_program(args, out_path=None, err_path=None):
     """Run a command line program and pipe the stdout and stderr into files.
 
     Args:
@@ -17,7 +17,7 @@ def run_program(args, out_path = None, err_path = None):
         Any errors stemming from the exection of the program.
     """
     # if out_path and err_path are None, then run program and don't pipe output anywhere
-    if out_path == None and err_path == None:
+    if out_path is None and err_path is None:
         try:
             program = Popen(args)
             out, err = program.communicate()
@@ -42,7 +42,7 @@ def run_program(args, out_path = None, err_path = None):
     err_file = open(err_path, 'w+')
     # run the program and pipe stdout and stderr into files
     try:
-        program = Popen(args, stdout = out_file, stderr = err_file)
+        program = Popen(args, stdout=out_file, stderr=err_file)
         out, err = program.communicate()
         if err:
             sys.stderr.write('failed ' + str(program.returncode) + ' ' + err)
