@@ -26,19 +26,23 @@
         it('should have a variable `joke`', function() {
             assert.isDefined(joke, "The variable `joke` doesn't exist");
         });
-        // check if joke is one string
-        it('should use only one string', function() {
-            assert.equal('Literal', matches[0].init.type, "Your joke should only use one, single string");
-        });
     });
 
-    if(matches[0].init.type === 'Literal') {
-        describe('Your joke', function() {
-            // check if joke matches correct format
-            it('matches the correct format', function() {
-                assert.match(matches[0].init.raw, /^.*\\n.*/, 'Your joke doesn\'t match the correct format');
+    if(matches[0] != null) {
+        describe('Your code', function() {
+            // check if joke is one string
+            it('should use only one string', function() {
+                assert.equal('Literal', matches[0].init.type, "Your joke should only use one, single string");
             });
         });
+        if(matches[0].init.type === 'Literal') {
+            describe('Your joke', function() {
+                // check if joke matches correct format
+                it('matches the correct format', function() {
+                    assert.match(matches[0].init.raw, /^.*\\n.*/, 'Your joke doesn\'t match the correct format');
+                });
+            });
+        }
     }
 
 }());

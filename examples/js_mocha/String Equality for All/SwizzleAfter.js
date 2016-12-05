@@ -28,26 +28,27 @@
         });
     });
 
-    describe('Your expression', function() {
-        // check if left side of expression matches original
-        it('should have "ALL Strings are CrEaTeD equal" on the left side', function() {
-            assert.equal("ALL Strings are CrEaTeD equal", matches[0].init.left.value, "The left side of the expression has changed. Try resetting the quiz.");
+    if(matches[0] != null) {
+        describe('Your expression', function() {
+            // check if left side of expression matches original
+            it('should have "ALL Strings are CrEaTeD equal" on the left side', function() {
+                assert.equal("ALL Strings are CrEaTeD equal", matches[0].init.left.value, "The left side of the expression has changed. Try resetting the quiz.");
+            });
+            // check if still using == operator
+            it('should use `==` comparison', function() {
+                assert.equal("==", matches[0].init.operator, "The `==` comparison is missing. Try resetting the quiz.");
+            });
+            // check if expression evaluates to true
+            it('should evaluate to true', function() {
+                assert.equal(answer, true, "The expression doesn't evaulate to `true`");
+            });
         });
-        // check if still using == operator
-        it('should use `==` comparison', function() {
-            assert.equal("==", matches[0].init.operator, "The `==` comparison is missing. Try resetting the quiz.");
+        describe('The right side of your expression', function() {
+            // check if right side of expression matches left side
+            it('should match the left side', function() {
+                assert.equal("ALL Strings are CrEaTeD equal", matches[0].init.right.value, "The right side of the expression doesn't match the left side");
+            });
         });
-        // check if expression evaluates to true
-        it('should evaluate to true', function() {
-            assert.equal(answer, true, "The expression doesn't evaulate to `true`");
-        });
-    });
-
-    describe('The right side of your expression', function() {
-        // check if right side of expression matches left side
-        it('should match the left side', function() {
-            assert.equal("ALL Strings are CrEaTeD equal", matches[0].init.right.value, "The right side of the expression doesn't match the left side");
-        });
-    });
+    }
 
 }());

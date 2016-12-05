@@ -2,5 +2,5 @@
  * Programming Quiz: Yosa Buson
  */
 
-var haiku = "asdasdas";
+var haiku = /* concatenate your strings here */;
 console.log(haiku);
