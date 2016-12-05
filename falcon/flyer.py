@@ -66,6 +66,8 @@ class Flyer:
         Args:
             env (Environment): Includes info on where to execute
         """
+        # Flyer will run defaults for detected(?) language if not
+        # look for testMain.*, submitMain.*, studentMain.*
         pass
 
 

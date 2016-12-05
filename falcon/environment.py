@@ -30,7 +30,7 @@ class Environment:
         if falconf_string:
             self.parse_falconf(falconf_string)
         else:
-            self.determine_defaults()
+            self.find_local_falconf()
 
     def parse_falconf(self, falconf_string):
         loaded_something = False
@@ -65,13 +65,12 @@ class Environment:
         # symlink grader_libs
         pass
 
-    def determine_defaults(self):
+    def find_local_falconf(self):
         """
-        Look at cwd and try to find default files.
+        Look at cwd to try to find falconf.yaml in cwd.
         """
-        # look for falconf.yaml in the cwd
-        # run defaults for detected(?) language if not
-        # look for testMain.*, submitMain.*, studentMain.*
-        pass
+        local_falconf = self.get_file_in_cwd('falconf.yaml')
+        if local_falconf is not None:
+            self.parse_falconf(local_falconf)
 
 # MODES = [m.lower() for m in dir(enum.Mode()) if not m.startswith('__')]

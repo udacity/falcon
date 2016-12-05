@@ -1,0 +1,11 @@
+test:
+  env_vars:
+    VAR: value
+    VAR2: value2
+  grader_libs: [cpp-grader]
+  preprocess: cmd
+  compile: cmd
+  static\_file\_check: cmd
+  main: cmd
+  postprocess: cmd
+  tear_down: cmd
