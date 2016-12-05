@@ -28,6 +28,12 @@ def capture_stderr(exceptionType, func):
         func()
     return f.getvalue()
 
+def capture_stdout(func):
+    f = io.StringIO()
+    with redirect_stdout(f):
+        func()
+    return f.getvalue()
+
 def test_constructs(testFlyer):
     assert testFlyer.mode == 'test'
 
@@ -51,5 +57,15 @@ def test_err_displayed(debugFlyer):
 def test_out_stored(submitFlyer):
     step = 'submitting'
     msg = '{"sample": "json"}'
-    submitFlyer.generate_out(step, msg)
+    submitFlyer.generate_output(step, msg)
     assert submitFlyer.outs[step] == msg
+
+def test_out_displayed(debugFlyer):
+    step = 'submitting'
+    msg = '{"sample": "json"}'
+
+    def make_output():
+        debugFlyer.generate_output(step, msg)
+
+    out = capture_stdout(make_output)
+    assert msg in out

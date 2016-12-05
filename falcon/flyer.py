@@ -38,8 +38,17 @@ class Flyer:
             eprint(err)
             raise err
 
-    def generate_output(self, out):
-        pass
+    def generate_output(self, step, out):
+        """
+        Handle output from a step.
+
+        Args:
+            step (string): Description of when this output occured.
+            out (string): The output
+        """
+        self.outs[step] = out
+        if self.debug:
+            print(out)
 
     def run_shell_script(self, script):
         pass
