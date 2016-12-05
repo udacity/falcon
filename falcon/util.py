@@ -18,6 +18,12 @@ def read_file(filepath):
     f = open(filepath, 'r')
     return f.read()
 
+def does_file_exist(filepath):
+    return os.path.isfile(filepath)
+
+def file_exists_in_abspath(path, filename):
+    return does_file_exist(os.path.join(path, filename))
+
 def exists(thing=None, dictionary=None, key=None):
     exists = False
     try:
