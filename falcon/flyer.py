@@ -69,8 +69,6 @@ class Flyer:
         pass
 
 
-# if ARGS.debug:
-#     util.set_testing(True)
 
 # if running locally...
 # if ARGS.run_local:

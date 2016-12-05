@@ -16,6 +16,7 @@ CPP-GRADER:
 
 UTILITY FUNCTIONS:
 * concat files
+* could build a falconf.yaml initializer
 
 FLYER:
 * run .sh, .py files at different steps

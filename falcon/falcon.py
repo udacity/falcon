@@ -4,15 +4,15 @@
 
 import sys
 import argparse
-from falcon.environment import Environment
-from falcon.flyer import Flyer
+from environment import Environment
+from flyer import Flyer
 
 def main(args):
     """
     The main event.
     """
     exit_code = 0 # I suppose there should be an opportunity for this to change?
-    env = Environment(args.config)
+    env = Environment(args.config) # could be mode, etc
     flyer = Flyer(args.mode, args.local, args.debug)
     flyer.run_sequence(env)
     sys.exit(exit_code)
@@ -41,6 +41,8 @@ if __name__ == '__main__':
                         action='store_true',
                         dest='debug',
                         help='run falcon in debug mode')
+    PARSER.add_argument('-i', '-init',
+                        help='helper to create a new falconf.yaml file')
 
     # parse arguments
     ARGS = PARSER.parse_args()
