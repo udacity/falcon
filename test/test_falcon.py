@@ -47,3 +47,9 @@ def test_err_displayed(debugFlyer):
 
     err = capture_stderr(Exception, make_an_err)
     assert msg in err
+
+def test_out_stored(submitFlyer):
+    step = 'submitting'
+    msg = '{"sample": "json"}'
+    submitFlyer.generate_out(step, msg)
+    assert submitFlyer.outs[step] == msg
