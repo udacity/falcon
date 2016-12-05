@@ -1,0 +1,21 @@
+-l local
+sims remote execution. files land in root remotely
+
+* build testMain, submitMain
+* run with falcon?
+* create a config file for falcon to designate a directory (which is currently .tmp)
+* run falcon off the config file
+
+* set up some mothafuckin testing
+
+CONFIG:
+* define default file names
+
+CPP-GRADER:
+* set up semantic versioning - directory by version
+
+UTILITY FUNCTIONS:
+* concat files
+
+FLYER:
+* run .sh, .py files at different steps

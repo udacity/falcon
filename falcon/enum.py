@@ -9,4 +9,4 @@ class Mode:
 
 class Stack:
     """Language and testing framework for the quiz."""
-    js, js_mocha, rb, swift = range(4)
+    js, js_mocha, rb, swift, cpp = range(5)

@@ -1,9 +1,9 @@
 """File path constants used by Falcon."""
 
-STUDENT_OUT = 'temp/student-out.txt'
-STUDENT_ERR = 'temp/student-err.txt'
-COMPILE_OUT = 'temp/compile-out.txt'
-COMPILE_ERR = 'temp/compile-err.txt'
-RESULTS_OUT = 'temp/results-out.txt'
-RESULTS_ERR = 'temp/results-err.txt'
+STUDENT_OUT = '.tmp/student-out.txt'
+STUDENT_ERR = '.tmp/student-err.txt'
+COMPILE_OUT = '.tmp/compile-out.txt'
+COMPILE_ERR = '.tmp/compile-err.txt'
+RESULTS_OUT = '.tmp/results-out.txt'
+RESULTS_ERR = '.tmp/results-err.txt'
 CONFIG_DIR = 'config'

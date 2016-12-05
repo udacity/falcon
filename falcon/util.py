@@ -3,7 +3,56 @@
 import os
 import sys
 import shutil
-from subprocess import *
+from subprocess import Popen, CalledProcessError, check_call
+
+TESTING = False
+
+def set_testing(testing):
+    """
+    Do you want to see errors raised or just pipe them to files? Should be True
+    while you're debugging / building a quiz and False in produciton.
+
+    Args:
+        testing (bool): Well? Are you testing?
+    """
+    TESTING = testing
+
+def handle_output(out, err, out_path=None, err_path=None):
+    """
+    Student code just ran. This takes care of the output.
+    """
+    was_stdout(out, out_path)
+    was_stderr(err, err_path)
+
+def was_stderr(err, err_path=None):
+    """
+    Handle stderr from any point in the execution of student code.
+
+    Args:
+        err (Exception): The thing that went wrong.
+        err_path (string): Where to pipe the output
+    """
+    if TESTING:
+        sys.stderr.write(err)
+        if err.child_traceback:
+            sys.stderr.write(err.child_traceback)
+    if err_path is not None:
+        with open(err_path, 'w+') as err_path:
+            err_path.write(str(err))
+
+def was_stdout(out, out_path=None):
+    """
+    Handle stdout from any point in the execution of student code.
+
+    Args:
+        out (string): The output!
+        out_path (string): Where to pipe the output.
+    """
+    if TESTING:
+        print(out)
+    if out_path is not None:
+        with open(out_path, 'w+') as out_file:
+            out_file.write(str(out))
 
 def run_program(args, out_path=None, err_path=None):
     """Run a command line program and pipe the stdout and stderr into files.
@@ -12,50 +61,47 @@ def run_program(args, out_path=None, err_path=None):
         args (list): Program arguments.
         out_path (string): Path to file that will contain stdout.
         err_path (string): Path to file that will contain stderr.
+        testing (bool): If True, show output and errors for debugging as well.
 
-    Raises:
-        Any errors stemming from the exection of the program.
+    Returns:
+        Bool. False if any errors occured during execution.
     """
-    # if out_path and err_path are None, then run program and don't pipe output anywhere
-    if out_path is None and err_path is None:
-        try:
-            program = Popen(args)
-            out, err = program.communicate()
-            if err:
-                return err
-            else:
-                return out
-        except Exception as runerr:
-            print(str(runerr))
-            raise
-        else:
-            return
+    ret_status = False
+    out_file = None
+    err_file = None
 
-    # otherwise, create path to files if doesnt exist
-    if not os.path.exists(os.path.dirname(out_path)):
-        os.makedirs(os.path.dirname(out_path))
-    if not os.path.exists(os.path.dirname(err_path)):
-        os.makedirs(os.path.dirname(err_path))
+    # create path to files if they don't exist
+    if out_path is not None:
+        if not os.path.exists(os.path.dirname(out_path)):
+            os.makedirs(os.path.dirname(out_path))
+        out_file = open(out_path, 'w+')
 
-    # create files for piping stdout and stderr
-    out_file = open(out_path, 'w+')
-    err_file = open(err_path, 'w+')
+    if err_path is not None:
+        if not os.path.exists(os.path.dirname(err_path)):
+            os.makedirs(os.path.dirname(err_path))
+        err_file = open(err_path, 'w+')
+
     # run the program and pipe stdout and stderr into files
     try:
         program = Popen(args, stdout=out_file, stderr=err_file)
         out, err = program.communicate()
-        if err:
-            sys.stderr.write('failed ' + str(program.returncode) + ' ' + err)
-            raise CalledProcessError
-    # incase of error when invoking program, write error to stderr file
-    except Exception as runerr:
-        with open(err_path, 'w+') as err_file:
-            err_file.write(str(runerr))
-        raise
-    # close files
-    else:
+        handle_output(out, err, out_file, err_file)
+    except OSError:
+        # file probably does not exist
+        raise OSError('Is ' + args[0] + ' executable?')
+    except ValueError:
+        # bad args
+        raise ValueError('Are these valid args? ' + ', '.join(args))
+    except Exception as e:
+        # something maybe wrong with the process? student code (or grading code) is bad
+        was_stderr(e, err_path)
+
+    if out_file is not None:
         out_file.close()
-        err_file.close()
+    if err_file is not None:
+        err_path.close()
+
+    return ret_status
 
 def get_file_contents(path):
     """Returns the contents of a text file at a specified path.
@@ -96,7 +142,47 @@ def remove_temp_text_files():
     """Remove temporary text files from local temp directory."""
     temp_text_files = [f for f in os.listdir('./temp') if f.endswith('.txt')]
     for text_file in temp_text_files:
-        os.remove('./temp/' + text_file)
+        os.remove('./.tmp/' + text_file)
+
+def clear_temp():
+    """
+    Clears out the temporary directory.
+    """
+    folder = './.tmp'
+    for the_file in os.listdir(folder):
+        file_path = os.path.join(folder, the_file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            was_stderr(e)
+
+def copy_to_tmp(files):
+    """
+    Copy a file to the temporary directory that gets cleared out at the end of falcon.
+    Fails silently.
+
+    Args:
+        files (list of paths): Files to copy.
+    """
+    # TODO: could this be symlinked?
+    for filepath in files:
+        if os.path.isfile(filepath):
+            shutil.copyfile(filepath, os.path.join('./tmp/', os.path.basename(filepath)))
+
+def copy_dir_to_tmp(path):
+    """
+    Copy a whole directory to temporary. It'll get cleared out after the falcon run.
+
+    Args:
+        path (string): Path to directory
+    """
+    # TODO: could this be symlinked?
+    # check that the directory exists
+    # copy it
+    pass
 
 def move_sandbox_files_to_root(stack, files):
     """Move files needed to execute source code to the root directory.

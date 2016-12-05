@@ -19,6 +19,7 @@ In Falcon, a stack refers to a programming language and testing framework. Curre
 - Javascript^
 - Javascript + Mocha
 - Ruby^
+- C++
 
 ^ These stacks use simple pass/fail functions (like asserts) for testing.
 

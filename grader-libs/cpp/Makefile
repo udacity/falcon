@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named grader
+
+# Build rule for target.
+grader: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 grader
+.PHONY : grader
+
+# fast build rule for target.
+grader/fast:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/build
+.PHONY : grader/fast
+
+#=============================================================================
 # Target rules for targets named grader_test
 
 # Build rule for target.
@@ -129,6 +142,7 @@ include/Feedback.o: include/Feedback.cpp.o
 
 # target to build an object file
 include/Feedback.cpp.o:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/Feedback.cpp.o
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Feedback.cpp.o
 .PHONY : include/Feedback.cpp.o
 
@@ -138,6 +152,7 @@ include/Feedback.i: include/Feedback.cpp.i
 
 # target to preprocess a source file
 include/Feedback.cpp.i:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/Feedback.cpp.i
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Feedback.cpp.i
 .PHONY : include/Feedback.cpp.i
 
@@ -147,6 +162,7 @@ include/Feedback.s: include/Feedback.cpp.s
 
 # target to generate assembly for a file
 include/Feedback.cpp.s:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/Feedback.cpp.s
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Feedback.cpp.s
 .PHONY : include/Feedback.cpp.s
 
@@ -156,6 +172,7 @@ include/Grader.o: include/Grader.cpp.o
 
 # target to build an object file
 include/Grader.cpp.o:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/Grader.cpp.o
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Grader.cpp.o
 .PHONY : include/Grader.cpp.o
 
@@ -165,6 +182,7 @@ include/Grader.i: include/Grader.cpp.i
 
 # target to preprocess a source file
 include/Grader.cpp.i:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/Grader.cpp.i
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Grader.cpp.i
 .PHONY : include/Grader.cpp.i
 
@@ -174,6 +192,7 @@ include/Grader.s: include/Grader.cpp.s
 
 # target to generate assembly for a file
 include/Grader.cpp.s:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/Grader.cpp.s
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Grader.cpp.s
 .PHONY : include/Grader.cpp.s
 
@@ -183,6 +202,7 @@ include/RubricItem.o: include/RubricItem.cpp.o
 
 # target to build an object file
 include/RubricItem.cpp.o:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/RubricItem.cpp.o
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/RubricItem.cpp.o
 .PHONY : include/RubricItem.cpp.o
 
@@ -192,6 +212,7 @@ include/RubricItem.i: include/RubricItem.cpp.i
 
 # target to preprocess a source file
 include/RubricItem.cpp.i:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/RubricItem.cpp.i
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/RubricItem.cpp.i
 .PHONY : include/RubricItem.cpp.i
 
@@ -201,6 +222,7 @@ include/RubricItem.s: include/RubricItem.cpp.s
 
 # target to generate assembly for a file
 include/RubricItem.cpp.s:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/RubricItem.cpp.s
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/RubricItem.cpp.s
 .PHONY : include/RubricItem.cpp.s
 
@@ -210,6 +232,7 @@ include/Stats.o: include/Stats.cpp.o
 
 # target to build an object file
 include/Stats.cpp.o:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/Stats.cpp.o
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Stats.cpp.o
 .PHONY : include/Stats.cpp.o
 
@@ -219,6 +242,7 @@ include/Stats.i: include/Stats.cpp.i
 
 # target to preprocess a source file
 include/Stats.cpp.i:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/Stats.cpp.i
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Stats.cpp.i
 .PHONY : include/Stats.cpp.i
 
@@ -228,6 +252,7 @@ include/Stats.s: include/Stats.cpp.s
 
 # target to generate assembly for a file
 include/Stats.cpp.s:
+	$(MAKE) -f CMakeFiles/grader.dir/build.make CMakeFiles/grader.dir/include/Stats.cpp.s
 	$(MAKE) -f CMakeFiles/grader_test.dir/build.make CMakeFiles/grader_test.dir/include/Stats.cpp.s
 .PHONY : include/Stats.cpp.s
 
@@ -372,6 +397,7 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... grader"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... grader_test"

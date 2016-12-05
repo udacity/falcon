@@ -1,23 +1,53 @@
-"""Functions for evaluating quizzes in Javascript using pass/fail functions."""
+"""Functions for evaluating quizzes in C++ using pass/fail functions."""
 
 import os
-import falcon.enum as enum
 import falcon.util as util
 import falcon.files as files
 
 def setup_local_test():
     """Configure environment (namely the root directory) for local execution."""
-    util.move_sandbox_files_to_root('js', ['SwizzleInclude.js', 'SwizzleBefore.js', 'StudentMain.js', 'SwizzleAfter.js'])
+    util.copy_to_tmp('SwizzleInclude.cpp',
+                     'SwizzleBefore.cpp',
+                     'StudentMain.cpp',
+                     'SwizzleAfter.cpp',
+                     'Makefile')
 
 def setup_remote():
     """Configure environment (namely the root directory) for remote execution."""
-    util.move_sandbox_files_to_root('js', ['SwizzleInclude.js'])
+    util.move_sandbox_files_to_root('cpp', ['SwizzleInclude.cpp'])
 
 def tear_down_local_test():
     """Tear down environment (namely the root directory) after local execution."""
-    util.remove_files_from_root(['SwizzleInclude.js', 'SwizzleBefore.js', 'StudentMain.js', 'SwizzleAfter.js', 'SwizzledMain.js'])
+    util.remove_files_from_root(['SwizzleInclude.cpp',
+                                 'SwizzleBefore.cpp',
+                                 'StudentMain.cpp',
+                                 'SwizzleAfter.cpp',
+                                 'SwizzledMain.cpp',
+                                 'Makefile',
+                                 'student_main'])
 
-def test(run_local, bash_config):
+def pre_evaluate(for_submission=True):
+    """
+    Compile test/submit code.
+
+    Args:
+        for_submission (bool): Whether or not this is for submission or just test run.
+        Submission will compile against submitMain.cpp, while testing compiles
+        against testMain.cpp.
+    """
+    # call the compile shell script
+    os.chmod('./compile.sh', '0755')
+    util.run_program(['./compile.sh', for_submission],
+                     '.tmp/compile-out.txt',
+                     '.tmp/compile-err.txt')
+
+def evaluate():
+    """
+    Actually run the compiled code.
+    """
+    util.run_program(['./main.o'], files.STUDENT_OUT, files.STUDENT_ERR)
+
+def test(run_local):
     """Test (run) student's code without evaluating it for correctness.
 
     This function should store the output of the student's code in
@@ -33,18 +63,8 @@ def test(run_local, bash_config):
         Any errors stemming from the exection of the program(s) required to
         run the student's code.
     """
-    # create script for running student's code
-    run_student_bash = '#!/bin/bash\n' + bash_config + 'node StudentMain.js'
-    with open('student_runner.sh', 'w') as f:
-        f.write(run_student_bash)
-    os.chmod('./student_runner.sh', '0755')
-
-    try:
-        util.run_program(['./student_runner.sh'], files.STUDENT_OUT, files.STUDENT_ERR)
-    except:
-        raise
-    finally:
-        os.remove('student_runner.sh')
+    pre_evaluate(False)
+    evaluate()
 
 def submit(run_local, bash_config):
     """Evaluate the student's code by testing it for correctness.
@@ -62,23 +82,18 @@ def submit(run_local, bash_config):
         Any errors stemming from the exection of the program(s) required to
         evalute the student's code.
     """
-    # create script for running student's code
-    run_student_bash = '#!/bin/bash\n' + bash_config + 'node StudentMain.js'
-    with open('student_runner.sh', 'w') as f:
-        f.write(run_student_bash)
-    os.chmod('./student_runner.sh', '0755')
 
     # create script for running student's code + our testing code
-    run_swizzled_bash = '#!/bin/bash\n' + bash_config + 'node SwizzledMain.js'
+    run_swizzled_bash = '#!/bin/bash\n' + bash_config + 'make submit; ./grader_main'
     with open('swizzled_runner.sh', 'w') as f:
         f.write(run_swizzled_bash)
     os.chmod('./swizzled_runner.sh', '0755')
 
     try:
         # generate swizzled main
-        filenames = ['SwizzleInclude.js', 'SwizzleBefore.js', 'StudentMain.js', 'SwizzleAfter.js']
+        filenames = ['SwizzleInclude.cpp', 'SwizzleBefore.cpp', 'StudentMain.cpp', 'SwizzleAfter.cpp']
         errors = []
-        with open('SwizzledMain.js', 'w') as outfile:
+        with open('SwizzledMain.cpp', 'w') as outfile:
             for fname in filenames:
                 try:
                     with open(fname) as infile:
@@ -101,9 +116,12 @@ def submit(run_local, bash_config):
         os.remove('swizzled_runner.sh')
         os.remove('student_runner.sh')
 
+    pre_evaluate(True)
+    evaluate()
+
 def submit_files():
     """Specifies a list of file paths to include in results when student submits quiz."""
-    return ['StudentMain.js']
+    return ['StudentMain.cpp']
 
 def transform(test_output):
     """Transforms contents of 'files.RESULTS_OUT' into a classroom-friendly format.
@@ -121,7 +139,7 @@ def transform(test_output):
             represents something the student did incorrectly and is displayed
             in the "What Went Wrong" section
         - <FEEDBACK::>
-            additional feedback to either guide or congradulate the student
+            additional feedback to either guide or congratulate the student
             that appears in the "Feedback" section
 
     Note: If the contents of 'files.RESULTS_OUT' already use tags, then

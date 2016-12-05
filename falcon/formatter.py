@@ -8,6 +8,10 @@ import falcon.enum as enum
 import falcon.grade as grade
 import falcon.files as files
 
+# class Formatter:
+
+
+
 def format_results_as_json_string(mode_idx, extra_file_paths, show_pretty_submit, transformer = None):
     """Formats the results of remote execution steps for the classroom.
 

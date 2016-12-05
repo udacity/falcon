@@ -2,10 +2,13 @@
 config/*.sh
 
 # Temp Text Files
-temp/*.txt
+.tmp/**/*
 
 # Python pyc files
 *.pyc
+Falcon.egg-info/**/*
+.cache/**/*
+.eggs/**/*
 
 # Don't track NPM modules
 node_modules
