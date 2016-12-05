@@ -7,6 +7,13 @@ from subprocess import Popen, CalledProcessError, check_call
 
 TESTING = False
 
+def eprint(*args, **kwargs):
+    """
+    Send errs to stderr.
+    From: http://stackoverflow.com/questions/5574702/how-to-print-to-stderr-in-python
+    """
+    print(*args, file=sys.stderr, **kwargs)
+
 def set_testing(testing):
     """
     Do you want to see errors raised or just pipe them to files? Should be True

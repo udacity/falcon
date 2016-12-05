@@ -3,6 +3,7 @@ Handles any execution that needs to happen at any stage.
 """
 
 import formatter
+from falcon.util import eprint
 
 class Flyer:
     """
@@ -21,15 +22,21 @@ class Flyer:
         self.mode = mode
         self.debug = debug
         self.local = local
+        self.errs = {}
+        self.outs = {}
 
-    def generate_err(self, err):
+    def generate_err(self, step, err):
         """
         Handle an error.
 
         Args:
+            step (string): Describes the generate step in execution when err occured.
             err (Exceptions): Err to record/display.
         """
-        pass
+        self.errs[step] = err
+        if self.debug:
+            eprint(err)
+            raise err
 
     def generate_output(self, out):
         pass
