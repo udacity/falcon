@@ -4,7 +4,7 @@ Parses config files and preps environments for testing.
 
 import os
 import yaml
-from falcon.util import exists, read_file
+from falcon.util import *
 
 class Environment:
     """
@@ -45,7 +45,7 @@ class Environment:
         if not loaded_something:
             raise Exception('Bad falconf! It should include test and/or submit!')
 
-    def get_file_in_cwd(filename):
+    def get_file_in_cwd(self, filename):
         """
         Get a file in the CWD.
 
@@ -56,6 +56,8 @@ class Environment:
             String contents of file if it exists, None otherwise.
         """
         ret = None
+        if file_exists_in_abspath(self._cwd, filename):
+            ret = read_file(os.path.join(self._cwd, filename))
 
         return ret
 

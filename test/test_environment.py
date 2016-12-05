@@ -19,3 +19,6 @@ def test_can_load_yaml_file(testEnvWithYamlFile):
 
 def test_can_parse_yaml_string(testEnvWithYamlString):
     assert testEnvWithYamlString.test['env_vars']['CAM'] == 'is cool'
+
+def test_get_file_in_cwd(testEnvWithYamlFile):
+    assert 'Falcon' in testEnvWithYamlFile.get_file_in_cwd('README.md')
