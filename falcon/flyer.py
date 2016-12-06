@@ -3,6 +3,8 @@ Handles any execution that needs to happen at any stage.
 """
 
 import os
+import re
+import shlex
 import formatter
 from falcon.step import Step
 from falcon.util import *
@@ -29,26 +31,27 @@ class Flyer:
         self.errs = {}
         self.outs = {}
         if env is not None:
-            self.prep_sequence(env)
+            self.prep_sequence(mode, env)
 
-    def prep_sequence(self, env):
+    def prep_sequence(self, mode, env):
         """
         Get the sequence ready to run based on the environment.
 
         Args:
+            mode (string): 'test' or 'submit'.
             env (Environment): Includes info on where and what to execute.
         """
-        self.falconf = env[mode]
-        self.create_sequence(env)
+        self.falconf = env.get_falconf_for_mode(mode)
+        self.falconf_dir = env.falconf_dir
 
-    def create_step(self, name=None, cmd=None):
+    def create_step(self, name=None):
         """
         Create a step where a command may be executed.
 
         Args:
             name (string): The name of the step.
         """
-        step = Step(name=name, cmd=cmd)
+        step = Step(name=name)
         return step
 
     def create_sequence(self, env):
@@ -58,11 +61,7 @@ class Flyer:
         Args:
             env (Environment): Includes info on where files can be found.
         """
-        # Flyer will run defaults for detected(?) language if not
-        # look for testMain.*, submitMain.*, studentMain.*
 
-        # 1) do nothing and specify nothing in falconf.yaml, and nothing will happen
-        # 2) add a preprocess.sh file and it will automatically run then
         sequence_of_events = [
             'preprocess',
             'compile',
@@ -79,16 +78,16 @@ class Flyer:
     def figure_out_right_action(step):
         """
         Determines the action the step should perform based on a mix of
-        the falconf.yaml file and the files in the cwd.
+        the falconf.yaml file and the files in the cwd. These commands are best guesses. They are not validated as some files may not exist and some commands may depend on prior steps to work.
 
         The prioritization for actions is as follows:
 
                falconf          |      file       |       Action
         ------------------------|-----------------|---------------------
-        1)  file.{py,sh}        |      <--        |   ./file.{py,sh}
+        1)  file.ext            |      <--        |   ./file.ext
         2)  falcon.action ...   |       *         |   falcon action
         3)  echo "bar"          |       *         |   echo "bar"
-        4)      --              | stepname.{py.sh}|   ./stepname.{py,sh}
+        4)      --              | stepname.ext    |   ./stepname.ext
         5)      --              |      --         |         --
         """
         default_file = self.get_default_file(step.name)
@@ -107,7 +106,7 @@ class Flyer:
                 raise Exception('Invalid falconf command: ' + falconf)
 
         # no falconf
-        elif default_file:
+        elif default_file is not None:
             step.set_executable(default_file)
 
         # don't do anything!
@@ -116,18 +115,46 @@ class Flyer:
 
         return step
 
-    def has_executable_specified(self, falconf):
-        # ret = None
-        # return does_file_exist(falconf)
-        pass
+    def has_executable_command(self, falconf):
+        """
+        Match the falconf against a regex to find commands that start with a file with extension. The file does not need to exist.
+
+        Args:
+            falconf (string): Falcon command.
+
+        Returns:
+            bool
+        """
+
+        return re.match('.+\.\S+', falconf, re.I) and re.match('^falcon\.', falconf, re.I) is None
+
+    def has_falcon_command(self, falconf):
+        """
+        Match the falconf against a command of the style falcon.foo.
+
+        Args:
+            falconf (string): Falcon command.
+        """
+        return re.match('^falcon\.', falconf, re.I)
 
     def has_shell_command(self, falconf):
-        # shlex?
-        pass
+        """
+        Look for a valid shell command as the first argument.
+        """
+        maybe_command = shlex.split(falconf)[0]
+        return check_valid_shell_command(['which', maybe_command])
 
     def get_default_file(self, step_name):
-        # .py first, then .sh
-        pass
+        """
+        Look in falconf path to get an executable file for the eponymous Step.
+
+        Args:
+            step_name (string): Name of the Step.
+
+        Returns:
+            string: path to file
+        """
+        return get_file_with_basename(self.falconf_dir, step_name)
 
     def generate_err(self, step, err):
         """

@@ -21,16 +21,30 @@ class Environment:
 
         self.test = {}
         self.submit = {}
+        self.falconf_dir = ''
 
         self._cwd = os.getcwd()
 
         if falconf_string is None and falconf_path is not None:
+            self.falconf_dir = get_abspath(falconf_path)
             falconf_string = read_file(falconf_path)
 
         if falconf_string:
             self.parse_falconf(falconf_string)
         else:
             self.find_local_falconf()
+
+    def get_falconf_for_mode(self, mode):
+        """
+        Get falconf for a mode.
+
+        Args:
+            mode (string): Either 'test' or 'submit'
+        """
+        if mode == 'test':
+            return self.test
+        elif mode == 'submit':
+            return self.submit
 
     def parse_falconf(self, falconf_string):
         loaded_something = False

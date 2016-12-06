@@ -1,4 +1,5 @@
 import pytest
+import os
 
 from falcon.environment import Environment
 
@@ -31,4 +32,5 @@ def test_can_load_from_local_falconf(testEnvWithNothing):
 def test_get_file_in_cwd(testEnvWithYamlFile):
     assert 'Falcon' in testEnvWithYamlFile.get_file_in_cwd('README.md')
 
-# test for setting a falconf root dir whereever falconf.yaml is
+def test_sets_falconf_directory(testEnvWithYamlFile):
+    assert testEnvWithYamlFile.falconf_dir == os.path.join(os.getcwd(), 'test/')

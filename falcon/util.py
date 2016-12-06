@@ -2,6 +2,7 @@
 
 import io
 import os
+import re
 import stat
 import sys
 # import shutil
@@ -23,8 +24,34 @@ def read_file(filepath):
 def does_file_exist(filepath):
     return os.path.isfile(filepath)
 
+def get_file_with_basename(path, basename):
+    """
+    Find a file where the basename (minus extension) matches the given basename in path.
+
+    Args:
+        path (string): Path to search.
+        basename (string): Basename of the file (filename minus extension)
+
+    Returns:
+        string of filename (with extension) or None if nothing is found.
+    """
+    found_file = None
+
+    for f in os.listdir(path):
+        regex = '^{}\.\S+'.format(basename)
+        if os.path.isfile(f) and re.match(regex, os.path.basename(f)):
+            found_file = f
+            break
+
+    return found_file
+
 def file_exists_in_abspath(path, filename):
     return does_file_exist(os.path.join(path, filename))
+
+def get_abspath(filepath):
+    full_filepath = os.path.abspath(filepath)
+    basename = os.path.basename(filepath)
+    return full_filepath[:-(len(basename))]
 
 def exists(thing=None, dictionary=None, key=None):
     exists = False
@@ -99,6 +126,25 @@ def call_subprocess(args, shell=False):
 
     return out, err
 
+def check_valid_shell_command(cmd):
+    """
+    Determine if a shell command returns a 0 error code.
+
+    Args:
+        cmd (string or list): Shell command. String of one command or list with arguments.
+
+    Returns:
+        bool
+    """
+
+    valid_command = False
+    try:
+        subprocess.check_call(cmd)
+        valid_command = True
+    except Exception as e:
+        valid_command = False
+
+    return valid_command
 
 # def get_file_contents(path):
 #     """Returns the contents of a text file at a specified path.

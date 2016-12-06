@@ -24,12 +24,18 @@ submit:
 ```
 
 Where each `cmd` can be one of (in priority order):
-1. `name.py` where `name` is the same name as the step, eg. `preprocess.py`. (First default)
-2. `name.sh` (same `name` as above). (Second default)
-3. A shell command, eg. `node some_script.js`.
-4. A Falcon command, eg. `falcon.concat file1 file2 ... fileN outfile`.
 
-If there is no option set for a step, Falcon will try to find (1) or (2) by default. Failing that, it skips the step.
+        falconf         |      file       |       Action
+------------------------|-----------------|---------------------
+1)  file.ext            |      <--        |   ./file.ext
+2)  falcon.action ...   |       *         |   falcon action
+3)  echo "bar"          |       *         |   echo "bar"
+4)      --              | stepname.ext    |   ./stepname.ext
+5)      --              |      --         |         --
+
+Falcon commands take the form of `falcon.concat file1 file2 ... fileN outfile`.
+
+EXECUTABLES MUST HAVE AN EXTENSION!
 
 ## Modes
 

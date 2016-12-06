@@ -5,7 +5,9 @@ import os
 from contextlib import redirect_stderr
 from contextlib import redirect_stdout
 
+from falcon.environment import Environment
 from falcon.flyer import Flyer
+from falcon.step import Step
 
 @pytest.fixture
 def testFlyer():
@@ -82,3 +84,63 @@ def test_set_env_vars(debugFlyer):
     debugFlyer.set_env_vars(evars)
     assert os.getenv('key') == 'value'
     assert os.getenv('key2') == 'value2'
+
+def test_create_steps(debugFlyer):
+    name = 'asdfasdfasdf'
+    step = debugFlyer.create_step(name)
+    assert isinstance(step, Step)
+    assert step.name == name
+
+def test_has_executable_command(debugFlyer):
+    falconf = 'foo.py'
+    is_specified = debugFlyer.has_executable_command(falconf)
+    assert is_specified
+
+def test_has_executable_with_args_specified(debugFlyer):
+    falconf = 'foo.sh -a some -b args'
+    is_specified = debugFlyer.has_executable_command(falconf)
+    assert is_specified
+
+def test_not_has_executable_command(debugFlyer):
+    falconf = 'falcon.concat file1 file2'
+    is_specified = debugFlyer.has_executable_command(falconf)
+    assert not is_specified
+
+def test_has_falcon_command(debugFlyer):
+    falconf = 'falcon.concat file1 file2'
+    is_specified = debugFlyer.has_falcon_command(falconf)
+    assert is_specified
+
+def test_not_has_falcon_command(debugFlyer):
+    falconf = 'foo.falcon'
+    is_specified = debugFlyer.has_falcon_command(falconf)
+    assert not is_specified
+
+def test_has_shell_command(debugFlyer):
+    falconf = 'echo "tesssst"'
+    is_specified = debugFlyer.has_shell_command(falconf)
+    assert is_specified
+
+def test_not_has_shell_command(debugFlyer):
+    falconf = 'boooooboboboboobaob "tesssst"'
+    is_specified = debugFlyer.has_shell_command(falconf)
+    assert not is_specified
+
+def test_can_be_initialized_with_env():
+    env = Environment('test/falconf.yaml')
+    flyer = Flyer(env=env)
+    assert flyer.falconf_dir == os.path.join(os.getcwd(), 'test/')
+
+def test_get_default_file():
+    env = Environment('test/falconf.yaml')
+    flyer = Flyer(env=env)
+    assert flyer.get_default_file('README') == 'README.md'
+
+def test_not_get_default_file():
+    env = Environment('test/falconf.yaml')
+    flyer = Flyer(env=env)
+    assert flyer.get_default_file('asdfasdf') is None
+
+# test determining actions
+# test creating a temp directory and moving / symlinking files there?
+# test symlinking libraries?
