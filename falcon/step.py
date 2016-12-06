@@ -3,6 +3,7 @@ Represents a generic command that can be run against student code during executi
 """
 
 import os
+import shlex
 from falcon.util import *
 
 class Step:
@@ -34,8 +35,19 @@ class Step:
     def set_falcon_command(self, cmd, args):
         pass
 
-    def set_executable(self, filename):
-        pass
+    def set_shell_executable(self, filename, args=[]):
+        """
+        Set an executable file to run in the sequence. Called as `./filename.sh` or `./filename.py`, so use a #!
+
+        Args:
+            filename (string): Filename of the executable
+            args (list): Any additional arguments.
+        """
+        self.type = 'executable'
+        command = './' + filename
+        command = ' '.join([command, *args])
+        command = shlex.split(command) # may not be necessary?
+        self.command = lambda : run_shell_script(command)
 
     def set_noop(self):
         """

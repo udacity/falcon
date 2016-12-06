@@ -12,8 +12,18 @@ def test_step_constructor_name():
     step = Step(name=name)
     assert step.name == name
 
-def test_set_shell_command():
-    step = Step()
-    step.set_shell_command('echo "hi"')
-    out, err = step.run()
+def test_set_shell_command(testStep):
+    testStep.set_shell_command('echo "hi"')
+    out, err = testStep.run()
     assert 'hi' in out
+
+def test_set_shell_executable(testStep):
+    testStep.set_shell_executable('test/sample_script.sh')
+    out, err = testStep.run()
+    assert 'testing!' in out
+
+def test_set_failing_shell_executable(testStep):
+    testStep.set_shell_executable('test/sample_failing_script.sh')
+    out, err = testStep.run()
+    assert 'fail' in out
+    assert '1' in err

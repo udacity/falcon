@@ -45,3 +45,4 @@ def test_run_shell_script():
 def test_run_failing_shell_script():
     out, err = run_shell_script(['./test/sample_failing_script.sh'])
     assert 'fail' in out
+    assert '1' in err

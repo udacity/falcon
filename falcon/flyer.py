@@ -107,6 +107,10 @@ class Flyer:
         # return does_file_exist(falconf)
         pass
 
+    def has_shell_command(self, falconf):
+        # shlex?
+        pass
+
     def get_default_file(self, step_name):
         # .py first, then .sh
         pass
