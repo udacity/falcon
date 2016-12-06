@@ -61,10 +61,6 @@ class Environment:
 
         return ret
 
-    def symlink_libraries(self):
-        # symlink grader_libs
-        pass
-
     def find_local_falconf(self):
         """
         Look at cwd to try to find falconf.yaml in cwd.
@@ -72,5 +68,3 @@ class Environment:
         local_falconf = self.get_file_in_cwd('falconf.yaml')
         if local_falconf is not None:
             self.parse_falconf(local_falconf)
-
-# MODES = [m.lower() for m in dir(enum.Mode()) if not m.startswith('__')]

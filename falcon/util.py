@@ -1,9 +1,11 @@
 """Utility functions used by Falcon."""
 
+import io
 import os
+import stat
 import sys
-import shutil
-from subprocess import Popen, CalledProcessError, check_call
+# import shutil
+import subprocess
 
 TESTING = False
 
@@ -38,101 +40,77 @@ def exists(thing=None, dictionary=None, key=None):
         exists = False
     return exists
 
-# def set_testing(testing):
-#     """
-#     Do you want to see errors raised or just pipe them to files? Should be True
-#     while you're debugging / building a quiz and False in produciton.
+def run_program(args):
+    """
+    Run a command line program.
 
-#     Args:
-#         testing (bool): Well? Are you testing?
-#     """
-#     TESTING = testing
+    Args:
+        args (list): Program arguments.
 
-# def handle_output(out, err, out_path=None, err_path=None):
-#     """
-#     Student code just ran. This takes care of the output.
-#     """
-#     was_stdout(out, out_path)
-#     was_stderr(err, err_path)
+    Returns:
+        Tuple of strings: out, err
+    """
+    completedProcess = None
+    error = None
 
-# def was_stderr(err, err_path=None):
-#     """
-#     Handle stderr from any point in the execution of student code.
+    if does_file_exist(args[0]):
+        os.chmod(args[0], stat.S_IEXEC)
 
-#     Args:
-#         err (Exception): The thing that went wrong.
-#         err_path (string): Where to pipe the output
-#     """
-#     if TESTING:
-#         sys.stderr.write(err)
-#         if err.child_traceback:
-#             sys.stderr.write(err.child_traceback)
-#     if err_path is not None:
-#         with open(err_path, 'w+') as err_path:
-#             err_path.write(str(err))
+    # run the program and pipe stdout and stderr into files
+    try:
+        completedProcess = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError as e:
+        error = e
+    except OSError as e:
+        # file probably does not exist
+        raise e
+        # raise OSError('Is ' + args[0] + ' executable?')
+    except ValueError:
+        # bad args
+        raise ValueError('Are these valid args? ' + ', '.join(args))
+    except Exception as e:
+        # something maybe wrong with the process? student code (or grading code) is bad
+        raise e
 
-# def was_stdout(out, out_path=None):
-#     """
-#     Handle stdout from any point in the execution of student code.
+    return completedProcess.stdout, completedProcess.stderr
 
-#     Args:
-#         out (string): The output!
-#         out_path (string): Where to pipe the output.
-#     """
-#     if TESTING:
-#         print(out)
-#     if out_path is not None:
-#         with open(out_path, 'w+') as out_file:
-#             out_file.write(str(out))
 
-# def run_program(args, out_path=None, err_path=None):
-#     """Run a command line program and pipe the stdout and stderr into files.
+def run_shell_cmd(cmd):
+    """
+    Run a command line program.
 
-#     Args:
-#         args (list): Program arguments.
-#         out_path (string): Path to file that will contain stdout.
-#         err_path (string): Path to file that will contain stderr.
-#         testing (bool): If True, show output and errors for debugging as well.
+    Args:
+        cmd (string): Shell command.
 
-#     Returns:
-#         Bool. False if any errors occured during execution.
-#     """
-#     ret_status = False
-#     out_file = None
-#     err_file = None
+    Returns:
+        Tuple of strings: out, err
+    """
+    completedProcess = None
+    out = None
+    err = None
 
-#     # create path to files if they don't exist
-#     if out_path is not None:
-#         if not os.path.exists(os.path.dirname(out_path)):
-#             os.makedirs(os.path.dirname(out_path))
-#         out_file = open(out_path, 'w+')
+    # run the program and pipe stdout and stderr into files
+    try:
+        # https://docs.python.org/3.5/library/subprocess.html#subprocess.run
+        completedProcess = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        out = completedProcess.stdout
+        err = completedProcess.stderr
+        completedProcess.check_returncode() # forces CalledProcessError if non-0 exit
+    except subprocess.CalledProcessError as e:
+        err = '\n'.join(['return code: ' + str(e.returncode), err, e.stderr])
+    except OSError as e:
+        raise e
+    except ValueError as e:
+        # bad args
+        raise ValueError('Are these valid args? ' + ', '.join(args))
+    except Exception as e:
+        # something maybe wrong with the process? student code (or grading code) is bad
+        raise e
 
-#     if err_path is not None:
-#         if not os.path.exists(os.path.dirname(err_path)):
-#             os.makedirs(os.path.dirname(err_path))
-#         err_file = open(err_path, 'w+')
+    return out, err
 
-#     # run the program and pipe stdout and stderr into files
-#     try:
-#         program = Popen(args, stdout=out_file, stderr=err_file)
-#         out, err = program.communicate()
-#         handle_output(out, err, out_file, err_file)
-#     except OSError:
-#         # file probably does not exist
-#         raise OSError('Is ' + args[0] + ' executable?')
-#     except ValueError:
-#         # bad args
-#         raise ValueError('Are these valid args? ' + ', '.join(args))
-#     except Exception as e:
-#         # something maybe wrong with the process? student code (or grading code) is bad
-#         was_stderr(e, err_path)
 
-#     if out_file is not None:
-#         out_file.close()
-#     if err_file is not None:
-#         err_path.close()
 
-#     return ret_status
 
 # def get_file_contents(path):
 #     """Returns the contents of a text file at a specified path.

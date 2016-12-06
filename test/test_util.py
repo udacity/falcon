@@ -29,3 +29,11 @@ def test_exists():
         raise Exception("uh oh!")
     assert not exists(raises_error)
     assert not exists(dictionary={}, key='thing')
+
+def test_run_shell_cmd():
+    out, err = run_shell_cmd('echo "hi"')
+    assert 'hi' in out
+
+def test_run_failing_shell_cmd():
+    out, err = run_shell_cmd('exit 1')
+    assert '1' in err

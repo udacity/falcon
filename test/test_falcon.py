@@ -1,6 +1,7 @@
 import pytest
 
 import io
+import os
 from contextlib import redirect_stderr
 from contextlib import redirect_stdout
 
@@ -69,3 +70,15 @@ def test_out_displayed(debugFlyer):
 
     out = capture_stdout(make_output)
     assert msg in out
+
+def test_set_env_var(debugFlyer):
+    key = 'TEST'
+    value = 'VALUE'
+    debugFlyer.set_env_var(key, value)
+    assert os.getenv(key) == value
+
+def test_set_env_vars(debugFlyer):
+    evars = [{'key': 'value'}, {'key2': 'value2'}]
+    debugFlyer.set_env_vars(evars)
+    assert os.getenv('key') == 'value'
+    assert os.getenv('key2') == 'value2'

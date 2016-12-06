@@ -13,8 +13,10 @@ def main(args):
     """
     exit_code = 0 # I suppose there should be an opportunity for this to change?
     env = Environment(args.config) # could be mode, etc
-    flyer = Flyer(args.mode, args.local, args.debug)
-    flyer.run_sequence(env)
+    flyer = Flyer(mode=args.mode, local=args.local, debug=args.debug, env=env)
+    flyer.create_sequence()
+    flyer.run_sequence()
+    # TODO: write output somewhere
     sys.exit(exit_code)
 
 if __name__ == '__main__':
