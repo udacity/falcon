@@ -21,21 +21,12 @@ class Step:
         self.name = name
         self.type = None
 
-    def parse_cmd(self, cmd):
-        """
-        Creates a valid set of events to occur for this step
-        """
-        # 1) do nothing and specify nothing in falconf.yaml, and nothing will happen
-        # 2) add a preprocess.sh file and it will automatically run then
-        # 3) in falconf.yaml, specify a different .sh file as `preprocess: foobar.sh`
-        # 4) in falconf.yaml, specify a different command as `preprocess: gulp task`
-
     def set_shell_command(self, cmd):
         """
-        Set a shell command.
+        Set a shell command. DON'T EVEN THINK OF RUNNING STUDENT CODE DIRECTLY AS CMD.
 
         Args:
-            cmd (string): Shell command to call.
+            cmd (string): Shell command to call. CMD SHALL NOT BE CONTROLLED BY STUDENTS!!!
         """
         self.type = 'shell'
         self.command = lambda : run_shell_cmd(cmd)

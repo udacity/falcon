@@ -40,7 +40,7 @@ def exists(thing=None, dictionary=None, key=None):
         exists = False
     return exists
 
-def run_program(args):
+def run_shell_script(args):
     """
     Run a command line program.
 
@@ -50,56 +50,46 @@ def run_program(args):
     Returns:
         Tuple of strings: out, err
     """
-    completedProcess = None
-    error = None
 
     if does_file_exist(args[0]):
-        os.chmod(args[0], stat.S_IEXEC)
+        os.chmod(args[0], stat.S_IXUSR | stat.S_IRUSR | stat.S_IWUSR)
 
-    # run the program and pipe stdout and stderr into files
-    try:
-        completedProcess = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    except subprocess.CalledProcessError as e:
-        error = e
-    except OSError as e:
-        # file probably does not exist
-        raise e
-        # raise OSError('Is ' + args[0] + ' executable?')
-    except ValueError:
-        # bad args
-        raise ValueError('Are these valid args? ' + ', '.join(args))
-    except Exception as e:
-        # something maybe wrong with the process? student code (or grading code) is bad
-        raise e
-
-    return completedProcess.stdout, completedProcess.stderr
-
+    return call_subprocess(args)
 
 def run_shell_cmd(cmd):
     """
-    Run a command line program.
+    Run a command line program. HOLY CRAP YOU BETTER KNOW WHAT YOU'RE PUTTING IN HERE.
 
     Args:
-        cmd (string): Shell command.
+        cmd (string): Shell command. THIS HAD BETTER NOT COME FROM STUDENTS!!!
 
     Returns:
         Tuple of strings: out, err
     """
-    completedProcess = None
+
+    return call_subprocess(cmd, shell=True)
+
+def call_subprocess(args, shell=False):
+    """
+    Run a subprocess.
+    https://docs.python.org/3.5/library/subprocess.html#subprocess.run
+
+    Args:
+        args (string or list): Command to run.
+        shell (bool): Whether or not to run the command through the shell.
+    """
     out = None
     err = None
-
     # run the program and pipe stdout and stderr into files
     try:
-        # https://docs.python.org/3.5/library/subprocess.html#subprocess.run
-        completedProcess = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        completedProcess = subprocess.run(args, shell=shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         out = completedProcess.stdout
         err = completedProcess.stderr
         completedProcess.check_returncode() # forces CalledProcessError if non-0 exit
     except subprocess.CalledProcessError as e:
         err = '\n'.join(['return code: ' + str(e.returncode), err, e.stderr])
     except OSError as e:
-        raise e
+        raise OSError('The file may not exist or you might have forgotten the #!', e)
     except ValueError as e:
         # bad args
         raise ValueError('Are these valid args? ' + ', '.join(args))
@@ -108,8 +98,6 @@ def run_shell_cmd(cmd):
         raise e
 
     return out, err
-
-
 
 
 # def get_file_contents(path):

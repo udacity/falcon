@@ -37,3 +37,11 @@ def test_run_shell_cmd():
 def test_run_failing_shell_cmd():
     out, err = run_shell_cmd('exit 1')
     assert '1' in err
+
+def test_run_shell_script():
+    out, err = run_shell_script(['./test/sample_script.sh'])
+    assert 'testing!' in out
+
+def test_run_failing_shell_script():
+    out, err = run_shell_script(['./test/sample_failing_script.sh'])
+    assert 'fail' in out
