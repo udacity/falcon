@@ -77,6 +77,20 @@ class Flyer:
         self.sequence.append(step)
 
     def figure_out_right_action(step):
+        """
+        Determines the action the step should perform based on a mix of
+        the falconf.yaml file and the files in the cwd.
+
+        The prioritization for actions is as follows:
+
+               falconf          |      file       |       Action
+        ------------------------|-----------------|---------------------
+        1)  file.{py,sh}        |      <--        |   ./file.{py,sh}
+        2)  falcon.action ...   |       *         |   falcon action
+        3)  echo "bar"          |       *         |   echo "bar"
+        4)      --              | stepname.{py.sh}|   ./stepname.{py,sh}
+        5)      --              |      --         |         --
+        """
         default_file = self.get_default_file(step.name)
 
         # prioritize falconf commands
@@ -169,6 +183,7 @@ class Flyer:
         """
         Start to finish, run the steps in the quiz.
         """
+        # run in ~/.falcontmp?
         self.set_env_vars(self.falconf.env_vars)
         self.symlink_libraries()
         for step in self.sequence:

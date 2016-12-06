@@ -1,7 +1,6 @@
 import pytest
 
 from falcon.step import Step
-from falcon.flyer import Flyer
 
 @pytest.fixture
 def testStep():
