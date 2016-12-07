@@ -126,8 +126,7 @@ class Flyer:
         Returns:
             bool
         """
-
-        return re.match('.+\.\S+', falconf, re.I) and re.match('^falcon\.', falconf, re.I) is None
+        return re.match('^\S+\.\S+', falconf, re.I) and re.match('^falcon\.', falconf, re.I) is None
 
     def has_falcon_command(self, falconf):
         """

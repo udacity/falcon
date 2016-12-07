@@ -68,7 +68,7 @@ def exists(thing=None, dictionary=None, key=None):
         exists = False
     return exists
 
-def run_shell_script(args):
+def run_shell_executable(args):
     """
     Run a command line program.
 

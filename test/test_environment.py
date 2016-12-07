@@ -3,9 +3,15 @@ import os
 
 from falcon.environment import Environment
 
+def chdir_sample_dir():
+    if 'test/sample' not in os.getcwd():
+        os.chdir(os.path.dirname(os.path.join(os.getcwd(), 'test/sample/falconf.yaml'))) # done in main()
+
+chdir_sample_dir()
+
 @pytest.fixture
 def testEnvWithYamlFile():
-    return Environment(falconf_path='test/sample/falconf.yaml')
+    return Environment(falconf_path='falconf.yaml')
 
 @pytest.fixture
 def testEnvWithYamlString():
@@ -26,14 +32,13 @@ def test_can_parse_yaml_string(testEnvWithYamlString):
     assert testEnvWithYamlString.test['env_vars']['CAM'] == 'is cool'
 
 def test_can_load_from_local_falconf(testEnvWithNothing):
-    # uses the sample falconf.yaml that's in the root
     assert testEnvWithNothing.test
 
 def test_get_file_in_cwd(testEnvWithYamlFile):
-    assert 'Falcon' in testEnvWithYamlFile.get_file_in_cwd('README.md')
+    assert 'submit' in testEnvWithYamlFile.get_file_in_cwd('falconf.yaml')
 
 def test_sets_falconf_directory(testEnvWithYamlFile):
-    assert testEnvWithYamlFile.falconf_dir == os.path.join(os.getcwd(), 'test/sample/')
+    assert 'test/sample' in testEnvWithYamlFile.falconf_dir
 
 def test_parse_falconf_mode(testEnvWithYamlFile):
     assert testEnvWithYamlFile.submit['tear_down'] == "echo 'tear_down'"

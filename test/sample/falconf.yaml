@@ -5,7 +5,7 @@ test:
   grader_libs: [cpp-grader]
   compile: echo 'compile'
   static\_file\_check: echo 'static'
-  main: echo 'main'
+  main: python main.py
   postprocess: echo "postprocessing"
   tear_down: tear_down.sh
 submit:

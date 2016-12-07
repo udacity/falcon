@@ -2,6 +2,7 @@
 
 """Python middleware for evaluating programming quizzes."""
 
+import os
 import sys
 import argparse
 from environment import Environment
@@ -12,6 +13,7 @@ def main(args):
     The main event.
     """
     exit_code = 0 # I suppose there should be an opportunity for this to change?
+    os.chdir(os.path.dirname(args.config))
     env = Environment(args.config) # could be mode, etc
     flyer = Flyer(mode=args.mode, local=args.local, debug=args.debug, env=env)
     flyer.create_sequence()

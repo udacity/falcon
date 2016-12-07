@@ -9,6 +9,12 @@ from falcon.environment import Environment
 from falcon.flyer import Flyer
 from falcon.step import Step
 
+def chdir_sample_dir():
+    if 'test/sample' not in os.getcwd():
+        os.chdir(os.path.dirname(os.path.join(os.getcwd(), 'test/sample/falconf.yaml'))) # done in main()
+
+chdir_sample_dir()
+
 @pytest.fixture
 def testFlyer():
     return Flyer(mode='test')
@@ -27,7 +33,7 @@ def localFlyer():
 
 @pytest.fixture
 def falconfFlyer():
-    env = Environment('test/sample/falconf.yaml')
+    env = Environment('falconf.yaml')
     flyer = Flyer(mode='test', env=env)
     return flyer
 
@@ -102,6 +108,11 @@ def test_has_executable_file(debugFlyer):
     is_specified = debugFlyer.has_executable_file(falconf)
     assert is_specified
 
+def test_not_has_executable_file(debugFlyer):
+    falconf = 'python foo.py'
+    is_specified = debugFlyer.has_executable_file(falconf)
+    assert not is_specified
+
 def test_has_executable_with_args_specified(debugFlyer):
     falconf = 'foo.sh -a some -b args'
     is_specified = debugFlyer.has_executable_file(falconf)
@@ -127,22 +138,27 @@ def test_has_shell_command(debugFlyer):
     is_specified = debugFlyer.has_shell_command(falconf)
     assert is_specified
 
+def test_has_shell_command_python(debugFlyer):
+    falconf = 'python foo.py'
+    is_specified = debugFlyer.has_shell_command(falconf)
+    assert is_specified
+
 def test_not_has_shell_command(debugFlyer):
     falconf = 'boooooboboboboobaob "tesssst"'
     is_specified = debugFlyer.has_shell_command(falconf)
     assert not is_specified
 
 def test_can_be_initialized_with_env():
-    env = Environment('test/sample/falconf.yaml')
+    env = Environment('falconf.yaml')
     flyer = Flyer(env=env)
-    assert flyer.falconf_dir == os.path.join(os.getcwd(), 'test/sample/')
+    assert 'test/sample' in flyer.falconf_dir
 
 def test_get_default_file(falconfFlyer):
-    # using test/sample/
+    # using test/sample/falconf.yaml
     assert 'preprocess.py' in falconfFlyer.get_default_file('preprocess')
 
 def test_not_get_default_file(falconfFlyer):
-    # using test/sample/
+    # using test/sample/falconf.yaml
     assert falconfFlyer.get_default_file('asdfasdf') is None
 
 def test_figure_out_right_action_default(falconfFlyer):
@@ -153,17 +169,26 @@ def test_figure_out_right_action_default(falconfFlyer):
     assert 'preprocessing' in out
 
 def test_figure_out_right_action_shell_command(falconfFlyer):
+    # runs echo 'postprocessing'
     step = falconfFlyer.create_step('postprocess')
     step = falconfFlyer.figure_out_right_action(step)
     out, err = step.run()
     assert 'postprocessing' in out
 
 def test_figure_out_right_action_shell_executable(falconfFlyer):
+    # runs a shell script
     step = falconfFlyer.create_step('tear_down')
     step = falconfFlyer.figure_out_right_action(step)
     out, err = step.run()
     assert 'tearing down' in out
 
-# test determining actions
+def test_figure_out_right_action_python_file(falconfFlyer, capsys):
+    # runs python main.py
+    with capsys.disabled():
+        step = falconfFlyer.create_step('main')
+        step = falconfFlyer.figure_out_right_action(step)
+        out, err = step.run()
+        assert 'maining' in out
+
 # test creating a temp directory and moving / symlinking files there?
 # test symlinking libraries?

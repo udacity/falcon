@@ -21,36 +21,55 @@ class Step:
         self.command = None
         self.name = name
         self.type = None
+        self.dir = ''
 
-    def set_shell_command(self, cmd):
+    def chdir(self, directory, callback):
         """
-        Set a shell command. DON'T EVEN THINK OF RUNNING STUDENT CODE DIRECTLY AS CMD.
+        You're probably trying to hack something if you need to use this.
+        """
+        olddir = os.getcwd()
+        os.chdir(directory)
+        outs = callback()
+        os.chdir(olddir)
+        return outs
+
+    def set_shell_command(self, cmd, tempdir=None):
+        """
+        Set a shell command. Runs from falconf.yaml directory. DON'T EVEN THINK OF RUNNING STUDENT CODE DIRECTLY AS CMD.
 
         Args:
             cmd (string): Shell command to call. CMD SHALL NOT BE CONTROLLED BY STUDENTS!!!
+            tempdir (string): Temporary directory to execute command.
         """
         self.type = 'shell'
-        self.command = lambda : run_shell_cmd(cmd)
+        if tempdir is not None:
+            self.command = lambda : self.chdir(tempdir, lambda : run_shell_cmd(cmd))
+        else:
+            self.command = lambda : run_shell_cmd(cmd)
 
-    def set_falcon_command(self, cmd, args):
+    def set_falcon_command(self, cmd, args, tempdir=None):
         pass
 
-    def set_shell_executable(self, filepath, args=[]):
+    def set_shell_executable(self, filepath, args=[], tempdir=None):
         """
         Set an executable file to run in the sequence. Called as `./path/to/file.sh` or `./path/to/file.py`, so use a #!
 
         Args:
             filepath (string): filepath of the executable
             args (list): Any additional arguments.
+            tempdir (string): Temporary directory to execute command.
         """
         self.type = 'executable'
-        if not os.path.isabs(filepath):
-            filepath = os.path.abspath(filepath)
+        # if not os.path.isabs(filepath):
+        #     filepath = os.path.abspath(filepath)
 
         command = [filepath]
         command = ' '.join([*command, *args])
         command = shlex.split(command) # may not be necessary?
-        self.command = lambda : run_shell_script(command)
+        if tempdir is not None:
+            self.command = lambda : self.chdir(tempdir, lambda : run_shell_executable(command))
+        else:
+            self.command = lambda : run_shell_executable(command)
 
     def set_noop(self):
         """
@@ -60,15 +79,6 @@ class Step:
         def noop():
             return '', ''
         self.command = noop
-
-    def run_shell_script(self, script):
-        pass
-
-    def run_shell_command(self, command):
-        pass
-
-    def run_python_file(self, filepath, args=[]):
-        pass
 
     def run_falcon_command(self, command, args=[]):
         pass
