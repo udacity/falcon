@@ -146,6 +146,7 @@ def test_not_get_default_file(falconfFlyer):
     assert falconfFlyer.get_default_file('asdfasdf') is None
 
 def test_figure_out_right_action_default(falconfFlyer):
+    # test: preprocess isn't actually in the falconf
     step = falconfFlyer.create_step('preprocess')
     step = falconfFlyer.figure_out_right_action(step)
     out, err = step.run()
@@ -156,6 +157,12 @@ def test_figure_out_right_action_shell_command(falconfFlyer):
     step = falconfFlyer.figure_out_right_action(step)
     out, err = step.run()
     assert 'postprocessing' in out
+
+def test_figure_out_right_action_shell_executable(falconfFlyer):
+    step = falconfFlyer.create_step('tear_down')
+    step = falconfFlyer.figure_out_right_action(step)
+    out, err = step.run()
+    assert 'tearing down' in out
 
 # test determining actions
 # test creating a temp directory and moving / symlinking files there?

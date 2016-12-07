@@ -97,7 +97,8 @@ class Flyer:
             falconf = self.falconf[step.name]
 
             if self.has_executable_file(falconf):
-                step.set_shell_executable(falconf)
+                filepath = os.path.join(self.falconf_dir, falconf)
+                step.set_shell_executable(filepath)
             elif self.has_falcon_command(falconf):
                 step.set_falcon_command(falconf)
             elif self.has_shell_command(falconf):

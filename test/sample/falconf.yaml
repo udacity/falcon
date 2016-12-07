@@ -7,7 +7,7 @@ test:
   static\_file\_check: echo 'static'
   main: echo 'main'
   postprocess: echo "postprocessing"
-  tear_down: echo 'tear_down'
+  tear_down: tear_down.sh
 submit:
   env_vars:
     - VAR: value
