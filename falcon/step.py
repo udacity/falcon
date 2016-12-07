@@ -35,17 +35,20 @@ class Step:
     def set_falcon_command(self, cmd, args):
         pass
 
-    def set_shell_executable(self, filename, args=[]):
+    def set_shell_executable(self, filepath, args=[]):
         """
-        Set an executable file to run in the sequence. Called as `./filename.sh` or `./filename.py`, so use a #!
+        Set an executable file to run in the sequence. Called as `./path/to/file.sh` or `./path/to/file.py`, so use a #!
 
         Args:
-            filename (string): Filename of the executable
+            filepath (string): filepath of the executable
             args (list): Any additional arguments.
         """
         self.type = 'executable'
-        command = './' + filename
-        command = ' '.join([command, *args])
+        if not os.path.isabs(filepath):
+            filepath = os.path.abspath(filepath)
+
+        command = [filepath]
+        command = ' '.join([*command, *args])
         command = shlex.split(command) # may not be necessary?
         self.command = lambda : run_shell_script(command)
 
@@ -53,6 +56,7 @@ class Step:
         """
         Don't do anything!
         """
+        self.type = 'noop'
         def noop():
             return '', ''
         self.command = noop
@@ -70,8 +74,8 @@ class Step:
         pass
 
     def run(self):
-        out = None # from student code
-        err = None # from student code
+        out = None
+        err = None
 
         out, err = self.command()
 

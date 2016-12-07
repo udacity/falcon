@@ -23,9 +23,8 @@ def test_find_in_abspath():
     filename = 'README.md'
     assert file_exists_in_abspath(path, filename)
 
-
 def test_get_file_with_basename():
-    assert get_file_with_basename(os.getcwd(), 'README')
+    assert get_file_with_basename(os.getcwd(), 'README') == 'README.md'
 
 def test_not_get_file_with_basename():
     assert get_file_with_basename(os.getcwd(), 'asdfasdfasdf') is None
@@ -38,7 +37,7 @@ def test_exists():
     assert not exists(dictionary={}, key='thing')
 
 def test_get_abspath():
-    assert get_abspath('test/falconf.yaml') == os.path.join(os.getcwd(), 'test/')
+    assert get_abspath('test/sample/falconf.yaml') == os.path.join(os.getcwd(), 'test/sample/')
 
 def test_run_shell_cmd():
     out, err = run_shell_cmd('echo "hi"')
@@ -49,11 +48,11 @@ def test_run_failing_shell_cmd():
     assert '1' in err
 
 def test_run_shell_script():
-    out, err = run_shell_script(['./test/sample_script.sh'])
+    out, err = run_shell_script(['./test/sample/sample_script.sh'])
     assert 'testing!' in out
 
 def test_run_failing_shell_script():
-    out, err = run_shell_script(['./test/sample_failing_script.sh'])
+    out, err = run_shell_script(['./test/sample/sample_failing_script.sh'])
     assert 'fail' in out
     assert '1' in err
 

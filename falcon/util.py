@@ -39,7 +39,8 @@ def get_file_with_basename(path, basename):
 
     for f in os.listdir(path):
         regex = '^{}\.\S+'.format(basename)
-        if os.path.isfile(f) and re.match(regex, os.path.basename(f)):
+        filepath = os.path.join(path, f)
+        if os.path.isfile(filepath) and re.match(regex, os.path.basename(f)):
             found_file = f
             break
 

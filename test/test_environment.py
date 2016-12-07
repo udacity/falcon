@@ -5,7 +5,7 @@ from falcon.environment import Environment
 
 @pytest.fixture
 def testEnvWithYamlFile():
-    return Environment('test/falconf.yaml')
+    return Environment(falconf_path='test/sample/falconf.yaml')
 
 @pytest.fixture
 def testEnvWithYamlString():
@@ -33,4 +33,7 @@ def test_get_file_in_cwd(testEnvWithYamlFile):
     assert 'Falcon' in testEnvWithYamlFile.get_file_in_cwd('README.md')
 
 def test_sets_falconf_directory(testEnvWithYamlFile):
-    assert testEnvWithYamlFile.falconf_dir == os.path.join(os.getcwd(), 'test/')
+    assert testEnvWithYamlFile.falconf_dir == os.path.join(os.getcwd(), 'test/sample/')
+
+def test_parse_falconf_mode(testEnvWithYamlFile):
+    assert testEnvWithYamlFile.submit['tear_down'] == "echo 'tear_down'"

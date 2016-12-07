@@ -75,7 +75,7 @@ class Flyer:
             step = self.figure_out_right_action(step)
         self.sequence.append(step)
 
-    def figure_out_right_action(step):
+    def figure_out_right_action(self, step):
         """
         Determines the action the step should perform based on a mix of
         the falconf.yaml file and the files in the cwd. These commands are best guesses. They are not validated as some files may not exist and some commands may depend on prior steps to work.
@@ -93,11 +93,11 @@ class Flyer:
         default_file = self.get_default_file(step.name)
 
         # prioritize falconf commands
-        if exists(dictionary=self.falconf, key=self.mode):
-            falconf = self.falconf[self.mode]
+        if exists(dictionary=self.falconf, key=step.name):
+            falconf = self.falconf[step.name]
 
-            if self.has_executable_specified(falconf):
-                step.set_executable(falconf)
+            if self.has_executable_file(falconf):
+                step.set_shell_executable(falconf)
             elif self.has_falcon_command(falconf):
                 step.set_falcon_command(falconf)
             elif self.has_shell_command(falconf):
@@ -107,7 +107,7 @@ class Flyer:
 
         # no falconf
         elif default_file is not None:
-            step.set_executable(default_file)
+            step.set_shell_executable(default_file)
 
         # don't do anything!
         else:
@@ -115,7 +115,7 @@ class Flyer:
 
         return step
 
-    def has_executable_command(self, falconf):
+    def has_executable_file(self, falconf):
         """
         Match the falconf against a regex to find commands that start with a file with extension. The file does not need to exist.
 
@@ -130,6 +130,7 @@ class Flyer:
 
     def has_falcon_command(self, falconf):
         """
+        FIXME: NOT READY YET!
         Match the falconf against a command of the style falcon.foo.
 
         Args:
@@ -152,9 +153,13 @@ class Flyer:
             step_name (string): Name of the Step.
 
         Returns:
-            string: path to file
+            string: abspath to file
         """
-        return get_file_with_basename(self.falconf_dir, step_name)
+        filename = get_file_with_basename(self.falconf_dir, step_name)
+        if filename:
+            return os.path.join(self.falconf_dir, filename)
+        else:
+            return None
 
     def generate_err(self, step, err):
         """
