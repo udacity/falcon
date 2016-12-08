@@ -7,6 +7,7 @@ Resource for setting up testing: http://doc.pytest.org/en/latest/goodpractices.h
 import os
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
+# import setuptools.command as Command
 
 # Utility function to read the README file.
 # Used for the long_description. It's nice, because now 1) we have a top level
@@ -30,6 +31,22 @@ class PyTest(TestCommand):
         errno = pytest.main(shlex.split(self.pytest_args))
         sys.exit(errno)
 
+# class Install(Command):
+#     """
+#     Add falcon to $PATH.
+#     """
+#     description = "Basic installation. Adds falcon to $PATH."
+#     user_options = tuple()
+
+#     def initialize_options(self):
+#         pass
+
+#     def finalize_options(self):
+#         pass
+
+#     def run(self):
+#         print("test install")
+
 setup(
     name = 'Falcon',
     version = '0.0.2',
@@ -45,6 +62,11 @@ setup(
     tests_require = ['pytest'],
     test_suite = 'falcon.test.test_falcon',
     cmdclass = {'test': PyTest},
+    entry_points = {
+        "console_scripts": [
+            'falcon = falcon.falcon:main'
+        ]
+    },
     platforms = 'any',
     classifiers = [
         'Programming Language :: Python',

@@ -42,7 +42,7 @@ class Flyer:
             env (Environment): Includes info on where and what to execute.
         """
         self.falconf = env.get_falconf_for_mode(mode)
-        self.falconf_dir = env.falconf_dir
+        self.falconf_dir = os.getcwd()
 
     def create_step(self, name=None):
         """
@@ -54,12 +54,9 @@ class Flyer:
         step = Step(name=name)
         return step
 
-    def create_sequence(self, env):
+    def create_sequence(self):
         """
         Start to finish, create the steps in the quiz.
-
-        Args:
-            env (Environment): Includes info on where files can be found.
         """
 
         sequence_of_events = [
@@ -216,35 +213,10 @@ class Flyer:
         Start to finish, run the steps in the quiz.
         """
         # run in ~/.falcontmp?
-        self.set_env_vars(self.falconf.env_vars)
+        if exists(dictionary=self.falconf, key='env_vars'):
+            self.set_env_vars(self.falconf['env_vars'])
         self.symlink_libraries()
         for step in self.sequence:
             out, err = step.run()
-            self.generate_output(out)
-            self.generate_err(err)
-
-# if running locally...
-# if ARGS.run_local:
-#     # setup local test
-#     # STACK_MODULE.setup_local_test()
-#     # remove any pre-existing text files
-#     util.remove_temp_text_files()
-
-# evaluate the student's code
-# try:
-#     if MODE_IDX == enum.Mode.test:
-#         # STACK_MODULE.test(ARGS.run_local, BASH_CONFIG)
-#     elif MODE_IDX == enum.Mode.submit:
-#         # STACK_MODULE.submit(ARGS.run_local, BASH_CONFIG)
-#     else:
-#         sys.stdout.write('unsupported evaluation mode')
-# except:
-#     if ARGS.debug:
-#         # if in debug mode, show the actual error (instead of "hiding it")
-#         raise
-#     else:
-#         # if there was an issue, return partial results (the error output)
-#         sys.stdout.write(formatter.format_results_as_json_string(MODE_IDX,
-#                                                                  STACK_MODULE.submit_files(),
-#                                                                  ARGS.show_pretty_submit,
-#                                                                  STACK_MODULE.transform))
+            self.generate_output(step.name, out)
+            self.generate_err(step.name, err)

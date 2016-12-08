@@ -46,8 +46,11 @@ def get_file_with_basename(path, basename):
 
     return found_file
 
-def file_exists_in_abspath(path, filename):
-    return does_file_exist(os.path.join(path, filename))
+def file_exists(filename, path=None):
+    if path is not None:
+        return does_file_exist(os.path.join(path, filename))
+    else:
+        return does_file_exist(filename)
 
 def get_abspath(filepath):
     full_filepath = os.path.abspath(filepath)
@@ -59,11 +62,15 @@ def exists(thing=None, dictionary=None, key=None):
     try:
         if callable(thing):
             thing()
+            exists = True
+        elif thing is None and dictionary is None:
+            exists = False
         elif dictionary is not None and key is not None:
             dictionary[key]
+            exists = True
         elif thing is not None:
             thing
-        exists = True
+            exists = True
     except:
         exists = False
     return exists

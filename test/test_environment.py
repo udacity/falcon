@@ -31,14 +31,11 @@ def test_can_load_yaml_file(testEnvWithYamlFile):
 def test_can_parse_yaml_string(testEnvWithYamlString):
     assert testEnvWithYamlString.test['env_vars']['CAM'] == 'is cool'
 
-def test_can_load_from_local_falconf(testEnvWithNothing):
-    assert testEnvWithNothing.test
+def test_can_find_local_falconf(testEnvWithNothing):
+    assert testEnvWithNothing.find_local_falconf()
 
 def test_get_file_in_cwd(testEnvWithYamlFile):
     assert 'submit' in testEnvWithYamlFile.get_file_in_cwd('falconf.yaml')
-
-def test_sets_falconf_directory(testEnvWithYamlFile):
-    assert 'test/sample' in testEnvWithYamlFile.falconf_dir
 
 def test_parse_falconf_mode(testEnvWithYamlFile):
     assert testEnvWithYamlFile.submit['tear_down'] == "echo 'tear_down'"

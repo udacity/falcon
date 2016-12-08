@@ -1,6 +1,10 @@
 # Local Config
 config/*.sh
 
+# build
+build/
+dist/
+
 # Temp Text Files
 .tmp/**/*
 

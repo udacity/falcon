@@ -182,13 +182,11 @@ def test_figure_out_right_action_shell_executable(falconfFlyer):
     out, err = step.run()
     assert 'tearing down' in out
 
-def test_figure_out_right_action_python_file(falconfFlyer, capsys):
+def test_figure_out_right_action_python_file(falconfFlyer):
     # runs python main.py
-    with capsys.disabled():
-        step = falconfFlyer.create_step('main')
-        step = falconfFlyer.figure_out_right_action(step)
-        out, err = step.run()
-        assert 'maining' in out
+    step = falconfFlyer.create_step('main')
+    step = falconfFlyer.figure_out_right_action(step)
+    out, err = step.run()
+    assert 'maining' in out
 
-# test creating a temp directory and moving / symlinking files there?
 # test symlinking libraries?

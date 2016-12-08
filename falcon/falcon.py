@@ -5,49 +5,78 @@
 import os
 import sys
 import argparse
-from environment import Environment
-from flyer import Flyer
+from falcon.environment import Environment
+from falcon.flyer import Flyer
+from falcon.util import *
 
-def main(args):
+PARSER = None
+
+def main(args=None):
     """
     The main event.
     """
-    exit_code = 0 # I suppose there should be an opportunity for this to change?
-    os.chdir(os.path.dirname(args.config))
-    env = Environment(args.config) # could be mode, etc
-    flyer = Flyer(mode=args.mode, local=args.local, debug=args.debug, env=env)
-    flyer.create_sequence()
-    flyer.run_sequence()
-    # TODO: write output somewhere
-    sys.exit(exit_code)
+    exit_code = 1
+    falconf = None
+    local_falconf = None
+    env = Environment()
 
-if __name__ == '__main__':
+    # if args is not None:
+    args = parse_args(args)
+
+    if exists(dictionary=args, key='config') and args.config is not None:
+        falconf = args.config
+        try:
+            os.chdir(os.path.dirname(falconf))
+        except:
+            # TODO: something about a bad config file
+            PARSER.print_help()
+    else:
+        falconf = env.find_local_falconf()
+
+    if falconf is not None:
+        env.parse_falconf(falconf)
+        flyer = Flyer(mode=args.mode, debug=args.debug, env=env)
+        flyer.create_sequence()
+        flyer.run_sequence()
+        # TODO: write output somewhere
+        exit_code = 0
+    else:
+        PARSER.print_help()
+        exit_code = 1
+
+    return exit_code
+
+def parse_args(args):
     PARSER = argparse.ArgumentParser(description='middleware for evaluating programming quizzes')
-    PARSER.add_argument('-c', '-config',
+    PARSER.add_argument('-c', '--config',
+                        type=argparse.FileType('r', errors='ignore'),
                         action='store',
                         dest='config',
                         required=False,
-                        help='path to falconf.yaml')
-    PARSER.add_argument('-m', '-mode',
+                        help='Path to falconf.yaml.')
+    PARSER.add_argument('-m', '--mode',
                         action='store',
+                        default='submit',
                         dest='mode',
                         required=False,
-                        help='the evaluation mode ("test" or "submit")')
-    PARSER.add_argument('-l', '-local',
+                        help='The evaluation mode ("test" or "submit"). Defaults to "submit".')
+    PARSER.add_argument('-p', '--pretty',
                         action='store_true',
-                        dest='run_local',
-                        help='run falcon locally')
-    PARSER.add_argument('-p', '-pretty',
-                        action='store_true',
+                        required=False,
                         dest='show_pretty_submit',
                         help='show formatted submit output')
-    PARSER.add_argument('-d', '-debug',
+    PARSER.add_argument('-d', '--debug',
                         action='store_true',
+                        default=False,
                         dest='debug',
-                        help='run falcon in debug mode')
-    PARSER.add_argument('-i', '-init',
-                        help='helper to create a new falconf.yaml file')
+                        required=False,
+                        help='Print output from each step.')
+    # PARSER.add_argument(['-i', '--init'],
+    #                     required=False,
+    #                     help='Helper to create a new falconf.yaml file.')
 
-    # parse arguments
-    ARGS = PARSER.parse_args()
-    main(ARGS)
+    args = PARSER.parse_args(args)
+    return args
+
+if __name__ == '__main__':
+    main(sys.argv[1:])

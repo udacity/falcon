@@ -25,7 +25,7 @@ def test_does_file_exist():
 
 def test_find_in_abspath():
     filename = 'falconf.yaml'
-    assert file_exists_in_abspath(os.getcwd(), filename)
+    assert file_exists(filename, path=os.getcwd())
 
 def test_get_file_with_basename():
     assert get_file_with_basename(os.getcwd(), 'falconf') == 'falconf.yaml'

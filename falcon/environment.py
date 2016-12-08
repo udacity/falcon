@@ -21,18 +21,16 @@ class Environment:
 
         self.test = {}
         self.submit = {}
-        self.falconf_dir = ''
 
         self._cwd = os.getcwd()
 
         if falconf_string is None and falconf_path is not None:
-            self.falconf_dir = get_abspath(falconf_path)
             falconf_string = read_file(falconf_path)
 
         if falconf_string:
             self.parse_falconf(falconf_string)
-        else:
-            self.find_local_falconf()
+        # else:
+        #     self.find_local_falconf()
 
     def get_falconf_for_mode(self, mode):
         """
@@ -70,7 +68,7 @@ class Environment:
             String contents of file if it exists, None otherwise.
         """
         ret = None
-        if file_exists_in_abspath(self._cwd, filename):
+        if file_exists(filename, path=self._cwd):
             ret = read_file(os.path.join(self._cwd, filename))
 
         return ret
@@ -78,7 +76,11 @@ class Environment:
     def find_local_falconf(self):
         """
         Look at cwd to try to find falconf.yaml in cwd.
+
+        Returns:
+            string: contents of falconf.yaml if found, otherwise None
         """
-        local_falconf = self.get_file_in_cwd('falconf.yaml')
-        if local_falconf is not None:
-            self.parse_falconf(local_falconf)
+        # local_falconf = self.get_file_in_cwd('falconf.yaml')
+        # if local_falconf is not None:
+        #     self.parse_falconf(local_falconf)
+        return self.get_file_in_cwd('falconf.yaml')
