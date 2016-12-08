@@ -27,8 +27,8 @@ def parse_args(args):
                         help='The evaluation mode ("test" or "submit"). Defaults to "submit".')
     PARSER.add_argument('-p', '--pretty',
                         action='store_true',
-                        required=False,
                         dest='show_pretty_submit',
+                        required=False,
                         help='show formatted submit output')
     PARSER.add_argument('-d', '--debug',
                         action='store_true',
@@ -43,7 +43,7 @@ def parse_args(args):
     args = PARSER.parse_args(args)
     return args
 
-def is_valid_falconf_specified(args):
+def is_valid_falconf_specified(args=None):
     """
     Is there a valid falconf to be found? Uses the args and local directory to find out.
 
@@ -51,8 +51,8 @@ def is_valid_falconf_specified(args):
         args (dict): From argparse.
     """
     return (exists(dictionary=args, key='config') and
-            args.config is not None and
-            file_exists(args.config))
+            args['config'] is not None and
+            file_exists(args['config']))
 
 def fly(args, falconf, env):
     """

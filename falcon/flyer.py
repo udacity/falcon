@@ -70,7 +70,7 @@ class Flyer:
         for event_name in sequence_of_events:
             step = self.create_step(name=event_name)
             step = self.figure_out_right_action(step)
-        self.sequence.append(step)
+            self.sequence.append(step)
 
     def figure_out_right_action(self, step):
         """

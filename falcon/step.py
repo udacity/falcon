@@ -77,7 +77,7 @@ class Step:
         """
         self.type = 'noop'
         def noop():
-            return '', ''
+            return 'noop', ''
         self.command = noop
 
     def run_falcon_command(self, command, args=[]):

@@ -3,7 +3,6 @@ test:
     - VAR: value
     - VAR2: value2
   grader_libs: [cpp-grader]
-  compile: echo 'compile'
   static\_file\_check: echo 'static'
   main: python main.py
   postprocess: echo "postprocessing"

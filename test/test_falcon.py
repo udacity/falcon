@@ -8,6 +8,33 @@ def chdir_sample_dir():
 
 chdir_sample_dir()
 
+@pytest.fixture
+def good_args():
+    return {'config': 'falconf.yaml', 'mode': 'submit', 'debug': True}
+
+@pytest.fixture
+def good_falconf():
+    return read_file('falconf.yaml')
+
+@pytest.fixture
+def good_env():
+    return Environment()
+
+def test_not_is_valid_falconf_specified_when_missing():
+    assert not is_valid_falconf_specified()
+
+def test_not_is_valid_falconf_specified_when_not_found():
+    assert not is_valid_falconf_specified({'config': 'asdfasdfasdf'})
+
+def test_is_valid_falconf_specified_when_exists():
+    assert not is_valid_falconf_specified({'config': 'falcon.yaml'})
+
+def test_is_valid_falconf_specified():
+    assert not is_valid_falconf_specified()
+
+# def test_fly(good_args, good_falconf, good_env):
+#     flyer = fly(good_args, good_falconf, good_env)
+
 def test_works_without_falconf_given():
     # we're in a directory with it
     assert main() == 0

@@ -189,4 +189,23 @@ def test_figure_out_right_action_python_file(falconfFlyer):
     out, err = step.run()
     assert 'maining' in out
 
+def test_decide_to_noop(falconfFlyer):
+    # compile isn't in the sample yaml
+    step = falconfFlyer.create_step('compile')
+    step = falconfFlyer.figure_out_right_action(step)
+    out, err = step.run()
+    assert 'noop' in out
+
+def test_create_correct_sequence_len(falconfFlyer):
+    falconfFlyer.create_sequence()
+    assert len(falconfFlyer.sequence) == 5
+
+def test_create_correct_sequence_order(falconfFlyer):
+    falconfFlyer.create_sequence()
+    assert falconfFlyer.sequence[0].name == 'preprocess'
+    assert falconfFlyer.sequence[1].name == 'compile'
+    assert falconfFlyer.sequence[2].name == 'main'
+    assert falconfFlyer.sequence[3].name == 'postprocess'
+    assert falconfFlyer.sequence[4].name == 'tear_down'
+
 # test symlinking libraries?
