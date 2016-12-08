@@ -11,41 +11,6 @@ from falcon.util import *
 
 PARSER = None
 
-def main(args=None):
-    """
-    The main event.
-    """
-    exit_code = 1
-    falconf = None
-    local_falconf = None
-    env = Environment()
-
-    # if args is not None:
-    args = parse_args(args)
-
-    if exists(dictionary=args, key='config') and args.config is not None:
-        falconf = args.config
-        try:
-            os.chdir(os.path.dirname(falconf))
-        except:
-            # TODO: something about a bad config file
-            PARSER.print_help()
-    else:
-        falconf = env.find_local_falconf()
-
-    if falconf is not None:
-        env.parse_falconf(falconf)
-        flyer = Flyer(mode=args.mode, debug=args.debug, env=env)
-        flyer.create_sequence()
-        flyer.run_sequence()
-        # TODO: write output somewhere
-        exit_code = 0
-    else:
-        PARSER.print_help()
-        exit_code = 1
-
-    return exit_code
-
 def parse_args(args):
     PARSER = argparse.ArgumentParser(description='middleware for evaluating programming quizzes')
     PARSER.add_argument('-c', '--config',
@@ -77,6 +42,72 @@ def parse_args(args):
 
     args = PARSER.parse_args(args)
     return args
+
+def is_valid_falconf_specified(args):
+    """
+    Is there a valid falconf to be found? Uses the args and local directory to find out.
+
+    Args:
+        args (dict): From argparse.
+    """
+    return (exists(dictionary=args, key='config') and
+            args.config is not None and
+            file_exists(args.config))
+
+def fly(args, falconf, env):
+    """
+    Take off! Build the sequence and execute it.
+
+    Args:
+        args (dict): From argparse.
+        falconf (string): falconf.yaml contents.
+        env (Environment)
+
+    Returns:
+        Flyer
+    """
+    env.parse_falconf(falconf)
+    flyer = Flyer(mode=args.mode, debug=args.debug, env=env)
+    flyer.create_sequence()
+    flyer.run_sequence()
+    return flyer
+
+def main(args=None):
+    """
+    The main event.
+
+    Args:
+        args (dict): From argparse.
+
+    Returns:
+        int: Exit code.
+    """
+    exit_code = 1
+    falconf = None
+    local_falconf = None
+    env = Environment()
+
+    args = parse_args(args)
+
+    # find a falconf file
+    if is_valid_falconf_specified(args):
+        falconf = args.config
+        os.chdir(os.path.dirname(falconf))
+    elif file_exists('falconf.yaml'):
+        falconf = env.get_local_falconf()
+
+    # run student code
+    if falconf is not None:
+        flyer = fly(args, falconf, env)
+        # formatter(flyer)
+        exit_code = 0
+
+    # something is with the config or the config is missing
+    else:
+        PARSER.print_help()
+        exit_code = 1
+
+    return exit_code
 
 if __name__ == '__main__':
     main(sys.argv[1:])

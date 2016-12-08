@@ -19,3 +19,6 @@ def test_errs_if_no_falconf_found():
     # use the error thing
     with pytest.raises(SystemExit):
         main(['-c', 'notarealfile'])
+
+# test all the args and their combos
+# test formatting

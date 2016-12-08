@@ -58,6 +58,14 @@ def get_abspath(filepath):
     return full_filepath[:-(len(basename))]
 
 def exists(thing=None, dictionary=None, key=None):
+    """
+    Figure out if something exists.
+
+    Args:
+        thing (any): Use by itself. Could be anything.
+        dictionary (dict): Use with key.
+        key (string): use with dictionary.
+    """
     exists = False
     try:
         if callable(thing):

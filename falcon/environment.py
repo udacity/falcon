@@ -73,7 +73,7 @@ class Environment:
 
         return ret
 
-    def find_local_falconf(self):
+    def get_local_falconf(self):
         """
         Look at cwd to try to find falconf.yaml in cwd.
 
