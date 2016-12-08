@@ -7,6 +7,7 @@ import sys
 import argparse
 from falcon.environment import Environment
 from falcon.flyer import Flyer
+from falcon.formatter import Formatter
 from falcon.util import *
 
 PARSER = None
@@ -99,7 +100,11 @@ def main(args=None):
     # run student code
     if falconf is not None:
         flyer = fly(args, falconf, env)
-        # formatter(flyer)
+        formatter = Formatter(flyer)
+        if args.debug:
+            formatter.pipe_debug_to_stdout()
+        else:
+            formatter.pipe_to_stdout()
         exit_code = 0
 
     # something is with the config or the config is missing

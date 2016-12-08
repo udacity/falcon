@@ -1,28 +1,132 @@
-"""Formats remote execution output for the classroom."""
+"""Formats remote execution output for the classroom or local debug."""
 
 import os
 import sys
 import json
 from falcon.util import *
 
+"""
+Formatter parses and formats output from each Step.
+"""
 class Formatter:
-    def __init__(self, flyer):
+    def __init__(self, flyer=None):
+        """
+        Default constructor.
+
+        Args:
+            flyer (Flyer)
+        """
+        self.results = {
+            'config_file': '',
+            'elapsed_time': -1,
+            'is_correct': False,
+            'mode': '',
+            'steps': [],
+            'student_out': '',
+            'student_err': ''
+        }
+        if flyer is not None:
+            self.generate_results(flyer)
+
+    def generate_results(self, flyer):
+            self.results['mode'] = flyer.mode
+            self.results['steps'] = self.parse_steps(flyer)
+            self.results['elapsed_time'] = flyer.elapsed_time
+            self.results['student_out'] = self.get_student_out(self.results['steps'])
+            self.results['student_err'] = self.get_student_err(self.results['steps'])
+            self.results['is_correct'] = self.get_is_correct(self.results['student_out'])
+
+    def get_student_out(self, steps):
+        """
+        Pull student out from either main or postprocess.
+        """
         pass
 
+    def get_student_err(self, steps):
+        """
+        Pull student err from either main or postprocess.
+        """
+        pass
+
+    def get_is_correct(self, student_out, key=None):
+        """
+        Pull is_correct from student_out.
+
+        Args:
+            student_out (stringified json): Student output.
+            key (string): If present, use the boolean from the key to determine is_correct.
+
+        Returns:
+            bool: True if confirmed, False if missing or malformed.
+        """
+        pass
+
+    def get_step_result(self, name, flyer, debug=False):
+        result = {
+            'name': name,
+            'command': flyer.sequence[name].falconf_command,
+            # 'elapsed_time': flyer.times[name],
+            'type': flyer.sequence[name].type
+        }
+        if debug:
+            result['out'] = flyer.outs[name]
+            result['err'] = flyer.errs[name]
+        return result
+
+    def pull_each_step(self, flyer, debug=False):
+        result = {}
+        # get name, command, out, err, type, elapsed_time
+        for name in flyer.outs:
+            result[name] = self.get_step_result(name, flyer, debug)
+
+        return [v for v in result.values()]
+
+    def parse_steps(self, flyer, debug=False):
+        results = self.pull_each_step(flyer, debug)
+        return results
+
+    def get_meta_info(self, flyer):
+        pass
+
+    def remove_trailing_whitespace(self, string):
+        """
+        Get rid of the newlines that subprocess likes to add.
+
+        string (string): String to strip.
+
+        Returns:
+            string: string sans trailing whitespace.
+        """
+        return string
+
     def pipe_student_out(self):
+        self.results[student_out] = student_out
         pass
 
     def pipe_student_err(self):
         pass
 
-    def pipe_everything(self):
+    def json(self, dictionary):
+        """
+        Get a stringified JSON of a dict.
+
+        Args:
+            dictionary (dict)
+
+        Returns:
+            string: stringified JSON of the dict.
+        """
+        return json.dumps(dictionary)
+
+    def pipe_debug_to_stdout(self):
         pass
 
-    def json(self):
-        return json.dumps(self.export())
-
-    def export(self):
-        return {}
+    def pipe_to_stdout(self):
+        result = {}
+        result_json = self.json(result)
+        # result_json = self.json(self.results)
+        print(result_json)
+        return result_json
 
 
 

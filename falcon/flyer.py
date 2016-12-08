@@ -2,6 +2,7 @@
 Handles any execution that needs to happen at any stage.
 """
 
+from collections import OrderedDict
 import os
 import re
 import shlex
@@ -24,7 +25,9 @@ class Flyer:
             env (Environment): Includes info on where and what to execute.
         """
 
-        self.sequence = []
+        self.elapsed_time = -1
+        self.times = {}
+        self.sequence = OrderedDict()
         self.mode = mode
         self.debug = debug
         self.local = local
@@ -70,7 +73,20 @@ class Flyer:
         for event_name in sequence_of_events:
             step = self.create_step(name=event_name)
             step = self.figure_out_right_action(step)
-            self.sequence.append(step)
+            self.sequence[event_name] = step
+
+    def run_sequence(self):
+        """
+        Start to finish, run the steps in the quiz.
+        """
+        # run in ~/.falcontmp?
+        if exists(dictionary=self.falconf, key='env_vars'):
+            self.set_env_vars(self.falconf['env_vars'])
+        self.symlink_libraries()
+        for step in self.sequence.values():
+            out, err = step.run()
+            self.generate_output(step.name, out)
+            self.generate_err(step.name, err)
 
     def figure_out_right_action(self, step):
         """
@@ -167,9 +183,9 @@ class Flyer:
             err (Exceptions): Err to record/display.
         """
         self.errs[step] = err
-        if self.debug:
+        if self.debug and len(str(err)) > 0:
             eprint(step + ' erred:\n' + str(err))
-            raise err
+            raise Exception(err)
 
     def generate_output(self, step, out):
         """
@@ -207,16 +223,3 @@ class Flyer:
     def symlink_libraries(self):
         # symlink grader_libs
         pass
-
-    def run_sequence(self):
-        """
-        Start to finish, run the steps in the quiz.
-        """
-        # run in ~/.falcontmp?
-        if exists(dictionary=self.falconf, key='env_vars'):
-            self.set_env_vars(self.falconf['env_vars'])
-        self.symlink_libraries()
-        for step in self.sequence:
-            out, err = step.run()
-            self.generate_output(step.name, out)
-            self.generate_err(step.name, err)

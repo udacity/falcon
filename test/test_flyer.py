@@ -3,14 +3,13 @@ import pytest
 import io
 import os
 import sys
-# from contextlib import redirect_stderr
+from contextlib import contextmanager
 from contextlib import redirect_stdout
 
 from falcon.environment import Environment
 from falcon.flyer import Flyer
 from falcon.step import Step
 
-from contextlib import contextmanager
 
 # from: http://eli.thegreenplace.net/2015/redirecting-all-kinds-of-stdout-in-python/
 # because contextlib.redirect_stderr does not exist in python3.4, which is what the unsafers currently have
@@ -208,7 +207,7 @@ def test_decide_to_noop(falconfFlyer):
     step = falconfFlyer.create_step('compile')
     step = falconfFlyer.figure_out_right_action(step)
     out, err = step.run()
-    assert 'noop' in out
+    assert '__NOOP__' in out
 
 def test_create_correct_sequence_len(falconfFlyer):
     falconfFlyer.create_sequence()
@@ -216,10 +215,11 @@ def test_create_correct_sequence_len(falconfFlyer):
 
 def test_create_correct_sequence_order(falconfFlyer):
     falconfFlyer.create_sequence()
-    assert falconfFlyer.sequence[0].name == 'preprocess'
-    assert falconfFlyer.sequence[1].name == 'compile'
-    assert falconfFlyer.sequence[2].name == 'main'
-    assert falconfFlyer.sequence[3].name == 'postprocess'
-    assert falconfFlyer.sequence[4].name == 'tear_down'
+    seq = [step for step in falconfFlyer.sequence.values()]
+    assert seq[0].name == 'preprocess'
+    assert seq[1].name == 'compile'
+    assert seq[2].name == 'main'
+    assert seq[3].name == 'postprocess'
+    assert seq[4].name == 'tear_down'
 
 # test symlinking libraries?

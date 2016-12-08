@@ -53,6 +53,11 @@ def test_set_failing_shell_executable(testStep):
     assert '1' in err
     assert testStep.type == 'executable'
 
+def test_set_noop(testStep):
+    testStep.set_noop()
+    out, err = testStep.run()
+    assert '__NOOP__' in out
+
 def test_set_falcon_command(testStep):
     # TODO
     pass

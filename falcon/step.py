@@ -18,6 +18,7 @@ class Step:
             name (string): The name of the step. Used to find file names!
         """
 
+        self.falconf_command = ''
         self.command = None
         self.name = name
         self.type = None
@@ -42,6 +43,7 @@ class Step:
             tempdir (string): Temporary directory to execute command.
         """
         self.type = 'shell'
+        self.falconf_command = cmd
         if tempdir is not None:
             self.command = lambda : self.chdir(tempdir, lambda : run_shell_cmd(cmd))
         else:
@@ -50,29 +52,30 @@ class Step:
     def set_falcon_command(self, cmd, args, tempdir=None):
         pass
 
-    def set_shell_executable(self, command, tempdir=None):
+    def set_shell_executable(self, cmd, tempdir=None):
         """
         Set an executable file to run in the sequence. Called as `./path/to/file.sh` or `./path/to/file.py`, so use a #!
 
         Args:
-            command (string): command with the executable
+            cmd (string): command with the executable
             args (list): Any additional arguments.
             tempdir (string): Temporary directory to execute command.
         """
         self.type = 'executable'
-
+        self.falconf_command = cmd
         if tempdir is not None:
-            self.command = lambda : self.chdir(tempdir, lambda : run_shell_executable(command))
+            self.command = lambda : self.chdir(tempdir, lambda : run_shell_executable(cmd))
         else:
-            self.command = lambda : run_shell_executable(command)
+            self.command = lambda : run_shell_executable(cmd)
 
-    def set_noop(self):
+    def set_noop(self, cmd=None):
         """
         Don't do anything!
         """
         self.type = 'noop'
+        self.falconf_command = cmd
         def noop():
-            return 'noop', ''
+            return '__NOOP__', ''
         self.command = noop
 
     def run_falcon_command(self, command, args=[]):
