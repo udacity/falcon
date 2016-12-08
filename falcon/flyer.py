@@ -101,7 +101,7 @@ class Flyer:
             elif self.has_shell_command(falconf):
                 step.set_shell_command(falconf)
             else:
-                raise Exception('Invalid falconf command: ' + falconf)
+                raise Exception('Invalid falconf command for {}: {}'.format(step.name, falconf))
 
         # no falconf
         elif default_file is not None:
