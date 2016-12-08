@@ -50,22 +50,17 @@ class Step:
     def set_falcon_command(self, cmd, args, tempdir=None):
         pass
 
-    def set_shell_executable(self, filepath, args=[], tempdir=None):
+    def set_shell_executable(self, command, tempdir=None):
         """
         Set an executable file to run in the sequence. Called as `./path/to/file.sh` or `./path/to/file.py`, so use a #!
 
         Args:
-            filepath (string): filepath of the executable
+            command (string): command with the executable
             args (list): Any additional arguments.
             tempdir (string): Temporary directory to execute command.
         """
         self.type = 'executable'
-        # if not os.path.isabs(filepath):
-        #     filepath = os.path.abspath(filepath)
 
-        command = [filepath]
-        command = ' '.join([*command, *args])
-        command = shlex.split(command) # may not be necessary?
         if tempdir is not None:
             self.command = lambda : self.chdir(tempdir, lambda : run_shell_executable(command))
         else:
