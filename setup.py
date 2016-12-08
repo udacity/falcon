@@ -31,22 +31,6 @@ class PyTest(TestCommand):
         errno = pytest.main(shlex.split(self.pytest_args))
         sys.exit(errno)
 
-# class Install(Command):
-#     """
-#     Add falcon to $PATH.
-#     """
-#     description = "Basic installation. Adds falcon to $PATH."
-#     user_options = tuple()
-
-#     def initialize_options(self):
-#         pass
-
-#     def finalize_options(self):
-#         pass
-
-#     def run(self):
-#         print("test install")
-
 setup(
     name = 'Falcon',
     version = '0.0.2',
