@@ -1,5 +1,6 @@
 # Local Config
 config/*.sh
+venv/
 
 # build
 build/

@@ -5,7 +5,7 @@ test:
   grader_libs: [cpp-grader]
   preprocess: cmd
   compile: cmd
-  static\_file\_check: cmd
+  static_file_check: cmd
   main: cmd
   postprocess: cmd
   tear_down: cmd
@@ -16,7 +16,7 @@ submit:
   grader_libs: [cpp-grader]
   preprocess: cmd
   compile: cmd
-  static\_file\_check: cmd
+  static_file_check: cmd
   main: cmd
   postprocess: cmd
   tear_down: cmd

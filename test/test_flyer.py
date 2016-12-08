@@ -2,12 +2,26 @@ import pytest
 
 import io
 import os
-from contextlib import redirect_stderr
+import sys
+# from contextlib import redirect_stderr
 from contextlib import redirect_stdout
 
 from falcon.environment import Environment
 from falcon.flyer import Flyer
 from falcon.step import Step
+
+from contextlib import contextmanager
+
+# from: http://eli.thegreenplace.net/2015/redirecting-all-kinds-of-stdout-in-python/
+# because contextlib.redirect_stderr does not exist in python3.4, which is what the unsafers currently have
+@contextmanager
+def redirect_stderr(stream):
+    old_stderr = sys.stderr
+    sys.stderr = stream
+    try:
+        yield
+    finally:
+        sys.stderr = old_stderr
 
 def chdir_sample_dir():
     if 'test/sample' not in os.getcwd():

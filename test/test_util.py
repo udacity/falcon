@@ -2,7 +2,6 @@ import pytest
 
 import io
 import os
-from contextlib import redirect_stderr
 from contextlib import redirect_stdout
 
 from falcon.util import *
@@ -59,10 +58,11 @@ def test_run_shell_executable():
     out, err = run_shell_executable(['./sample_script.sh'])
     assert 'testing!' in out
 
-def test_run_failing_shell_script():
-    out, err = run_shell_executable(['./sample_failing_script.sh'])
-    assert 'fail' in out
-    assert '1' in err
+def test_run_failing_shell_script(capsys):
+    with capsys.disabled():
+        out, err = run_shell_executable(['./sample_failing_script.sh'])
+        assert 'fail' in out
+        assert '1' in err
 
 def test_check_valid_shell_command():
     is_valid = check_valid_shell_command('echo')

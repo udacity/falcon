@@ -3,9 +3,10 @@ test:
     - VAR: value
     - VAR2: value2
   grader_libs: [cpp-grader]
+  preprocess: echo 'preprocess'
   static_file_check: echo 'static'
   main: python main.py
-  postprocess: echo "postprocessing"
+  postprocess: exit 1
   tear_down: tear_down.sh
 submit:
   env_vars:

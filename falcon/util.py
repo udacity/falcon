@@ -125,12 +125,10 @@ def call_subprocess(args, shell=False):
     err = None
     # run the program and pipe stdout and stderr into files
     try:
-        completedProcess = subprocess.run(args, shell=shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-        out = completedProcess.stdout
-        err = completedProcess.stderr
-        completedProcess.check_returncode() # forces CalledProcessError if non-0 exit
-    except subprocess.CalledProcessError as e:
-        err = '\n'.join(['return code: ' + str(e.returncode), err, e.stderr])
+        completedProcess = subprocess.Popen(args, shell=shell, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        out, err = completedProcess.communicate()
+        if completedProcess.returncode != 0:
+            err = '\n'.join(['return code: ' + str(completedProcess.returncode), err])
     except OSError as e:
         raise OSError('The file may not exist or you might have forgotten the #!', e)
     except ValueError as e:

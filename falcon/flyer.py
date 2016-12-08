@@ -168,7 +168,7 @@ class Flyer:
         """
         self.errs[step] = err
         if self.debug:
-            eprint(err)
+            eprint(step + ' erred:\n' + str(err))
             raise err
 
     def generate_output(self, step, out):
@@ -181,7 +181,7 @@ class Flyer:
         """
         self.outs[step] = out
         if self.debug:
-            print(out)
+            print(step + ':\n' + str(out))
 
     def set_env_var(self, key, value):
         """

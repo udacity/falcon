@@ -3,12 +3,26 @@
 import os
 import sys
 import json
-import falcon.util as util
-import falcon.enum as enum
-import falcon.grade as grade
-import falcon.files as files
+from falcon.util import *
 
-# class Formatter:
+class Formatter:
+    def __init__(self, flyer):
+        pass
+
+    def pipe_student_out(self):
+        pass
+
+    def pipe_student_err(self):
+        pass
+
+    def pipe_everything(self):
+        pass
+
+    def json(self):
+        return json.dumps(self.export())
+
+    def export(self):
+        return {}
 
 
 
