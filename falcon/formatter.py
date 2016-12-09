@@ -9,7 +9,7 @@ from falcon.util import *
 Formatter parses and formats output from each Step.
 """
 class Formatter:
-    def __init__(self, flyer=None):
+    def __init__(self, flyer=None, debug=False):
         """
         Default constructor.
 
@@ -25,22 +25,38 @@ class Formatter:
             'student_out': '',
             'student_err': ''
         }
-        if flyer is not None:
-            self.generate_results(flyer)
+        if flyer is not None and flyer.has_flown:
+            self.generate_results(flyer, debug)
 
-    def generate_results(self, flyer):
-            self.results['mode'] = flyer.mode
-            self.results['steps'] = self.parse_steps(flyer)
-            self.results['elapsed_time'] = flyer.elapsed_time
-            self.results['student_out'] = self.get_student_out(self.results['steps'])
-            self.results['student_err'] = self.get_student_err(self.results['steps'])
-            self.results['is_correct'] = self.get_is_correct(self.results['student_out'])
+    def generate_results(self, flyer, debug=False):
+        self.results['mode'] = flyer.mode
+        steps = self.parse_steps(flyer)
+        self.results['elapsed_time'] = flyer.elapsed_time
+        self.results['student_out'] = self.get_student_out(flyer)
+        self.results['student_err'] = self.get_student_err(flyer)
+        self.results['is_correct'] = self.get_is_correct(self.results['student_out'])
+        if debug:
+            self.results['steps'] = steps
 
-    def get_student_out(self, steps):
+    def get_student_out(self, flyer):
         """
-        Pull student out from either main or postprocess.
+        Get output from student code. This is postprocess if it exists, otherwise main.
         """
-        pass
+        main_out = None
+        postprocess_out = None
+
+        if exists(dictionary=flyer.outs, key='main'):
+            main_out = flyer.outs['main']
+
+        if exists(dictionary=flyer.outs, key='postprocess'):
+            postprocess_out = flyer.outs['postprocess']
+
+        if postprocess_out:
+            return postprocess_out
+        elif main_out:
+            return main_out
+        else:
+            return ''
 
     def get_student_err(self, steps):
         """
@@ -61,29 +77,33 @@ class Formatter:
         """
         pass
 
-    def get_step_result(self, name, flyer, debug=False):
+    def get_step_result(self, name, flyer):
+        """
+        Pull info on a specific Step.
+
+        Args:
+            name (string): Name of the Step.
+            flyer (Flyer): Flyer where it ran.
+        """
         result = {
             'name': name,
             'command': flyer.sequence[name].falconf_command,
             # 'elapsed_time': flyer.times[name],
             'type': flyer.sequence[name].type
         }
-        if debug:
-            result['out'] = flyer.outs[name]
-            result['err'] = flyer.errs[name]
+        result['out'] = flyer.outs[name]
+        result['err'] = flyer.errs[name]
         return result
 
-    def pull_each_step(self, flyer, debug=False):
+    def parse_steps(self, flyer):
+        """
+        Get info on each Step and the way it ran.
+        """
         result = {}
-        # get name, command, out, err, type, elapsed_time
         for name in flyer.outs:
-            result[name] = self.get_step_result(name, flyer, debug)
+            result[name] = self.get_step_result(name, flyer)
 
         return [v for v in result.values()]
-
-    def parse_steps(self, flyer, debug=False):
-        results = self.pull_each_step(flyer, debug)
-        return results
 
     def get_meta_info(self, flyer):
         pass

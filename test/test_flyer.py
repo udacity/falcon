@@ -206,8 +206,7 @@ def test_decide_to_noop(falconfFlyer):
     # compile isn't in the sample yaml
     step = falconfFlyer.create_step('compile')
     step = falconfFlyer.figure_out_right_action(step)
-    out, err = step.run()
-    assert '__NOOP__' in out
+    assert step.type == 'noop'
 
 def test_create_correct_sequence_len(falconfFlyer):
     falconfFlyer.create_sequence()

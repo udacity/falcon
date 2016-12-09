@@ -25,6 +25,7 @@ class Flyer:
             env (Environment): Includes info on where and what to execute.
         """
 
+        self.has_flown = False
         self.elapsed_time = -1
         self.times = {}
         self.sequence = OrderedDict()
@@ -87,6 +88,7 @@ class Flyer:
             out, err = step.run()
             self.generate_output(step.name, out)
             self.generate_err(step.name, err)
+        self.has_flown = True
 
     def figure_out_right_action(self, step):
         """
@@ -119,13 +121,19 @@ class Flyer:
             else:
                 raise Exception('Invalid falconf command for {}: {}'.format(step.name, falconf))
 
+            # for reference later
+            step.falconf_command = falconf
+
         # no falconf
         elif default_file is not None:
             step.set_shell_executable(default_file)
+            step.falconf_command = default_file
 
         # don't do anything!
         else:
             step.set_noop()
+            step.falconf_command = 'noop'
+
 
         return step
 
@@ -174,30 +182,30 @@ class Flyer:
         else:
             return None
 
-    def generate_err(self, step, err):
+    def generate_err(self, stepname, err):
         """
         Handle an error.
 
         Args:
-            step (string): Describes the generate step in execution when err occured.
+            stepname (string): Describes the generate step in execution when err occured.
             err (Exceptions): Err to record/display.
         """
-        self.errs[step] = err
+        self.errs[stepname] = err
         if self.debug and len(str(err)) > 0:
-            eprint(step + ' erred:\n' + str(err))
+            eprint(stepname + ' erred:\n' + str(err))
             raise Exception(err)
 
-    def generate_output(self, step, out):
+    def generate_output(self, stepname, out):
         """
         Handle output from a step.
 
         Args:
-            step (string): Description of when this output occured.
+            stepname (string): Description of when this output occured.
             out (string): The output
         """
-        self.outs[step] = out
+        self.outs[stepname] = out
         if self.debug:
-            print(step + ':\n' + str(out))
+            print(stepname + ':\n' + str(out))
 
     def set_env_var(self, key, value):
         """

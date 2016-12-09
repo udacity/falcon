@@ -18,7 +18,6 @@ class Step:
             name (string): The name of the step. Used to find file names!
         """
 
-        self.falconf_command = ''
         self.command = None
         self.name = name
         self.type = None
@@ -43,7 +42,6 @@ class Step:
             tempdir (string): Temporary directory to execute command.
         """
         self.type = 'shell'
-        self.falconf_command = cmd
         if tempdir is not None:
             self.command = lambda : self.chdir(tempdir, lambda : run_shell_cmd(cmd))
         else:
@@ -62,7 +60,6 @@ class Step:
             tempdir (string): Temporary directory to execute command.
         """
         self.type = 'executable'
-        self.falconf_command = cmd
         if tempdir is not None:
             self.command = lambda : self.chdir(tempdir, lambda : run_shell_executable(cmd))
         else:
@@ -73,9 +70,8 @@ class Step:
         Don't do anything!
         """
         self.type = 'noop'
-        self.falconf_command = cmd
         def noop():
-            return '__NOOP__', ''
+            return '', ''
         self.command = noop
 
     def run_falcon_command(self, command, args=[]):

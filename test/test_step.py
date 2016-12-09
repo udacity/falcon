@@ -56,7 +56,8 @@ def test_set_failing_shell_executable(testStep):
 def test_set_noop(testStep):
     testStep.set_noop()
     out, err = testStep.run()
-    assert '__NOOP__' in out
+    assert out == ''
+    assert testStep.type == 'noop'
 
 def test_set_falcon_command(testStep):
     # TODO

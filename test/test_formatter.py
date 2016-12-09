@@ -55,21 +55,7 @@ def test_formatter_pulls_info_from_each_step(successfulFlyer):
     result = formatter.get_step_result('preprocess', successfulFlyer)
     assert result['name'] == 'preprocess'
     assert result['type'] is 'executable'
-
-def test_formatter_pulls_more_info_from_each_step_with_debug(successfulFlyer):
-    successfulFlyer.debug = True
-    successfulFlyer.create_sequence()
-    successfulFlyer.run_sequence()
-    formatter = Formatter()
-    result = formatter.get_step_result('preprocess', successfulFlyer, True)
     assert 'preprocessing' in result['out']
-
-def test_formatter_pulls_something_from_all_steps(successfulFlyer):
-    successfulFlyer.create_sequence()
-    successfulFlyer.run_sequence()
-    formatter = Formatter()
-    results = formatter.pull_each_step(successfulFlyer)
-    assert len(results) == 5
 
 def test_formatter_parses_each_step_from_flyer(successfulFlyer):
     successfulFlyer.create_sequence()
@@ -77,3 +63,15 @@ def test_formatter_parses_each_step_from_flyer(successfulFlyer):
     formatter = Formatter()
     results = formatter.parse_steps(successfulFlyer)
     assert len(results) == 5
+
+def test_get_student_out_finds_main_out_if_no_postprocess():
+    env = Environment(falconf_string="""
+    test:
+        main: python testMain.py
+    """)
+    flyer = Flyer(mode='test', env=env)
+    flyer.create_sequence()
+    flyer.run_sequence()
+    formatter = Formatter(flyer)
+    steps = formatter.parse_steps(flyer)
+    assert 'student_outtttt' in formatter.get_student_out(flyer)
