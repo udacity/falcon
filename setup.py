@@ -33,14 +33,14 @@ class PyTest(TestCommand):
 
 setup(
     name = 'Falcon',
-    version = '0.0.2',
+    version = '0.1.0',
     author = 'Udacity',
     author_email = 'jarrod@udacity.com',
     description = ('Python middleware for REX programming quizzes.'),
     license = 'MIT',
     keywords = 'udacity middleware rex',
     url = 'https://github.com/udacity/falcon',
-    packages = ['falcon', 'test'],
+    packages = ['falcon'],
     long_description = read('README.md'),
     setup_requires = ['pytest-runner'],
     tests_require = ['pytest'],
