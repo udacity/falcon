@@ -21,7 +21,6 @@ class Step:
         self.command = None
         self.name = name
         self.type = None
-        self.dir = ''
 
     def chdir(self, directory, callback):
         """
