@@ -7,8 +7,9 @@ import shutil
 import stat
 import sys
 import subprocess
+import tempfile
 
-TESTING = False
+UD_TEMP_OUT = os.path.join(os.path.expanduser('~') + '/.ud_falcon_temp')
 
 def eprint(*args, **kwargs):
     """
@@ -163,105 +164,36 @@ def check_valid_shell_command(cmd):
     else:
         return shutil.which(cmd)
 
-# def get_file_contents(path):
-#     """Returns the contents of a text file at a specified path.
+def write_udacity_out(string):
+    """
+    Helper method to capture Udacity generated output. Generally use this to save grading code results. If used, the resulting file will be favored over main_out for creating student_out.
 
-#     Args:
-#         path (string): Path to text file.
+    USE OUTSIDE FALCON.
 
-#     Returns:
-#         If a file exists at the specified path, then the contents of the file
-#         are returned. Otherwise, an empty string is returned.
-#     """
-#     if os.path.isfile(path):
-#         with open(path, 'r') as file_handle:
-#             file_content = file_handle.read()
-#         return file_content
-#     else:
-#         return ''
+    Args:
+        string (string): Write this string to a temp file.
+    """
 
-# def add_file_contents_to_dictionary(path, dict):
-#     """Add the contents of a file into a specified dictionary.
 
-#     The newly added entry will use the file path as the key, and the value
-#     will be the contents of the file at the file path.
 
-#     Args:
-#         dict (dict): Dictionary where file contents will be added.
-#         path (string): Path to file contents.
-#     """
-#     # if file exists, open file and add contents to dictionary
-#     if os.path.isfile(path):
-#         with open(path, 'r') as file_handle:
-#             file_content = file_handle.read()
-#         dict[path] = file_content
-#     else:
-#         dict[path] = 'file does not exist'
+    with open(UD_TEMP_OUT, 'w') as f:
+        f.write(string)
+        TEMPFILE = f
 
-# def remove_temp_text_files():
-#     """Remove temporary text files from local temp directory."""
-#     temp_text_files = [f for f in os.listdir('./temp') if f.endswith('.txt')]
-#     for text_file in temp_text_files:
-#         os.remove('./.tmp/' + text_file)
+def read_udacity_out():
+    """
+    Helper method to read the output of Udacity generated output (likely grading code results). Noop if you never called write_udacity_out(). Deletes the temp file after reading it.
 
-# def clear_temp():
-#     """
-#     Clears out the temporary directory.
-#     """
-#     folder = './.tmp'
-#     for the_file in os.listdir(folder):
-#         file_path = os.path.join(folder, the_file)
-#         try:
-#             if os.path.isfile(file_path):
-#                 os.unlink(file_path)
-#             elif os.path.isdir(file_path):
-#                 shutil.rmtree(file_path)
-#         except Exception as e:
-#             was_stderr(e)
+    Returns:
+        string
+    """
 
-# def copy_to_tmp(files):
-#     """
-#     Copy a file to the temporary directory that gets cleared out at the end of falcon.
-#     Fails silently.
+    ret = None
 
-#     Args:
-#         files (list of paths): Files to copy.
-#     """
-#     # TODO: could this be symlinked?
-#     for filepath in files:
-#         if os.path.isfile(filepath):
-#             shutil.copyfile(filepath, os.path.join('./tmp/', os.path.basename(filepath)))
+    if does_file_exist(UD_TEMP_OUT):
+        with open(UD_TEMP_OUT, 'r') as f:
+            ret = f.read()
 
-# def copy_dir_to_tmp(path):
-#     """
-#     Copy a whole directory to temporary. It'll get cleared out after the falcon run.
+    os.remove(UD_TEMP_OUT)
 
-#     Args:
-#         path (string): Path to directory
-#     """
-#     # TODO: could this be symlinked?
-#     # check that the directory exists
-#     # copy it
-#     pass
-
-# def move_sandbox_files_to_root(stack, files):
-#     """Move files needed to execute source code to the root directory.
-
-#     Args:
-#         stack (string): Name of stack for sandbox files.
-#         files (list): List of files in sandbox to move to root.
-#     """
-#     for filename in files:
-#         if os.path.isfile('sandbox/' + stack + '/' + filename):
-#             shutil.copyfile('sandbox/' + stack + '/' + filename, filename)
-
-# def remove_files_from_root(files):
-#     """Remove files needed to execute source code from the root directory.
-
-#     Args:
-#         stack (string): Name of stack for sandbox files.
-#         files (list): List of files to remove from root.
-#     """
-#     for filename in files:
-#         if os.path.isfile(filename):
-#             os.remove(filename)
+    return ret

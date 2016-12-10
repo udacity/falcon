@@ -75,3 +75,8 @@ def test_check_valid_shell_command_with_arg():
 def test_not_check_valid_shell_command():
     is_valid = check_valid_shell_command('asdfasdfasdfasdfasdf')
     assert not is_valid
+
+def test_generate_udacity_out():
+    msg = 'tesssstttststststsasdfasdf'
+    write_udacity_out(msg)
+    assert msg in read_udacity_out()
