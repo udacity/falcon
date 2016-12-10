@@ -47,6 +47,7 @@ class Formatter:
         """
         main_out = None
         postprocess_out = None
+        grading_code_out = read_udacity_out()
 
         # TODO: if we move main out to a temp file, this will change.
         if exists(dictionary=flyer.outs, key='main'):
@@ -57,6 +58,8 @@ class Formatter:
 
         if postprocess_out:
             return postprocess_out
+        elif grading_code_out:
+            return grading_code_out
         elif main_out:
             return main_out
         else:

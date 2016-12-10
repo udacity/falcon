@@ -173,9 +173,6 @@ def write_udacity_out(string):
     Args:
         string (string): Write this string to a temp file.
     """
-
-
-
     with open(UD_TEMP_OUT, 'w') as f:
         f.write(string)
         TEMPFILE = f
@@ -185,15 +182,12 @@ def read_udacity_out():
     Helper method to read the output of Udacity generated output (likely grading code results). Noop if you never called write_udacity_out(). Deletes the temp file after reading it.
 
     Returns:
-        string
+        string (or None if nothing was written)
     """
-
     ret = None
-
     if does_file_exist(UD_TEMP_OUT):
         with open(UD_TEMP_OUT, 'r') as f:
             ret = f.read()
-
-    os.remove(UD_TEMP_OUT)
+        os.remove(UD_TEMP_OUT)
 
     return ret
