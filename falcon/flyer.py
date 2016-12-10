@@ -6,9 +6,11 @@ from collections import OrderedDict
 import os
 import re
 import shlex
-import formatter
+import time
 from falcon.step import Step
 from falcon.util import *
+
+CURRENT_MILLI_TIME = lambda: int(round(time.time() * 1000))
 
 class Flyer:
     """
@@ -27,7 +29,7 @@ class Flyer:
 
         self.falconf = {}
         self.has_flown = False
-        self.elapsed_time = -1
+        self.elapsed_time = 0
         self.times = {}
         self.sequence = OrderedDict()
         self.mode = mode
@@ -90,7 +92,14 @@ class Flyer:
         """
         self.pre_run()
         for step in self.sequence.values():
+            if self.debug:
+                print('------------\n{}:\n{}'.format(step.name.upper(), step.falconf_command))
+            start_time = CURRENT_MILLI_TIME()
             out, err = step.run()
+            end_time = CURRENT_MILLI_TIME()
+            step.elapsed_time = end_time - start_time
+            if self.debug:
+                print('Completed in {}ms'.format(step.elapsed_time))
             self.generate_out(step.name, out)
             self.generate_err(step.name, err)
         self.post_run()
@@ -192,6 +201,22 @@ class Flyer:
         else:
             return None
 
+    def generate_out(self, stepname, out):
+        """
+        Handle output from a step.
+
+        Args:
+            stepname (string): Description of when this output occured.
+            out (string): The output
+        """
+        self.outs[stepname] = str(out).strip()
+        output_file = '{}_{}_out.txt'.format(self.mode, stepname)
+        path_to_output = os.path.join(os.getcwd(), '.falcontmp', output_file)
+        with open(path_to_output, 'w') as f:
+            f.write(out)
+        if self.debug and len(out) > 0:
+            print('Output:\n' + str(out))
+
     def generate_err(self, stepname, err):
         """
         Handle an error.
@@ -204,26 +229,10 @@ class Flyer:
         output_file = '{}_{}_err.txt'.format(self.mode, stepname)
         path_to_output = os.path.join(os.getcwd(), '.falcontmp', output_file)
         with open(path_to_output, 'w') as f:
-            f.write(str(err))
+            f.write(str(err).strip())
         if self.debug and len(str(err)) > 0:
             eprint(stepname + ' erred:\n' + str(err))
             raise Exception(err)
-
-    def generate_out(self, stepname, out):
-        """
-        Handle output from a step.
-
-        Args:
-            stepname (string): Description of when this output occured.
-            out (string): The output
-        """
-        self.outs[stepname] = out
-        output_file = '{}_{}_out.txt'.format(self.mode, stepname)
-        path_to_output = os.path.join(os.getcwd(), '.falcontmp', output_file)
-        with open(path_to_output, 'w') as f:
-            f.write(out)
-        if self.debug:
-            print(stepname + ':\n' + str(out))
 
     def set_env_var(self, key, value):
         """

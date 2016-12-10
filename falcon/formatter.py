@@ -9,13 +9,15 @@ from falcon.util import *
 Formatter parses and formats output from each Step.
 """
 class Formatter:
-    def __init__(self, flyer=None, debug=False):
+    def __init__(self, flyer=None, debug=False, elapsed_time=None):
         """
         Default constructor.
 
         Args:
             flyer (Flyer)
         """
+        self.elapsed_time = elapsed_time
+
         self.results = {
             'config_file': '',
             'elapsed_time': -1,
@@ -28,10 +30,12 @@ class Formatter:
         if flyer is not None and flyer.has_flown:
             self.generate_results(flyer, debug)
 
+        if elapsed_time is not None:
+            self.results['elapsed_time'] = elapsed_time
+
     def generate_results(self, flyer, debug=False):
         self.results['mode'] = flyer.mode
         steps = self.parse_steps(flyer)
-        self.results['elapsed_time'] = flyer.elapsed_time
         self.results['student_out'] = self.get_student_out(flyer)
         self.results['student_err'] = self.get_student_err(flyer)
         self.results['is_correct'] = self.get_is_correct(self.results['student_out'])
@@ -45,9 +49,10 @@ class Formatter:
         Args:
             flyer (Flyer): Flyer that has already completed its sequence.
         """
-        main_out = None
         postprocess_out = None
         grading_code_out = read_udacity_out()
+        main_out = None
+        print(grading_code_out)
 
         if exists(dictionary=flyer.outs, key='main'):
             main_out = flyer.outs['main']
@@ -111,7 +116,7 @@ class Formatter:
         result = {
             'name': name,
             'command': flyer.sequence[name].falconf_command,
-            # 'elapsed_time': flyer.times[name],
+            'elapsed_time': flyer.sequence[name].elapsed_time,
             'type': flyer.sequence[name].type
         }
         result['out'] = flyer.outs[name]

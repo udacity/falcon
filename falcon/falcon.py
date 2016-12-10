@@ -2,15 +2,18 @@
 
 """Python middleware for evaluating programming quizzes."""
 
+import argparse
 import os
 import sys
-import argparse
+import time
 from falcon.environment import Environment
 from falcon.flyer import Flyer
 from falcon.formatter import Formatter
 from falcon.util import *
 
+CURRENT_MILLI_TIME = lambda: int(round(time.time() * 1000))
 PARSER = None
+ELAPSED_TIME = 0
 
 def parse_args(args):
     PARSER = argparse.ArgumentParser(description='middleware for evaluating programming quizzes')
@@ -67,10 +70,13 @@ def fly(args, falconf, env):
     Returns:
         Flyer
     """
+    start_time = CURRENT_MILLI_TIME()
     env.parse_falconf(falconf)
     flyer = Flyer(mode=args.mode, debug=args.debug, env=env)
     flyer.create_sequence()
     flyer.run_sequence()
+    end_time = CURRENT_MILLI_TIME()
+    ELAPSED_TIME = end_time - start_time
     return flyer
 
 def main(args=None):
@@ -100,7 +106,7 @@ def main(args=None):
     # run student code
     if falconf is not None:
         flyer = fly(args, falconf, env)
-        formatter = Formatter(flyer)
+        formatter = Formatter(flyer, elapsed_time=ELAPSED_TIME)
         if args.debug:
             formatter.pipe_debug_to_stdout()
         else:

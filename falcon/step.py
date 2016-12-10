@@ -19,6 +19,8 @@ class Step:
         """
 
         self.command = None
+        self.elapsed_time = -1
+        self.falconf_command = ''
         self.name = name
         self.type = None
 
@@ -64,7 +66,7 @@ class Step:
         else:
             self.command = lambda : run_shell_executable(cmd)
 
-    def set_noop(self, cmd=None):
+    def set_noop(self, cmd='missing'):
         """
         Don't do anything!
         """

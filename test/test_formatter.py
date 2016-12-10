@@ -7,6 +7,7 @@ import json
 from falcon.environment import Environment
 from falcon.flyer import Flyer
 from falcon.formatter import Formatter
+from falcon.util import *
 
 @pytest.fixture
 def successfulFlyer():
@@ -56,6 +57,7 @@ def test_formatter_pulls_info_from_each_step(successfulFlyer):
     assert result['name'] == 'preprocess'
     assert result['type'] is 'executable'
     assert 'preprocessing' in result['out']
+    assert result['elapsed_time'] > 0
 
 def test_formatter_parses_each_step_from_flyer(successfulFlyer):
     successfulFlyer.create_sequence()
@@ -89,3 +91,16 @@ def test_get_student_out_finds_main_out_if_postprocess():
     steps = formatter.parse_steps(flyer)
     assert 'possssst' in formatter.get_student_out(flyer)
 
+def test_get_student_out_finds_udacity_out_if_no_postprocess():
+    env = Environment(falconf_string="""
+    test:
+        main: python testMain.py
+    """)
+    msg = 'this is a message'
+    flyer = Flyer(mode='test', env=env)
+    flyer.create_sequence()
+    flyer.run_sequence()
+    formatter = Formatter(flyer)
+    steps = formatter.parse_steps(flyer)
+    write_udacity_out(msg)
+    assert msg in formatter.get_student_out(flyer)
