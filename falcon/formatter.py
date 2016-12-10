@@ -41,10 +41,14 @@ class Formatter:
     def get_student_out(self, flyer):
         """
         Get output from student code. This is postprocess if it exists, otherwise main.
+
+        Args:
+            flyer (Flyer): Flyer that has already completed its sequence.
         """
         main_out = None
         postprocess_out = None
 
+        # TODO: if we move main out to a temp file, this will change.
         if exists(dictionary=flyer.outs, key='main'):
             main_out = flyer.outs['main']
 
@@ -58,11 +62,29 @@ class Formatter:
         else:
             return ''
 
-    def get_student_err(self, steps):
+    def get_student_err(self, flyer):
         """
-        Pull student err from either main or postprocess.
+        Get err from student code. This is postprocess if it exists, otherwise main.
+
+        Args:
+            flyer (Flyer): Flyer that has already completed its sequence.
         """
-        pass
+        main_err = None
+        postprocess_err = None
+
+        # TODO: if we move main err to a temp file, this will change.
+        if exists(dictionary=flyer.errs, key='main'):
+            main_err = flyer.errs['main']
+
+        if exists(dictionary=flyer.errs, key='postprocess'):
+            postprocess_err = flyer.errs['postprocess']
+
+        if postprocess_err:
+            return postprocess_err
+        elif main_err:
+            return main_err
+        else:
+            return ''
 
     def get_is_correct(self, student_out, key=None):
         """

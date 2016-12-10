@@ -75,3 +75,17 @@ def test_get_student_out_finds_main_out_if_no_postprocess():
     formatter = Formatter(flyer)
     steps = formatter.parse_steps(flyer)
     assert 'student_outtttt' in formatter.get_student_out(flyer)
+
+def test_get_student_out_finds_main_out_if_postprocess():
+    env = Environment(falconf_string="""
+    test:
+        main: python testMain.py
+        postprocess: echo 'possssst'
+    """)
+    flyer = Flyer(mode='test', env=env)
+    flyer.create_sequence()
+    flyer.run_sequence()
+    formatter = Formatter(flyer)
+    steps = formatter.parse_steps(flyer)
+    assert 'possssst' in formatter.get_student_out(flyer)
+

@@ -76,19 +76,27 @@ class Flyer:
             step = self.figure_out_right_action(step)
             self.sequence[event_name] = step
 
+    def pre_run(self):
+        makedir('.falcontmp')
+        if exists(dictionary=self.falconf, key='env_vars'):
+            self.set_env_vars(self.falconf['env_vars'])
+        self.symlink_libraries()
+
     def run_sequence(self):
         """
         Start to finish, run the steps in the quiz.
         """
-        # run in ~/.falcontmp?
-        if exists(dictionary=self.falconf, key='env_vars'):
-            self.set_env_vars(self.falconf['env_vars'])
-        self.symlink_libraries()
+        self.pre_run()
         for step in self.sequence.values():
             out, err = step.run()
-            self.generate_output(step.name, out)
+            self.generate_out(step.name, out)
             self.generate_err(step.name, err)
+        self.post_run()
+
+    def post_run(self):
         self.has_flown = True
+        if not self.debug:
+            removedir('.falcontmp')
 
     def figure_out_right_action(self, step):
         """
@@ -134,7 +142,6 @@ class Flyer:
             step.set_noop()
             step.falconf_command = 'noop'
 
-
         return step
 
     def has_executable_file(self, falconf):
@@ -164,7 +171,8 @@ class Flyer:
         Look for a valid shell command as the first argument.
         """
         maybe_command = shlex.split(falconf)[0]
-        return check_valid_shell_command(['which', maybe_command])
+        # return check_valid_shell_command(['which', maybe_command])
+        return check_valid_shell_command(maybe_command)
 
     def get_default_file(self, step_name):
         """
@@ -191,11 +199,15 @@ class Flyer:
             err (Exceptions): Err to record/display.
         """
         self.errs[stepname] = err
+        output_file = '{}_{}_err.txt'.format(self.mode, stepname)
+        path_to_output = os.path.join(os.getcwd(), '.falcontmp', output_file)
+        with open(path_to_output, 'w') as f:
+            f.write(str(err))
         if self.debug and len(str(err)) > 0:
             eprint(stepname + ' erred:\n' + str(err))
             raise Exception(err)
 
-    def generate_output(self, stepname, out):
+    def generate_out(self, stepname, out):
         """
         Handle output from a step.
 
@@ -203,7 +215,12 @@ class Flyer:
             stepname (string): Description of when this output occured.
             out (string): The output
         """
+        # TODO: save a tempfile!
         self.outs[stepname] = out
+        output_file = '{}_{}_out.txt'.format(self.mode, stepname)
+        path_to_output = os.path.join(os.getcwd(), '.falcontmp', output_file)
+        with open(path_to_output, 'w') as f:
+            f.write(out)
         if self.debug:
             print(stepname + ':\n' + str(out))
 

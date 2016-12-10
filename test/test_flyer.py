@@ -9,6 +9,7 @@ from contextlib import redirect_stdout
 from falcon.environment import Environment
 from falcon.flyer import Flyer
 from falcon.step import Step
+from falcon.util import *
 
 
 # from: http://eli.thegreenplace.net/2015/redirecting-all-kinds-of-stdout-in-python/
@@ -68,6 +69,7 @@ def test_constructs(testFlyer):
 def test_err_stored(testFlyer):
     step = 'testing'
     msg = 'testing!'
+    makedir('.falcontmp') # used in the next few tests
     testFlyer.generate_err(step, Exception(msg))
     assert isinstance(testFlyer.errs[step], Exception)
     assert str(testFlyer.errs[step]) == msg
@@ -85,7 +87,7 @@ def test_err_displayed(debugFlyer):
 def test_out_stored(submitFlyer):
     step = 'submitting'
     msg = '{"sample": "json"}'
-    submitFlyer.generate_output(step, msg)
+    submitFlyer.generate_out(step, msg)
     assert submitFlyer.outs[step] == msg
 
 def test_out_displayed(debugFlyer):
@@ -93,10 +95,30 @@ def test_out_displayed(debugFlyer):
     msg = '{"sample": "json"}'
 
     def make_output():
-        debugFlyer.generate_output(step, msg)
+        debugFlyer.generate_out(step, msg)
 
     out = capture_stdout(make_output)
     assert msg in out
+
+def test_out_saved_to_file(debugFlyer):
+    step = 'submitting'
+    msg = '{"sample": "json"}'
+
+    def make_output():
+        debugFlyer.generate_out(step, msg)
+
+    with open('.falcontmp/submit_submitting_out.txt', 'r') as f:
+        assert msg in f.read()
+
+def test_err_saved_to_file(debugFlyer):
+    step = 'testing'
+    msg = 'testing!'
+
+    def make_output():
+        debugFlyer.generate_err(step, msg)
+
+    with open('.falcontmp/submit_testing_err.txt', 'r') as f:
+        assert msg in f.read()
 
 def test_set_env_var(debugFlyer):
     key = 'TEST'

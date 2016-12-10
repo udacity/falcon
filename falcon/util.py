@@ -51,7 +51,7 @@ def makedir(path):
         os.makedirs(path)
 
 def removedir(path):
-    pass
+    shutil.rmtree(path, ignore_errors=True)
 
 def file_exists(filename, path=None):
     if path is not None:
