@@ -184,7 +184,7 @@ class Flyer:
         Returns:
             string: abspath to file
         """
-        filename = get_file_with_basename(self.falconf_dir, step_name)
+        filename = get_file_with_basename(self.falconf_dir, '{}_{}'.format(self.mode, step_name))
         if filename:
             return os.path.join(self.falconf_dir, filename)
         else:
@@ -215,7 +215,6 @@ class Flyer:
             stepname (string): Description of when this output occured.
             out (string): The output
         """
-        # TODO: save a tempfile!
         self.outs[stepname] = out
         output_file = '{}_{}_out.txt'.format(self.mode, stepname)
         path_to_output = os.path.join(os.getcwd(), '.falcontmp', output_file)

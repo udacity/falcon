@@ -194,7 +194,8 @@ def test_get_default_file(falconfFlyer):
 
 def test_not_get_default_file(falconfFlyer):
     # using test/sample/falconf.yaml
-    assert falconfFlyer.get_default_file('asdfasdf') is None
+    # currently running test mode. there's a submit_postprocess but not a test_postprocess
+    assert falconfFlyer.get_default_file('postprocess') is None
 
 def test_figure_out_right_action_default(falconfFlyer):
     # test: preprocess isn't actually in the falconf
