@@ -25,6 +25,7 @@ class Flyer:
             env (Environment): Includes info on where and what to execute.
         """
 
+        self.falconf = {}
         self.has_flown = False
         self.elapsed_time = -1
         self.times = {}
@@ -34,10 +35,10 @@ class Flyer:
         self.local = local
         self.errs = {}
         self.outs = {}
-        if env is not None:
-            self.prep_sequence(mode, env)
 
-    def prep_sequence(self, mode, env):
+        self.prep_sequence(mode, env)
+
+    def prep_sequence(self, mode, env=None):
         """
         Get the sequence ready to run based on the environment.
 
@@ -45,7 +46,8 @@ class Flyer:
             mode (string): 'test' or 'submit'.
             env (Environment): Includes info on where and what to execute.
         """
-        self.falconf = env.get_falconf_for_mode(mode)
+        if env:
+            self.falconf = env.get_falconf_for_mode(mode)
         self.falconf_dir = os.getcwd()
 
     def create_step(self, name=None):
