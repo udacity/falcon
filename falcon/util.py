@@ -3,9 +3,9 @@
 import io
 import os
 import re
+import shutil
 import stat
 import sys
-# import shutil
 import subprocess
 
 TESTING = False
@@ -45,6 +45,13 @@ def get_file_with_basename(path, basename):
             break
 
     return found_file
+
+def makedir(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+def removedir(path):
+    pass
 
 def file_exists(filename, path=None):
     if path is not None:
@@ -151,14 +158,10 @@ def check_valid_shell_command(cmd):
         bool
     """
 
-    valid_command = False
-    try:
-        subprocess.check_call(cmd)
-        valid_command = True
-    except Exception as e:
-        valid_command = False
-
-    return valid_command
+    if isinstance(cmd, list):
+        return shutil.which(cmd[0])
+    else:
+        return shutil.which(cmd)
 
 # def get_file_contents(path):
 #     """Returns the contents of a text file at a specified path.
