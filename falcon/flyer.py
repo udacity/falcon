@@ -84,6 +84,8 @@ class Flyer:
             step = self.create_step(name=event_name)
             step = self.figure_out_right_action(step)
             self.sequence[event_name] = step
+            if self.debug and step.falconf_command is not 'noop':
+                print('Created {} step with command: {}'.format(step.name, step.falconf_command))
 
     def pre_run(self):
         makedir('.falcontmp')
@@ -150,7 +152,10 @@ class Flyer:
             elif self.has_shell_command(falconf):
                 step.set_shell_command(falconf)
             else:
-                raise Exception('Invalid falconf command for {}: {}'.format(step.name, falconf))
+                filepath = os.path.join(self.falconf_dir, falconf)
+                step.set_shell_executable(filepath)
+                if self.debug:
+                    print('Optimistically adding {} as an executable file for {}'.format(falconf, step.name))
 
             # for reference later
             step.falconf_command = falconf
