@@ -1,15 +1,19 @@
--l local
-sims remote execution. files land in root remotely
+For Getting Started:
+* overview
+* how to fly falcon
+    * input
+        * falconf format
+        * what happens if it's missing
+    * output
+* the order of steps
+* how to access output from previous step
+* how to isolate Udacity feedback
+* available libraries and how to link them
 
-* build testMain, submitMain
-* run with falcon?
-* create a config file for falcon to designate a directory (which is currently .tmp)
-* run falcon off the config file
-
-* set up some mothafuckin testing
-
-CONFIG:
-* define default file names
+Backlog
+* link libraries
+* static file checking
+* man page with http://www.sphinx-doc.org/en/1.5/
 
 CPP-GRADER:
 * set up semantic versioning - directory by version
@@ -17,6 +21,5 @@ CPP-GRADER:
 UTILITY FUNCTIONS:
 * concat files
 * could build a falconf.yaml initializer
-
-FLYER:
-* run .sh, .py files at different steps
+* base64
+* copying, moving files

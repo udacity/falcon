@@ -9,8 +9,13 @@ import shlex
 import time
 from falcon.step import Step
 from falcon.util import *
+from falcon.graderlib import get_grader_lib
+from falcon.lib import get_lib
 
+# use for timing
 CURRENT_MILLI_TIME = lambda: int(round(time.time() * 1000))
+# tracks symlinked libraries
+SYMLINKS = []
 
 class Flyer:
     """
@@ -105,9 +110,16 @@ class Flyer:
         self.post_run()
 
     def post_run(self):
+        """
+        Clean up files that were added during the run.
+        """
         self.has_flown = True
         if not self.debug:
             removedir('.falcontmp')
+
+            if len(SYMLINKS) > 0:
+                for s in SYMLINKS:
+                    remove_symlink(s)
 
     def figure_out_right_action(self, step):
         """
@@ -256,5 +268,25 @@ class Flyer:
                 self.set_env_var(key, value)
 
     def symlink_libraries(self):
-        # symlink grader_libs
-        pass
+        """
+        Symlink libraries available in Falcon. Looks through grader-lib/ first then lib/. Fails silently if not in debug mode.
+        """
+        if exists(dictionary=self.falconf, key='libraries'):
+            libs = self.falconf['libraries']
+
+            if isinstance(libs, str):
+                libs = [libs]
+
+            for lib in libs:
+                grader_lib_path = get_grader_lib(lib)
+                lib_path = get_lib(lib)
+                if deos_something_exist(grader_lib_path):
+                    dst = os.path.join(self.falconf_dir, lib)
+                    os.symlink(grader_lib_path, dst, target_is_directory=True)
+                    SYMLINKS.append(dst)
+                elif deos_something_exist(lib_path):
+                    dst = os.path.join(self.falconf_dir, lib)
+                    os.symlink(lib_path, dst, target_is_directory=True)
+                    SYMLINKS.append(dst)
+                elif self.debug:
+                    print('Library not found: {}'.format(lib))

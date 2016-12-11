@@ -25,6 +25,9 @@ def read_file(filepath):
 def does_file_exist(filepath):
     return os.path.isfile(filepath)
 
+def deos_something_exist(filepath):
+    return os.path.exists(filepath)
+
 def get_file_with_basename(path, basename):
     """
     Find a file where the basename (minus extension) matches the given basename in path.
@@ -53,6 +56,12 @@ def makedir(path):
 
 def removedir(path):
     shutil.rmtree(path, ignore_errors=True)
+
+def remove_symlink(path):
+    try:
+        os.remove(path)
+    except:
+        pass
 
 def file_exists(filename, path=None):
     if path is not None:

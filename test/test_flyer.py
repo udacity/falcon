@@ -244,4 +244,13 @@ def test_create_correct_sequence_order(falconfFlyer):
     assert seq[3].name == 'postprocess'
     assert seq[4].name == 'tear_down'
 
-# test symlinking libraries?
+def test_symlinking_libraries():
+    env = Environment(falconf_string="""
+    test:
+        libraries:
+            - cpp
+    """)
+    flyer = Flyer(mode='test', env=env)
+    flyer.symlink_libraries()
+    assert does_file_exist('cpp/main.cpp')
+    remove_symlink('cpp')

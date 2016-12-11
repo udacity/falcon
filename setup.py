@@ -7,7 +7,9 @@ Resource for setting up testing: http://doc.pytest.org/en/latest/goodpractices.h
 import os
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
-# import setuptools.command as Command
+
+# horrible hack, I'm sorry. setuptools is weird.
+os.environ['FALCON_HOME'] = os.getcwd()
 
 # Utility function to read the README file.
 # Used for the long_description. It's nice, because now 1) we have a top level
