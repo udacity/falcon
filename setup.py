@@ -42,7 +42,7 @@ setup(
     license = 'MIT',
     keywords = 'udacity middleware rex',
     url = 'https://github.com/udacity/falcon',
-    packages = ['falcon'],
+    packages = ['falcon', 'falcon/graderlib', 'falcon/lib'],
     long_description = read('README.md'),
     setup_requires = ['pytest-runner'],
     tests_require = ['pytest'],
