@@ -1,0 +1,171 @@
+\hypertarget{class_rubric_item}{}\section{Rubric\+Item Class Reference}
+\label{class_rubric_item}\index{Rubric\+Item@{Rubric\+Item}}
+
+
+{\ttfamily \#include $<$Rubric\+Item.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_rubric_item_a0fac66f38c2f2a1712690c3728b1a63d}{Rubric\+Item} ()=default
+\item 
+\hyperlink{class_rubric_item_a9ab3ef65052c84f8fb59764429e67980}{Rubric\+Item} (const std\+::function$<$ bool()$>$ \&\+\_\+callback)
+\item 
+\hyperlink{class_rubric_item_a983d89dd363b56df35c0685c083e7172}{Rubric\+Item} (const std\+::string \&\+\_\+name)
+\item 
+\hyperlink{class_rubric_item_ae2ff2692b1eb2250e76d3da3fe6fbe79}{Rubric\+Item} (const std\+::string \&\+\_\+name, const std\+::function$<$ bool()$>$ \&\+\_\+callback)
+\item 
+void \hyperlink{class_rubric_item_a29bf17ee6e15089b388cca8af88dfc4e}{set\+Callback} (const std\+::function$<$ bool()$>$ \&)
+\item 
+void \hyperlink{class_rubric_item_ac12fa4604d6d09e643e1aadec0a1e8ce}{when\+Correct} (const std\+::string \&message)
+\item 
+void \hyperlink{class_rubric_item_aeb48935d288d2c6b0ea43e97b51b0d72}{when\+Correct} (const std\+::string \&message, const std\+::string \&tag)
+\item 
+void \hyperlink{class_rubric_item_a76e977dea00f6bb3512e4f6538e6354f}{when\+Incorrect} (const std\+::string \&message)
+\item 
+void \hyperlink{class_rubric_item_a90a45d8e42eb51b4f85ebdb2963da26b}{when\+Incorrect} (const std\+::string \&message, const std\+::string \&tag)
+\item 
+void \hyperlink{class_rubric_item_a83b1d15314c14b6e67207f086d7fa6a5}{evaluate} ()
+\item 
+bool \hyperlink{class_rubric_item_a96a9432a63552a832a9a8b3b422402e1}{ran} ()
+\item 
+bool \hyperlink{class_rubric_item_a0b3f8d8fd8cf27e9684510da51a58d6e}{passed} ()
+\item 
+bool \hyperlink{class_rubric_item_af5675f379ed58476fada3ce92ee698f0}{failed} ()
+\item 
+std\+::shared\+\_\+ptr$<$ \hyperlink{class_feedback}{Feedback} $>$ \hyperlink{class_rubric_item_a5857824365c39b6c00e8f0f156923955}{get\+Feedback} ()
+\item 
+double \hyperlink{class_rubric_item_a34a18531cc098667fb47e440b876dc18}{evaluation\+Time\+Ms} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{class_rubric_item_accc3649acf6ae1bb543b56d826a3d01f}{name}
+\item 
+bool \hyperlink{class_rubric_item_a0f240be9e7b0dc6853b3e2b0df5713b8}{checkpoint} = false
+\item 
+bool \hyperlink{class_rubric_item_aebc5a7d15f0c2f5addc66fdb854693c0}{optional} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_rubric_item_a0fac66f38c2f2a1712690c3728b1a63d}{}\label{class_rubric_item_a0fac66f38c2f2a1712690c3728b1a63d} 
+\index{Rubric\+Item@{Rubric\+Item}!Rubric\+Item@{Rubric\+Item}}
+\index{Rubric\+Item@{Rubric\+Item}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{Rubric\+Item()}{RubricItem()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily Rubric\+Item\+::\+Rubric\+Item (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+The default constructor. \hypertarget{class_rubric_item_a9ab3ef65052c84f8fb59764429e67980}{}\label{class_rubric_item_a9ab3ef65052c84f8fb59764429e67980} 
+\index{Rubric\+Item@{Rubric\+Item}!Rubric\+Item@{Rubric\+Item}}
+\index{Rubric\+Item@{Rubric\+Item}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{Rubric\+Item()}{RubricItem()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily Rubric\+Item\+::\+Rubric\+Item (\begin{DoxyParamCaption}\item[{const std\+::function$<$ bool()$>$ \&}]{\+\_\+callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+A constructor that sets the callback. \hypertarget{class_rubric_item_a983d89dd363b56df35c0685c083e7172}{}\label{class_rubric_item_a983d89dd363b56df35c0685c083e7172} 
+\index{Rubric\+Item@{Rubric\+Item}!Rubric\+Item@{Rubric\+Item}}
+\index{Rubric\+Item@{Rubric\+Item}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{Rubric\+Item()}{RubricItem()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily Rubric\+Item\+::\+Rubric\+Item (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+A constructor that sets the name. \hypertarget{class_rubric_item_ae2ff2692b1eb2250e76d3da3fe6fbe79}{}\label{class_rubric_item_ae2ff2692b1eb2250e76d3da3fe6fbe79} 
+\index{Rubric\+Item@{Rubric\+Item}!Rubric\+Item@{Rubric\+Item}}
+\index{Rubric\+Item@{Rubric\+Item}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{Rubric\+Item()}{RubricItem()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily Rubric\+Item\+::\+Rubric\+Item (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{\+\_\+name,  }\item[{const std\+::function$<$ bool()$>$ \&}]{\+\_\+callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+A constructor that sets the name and callback. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_rubric_item_a83b1d15314c14b6e67207f086d7fa6a5}{}\label{class_rubric_item_a83b1d15314c14b6e67207f086d7fa6a5} 
+\index{Rubric\+Item@{Rubric\+Item}!evaluate@{evaluate}}
+\index{evaluate@{evaluate}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{evaluate()}{evaluate()}}
+{\footnotesize\ttfamily void Rubric\+Item\+::evaluate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Run the callback to determine if this \hyperlink{class_rubric_item}{Rubric\+Item} passed or failed. \hypertarget{class_rubric_item_a34a18531cc098667fb47e440b876dc18}{}\label{class_rubric_item_a34a18531cc098667fb47e440b876dc18} 
+\index{Rubric\+Item@{Rubric\+Item}!evaluation\+Time\+Ms@{evaluation\+Time\+Ms}}
+\index{evaluation\+Time\+Ms@{evaluation\+Time\+Ms}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{evaluation\+Time\+Ms()}{evaluationTimeMs()}}
+{\footnotesize\ttfamily double Rubric\+Item\+::evaluation\+Time\+Ms (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+High precision time in milliseconds representing how long the callback itself took to run. \hypertarget{class_rubric_item_af5675f379ed58476fada3ce92ee698f0}{}\label{class_rubric_item_af5675f379ed58476fada3ce92ee698f0} 
+\index{Rubric\+Item@{Rubric\+Item}!failed@{failed}}
+\index{failed@{failed}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{failed()}{failed()}}
+{\footnotesize\ttfamily bool Rubric\+Item\+::failed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Whether or not this \hyperlink{class_rubric_item}{Rubric\+Item} failed. \hypertarget{class_rubric_item_a5857824365c39b6c00e8f0f156923955}{}\label{class_rubric_item_a5857824365c39b6c00e8f0f156923955} 
+\index{Rubric\+Item@{Rubric\+Item}!get\+Feedback@{get\+Feedback}}
+\index{get\+Feedback@{get\+Feedback}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{get\+Feedback()}{getFeedback()}}
+{\footnotesize\ttfamily shared\+\_\+ptr$<$ \hyperlink{class_feedback}{Feedback} $>$ Rubric\+Item\+::get\+Feedback (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Only useful after the \hyperlink{class_rubric_item}{Rubric\+Item} is evaluated. Gets the corresponding \hyperlink{class_feedback}{Feedback} to its pass/fail state. \hypertarget{class_rubric_item_a0b3f8d8fd8cf27e9684510da51a58d6e}{}\label{class_rubric_item_a0b3f8d8fd8cf27e9684510da51a58d6e} 
+\index{Rubric\+Item@{Rubric\+Item}!passed@{passed}}
+\index{passed@{passed}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{passed()}{passed()}}
+{\footnotesize\ttfamily bool Rubric\+Item\+::passed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Whether or not this \hyperlink{class_rubric_item}{Rubric\+Item} passed. Will be false until it actually runs. \hypertarget{class_rubric_item_a96a9432a63552a832a9a8b3b422402e1}{}\label{class_rubric_item_a96a9432a63552a832a9a8b3b422402e1} 
+\index{Rubric\+Item@{Rubric\+Item}!ran@{ran}}
+\index{ran@{ran}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{ran()}{ran()}}
+{\footnotesize\ttfamily bool Rubric\+Item\+::ran (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Whether or not this \hyperlink{class_rubric_item}{Rubric\+Item} has run. \hypertarget{class_rubric_item_a29bf17ee6e15089b388cca8af88dfc4e}{}\label{class_rubric_item_a29bf17ee6e15089b388cca8af88dfc4e} 
+\index{Rubric\+Item@{Rubric\+Item}!set\+Callback@{set\+Callback}}
+\index{set\+Callback@{set\+Callback}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{set\+Callback()}{setCallback()}}
+{\footnotesize\ttfamily void Rubric\+Item\+::set\+Callback (\begin{DoxyParamCaption}\item[{const std\+::function$<$ bool()$>$ \&}]{ }\end{DoxyParamCaption})}
+
+Set the work to be done when this \hyperlink{class_rubric_item}{Rubric\+Item} is evaluated. Likely a lambda function. \hypertarget{class_rubric_item_ac12fa4604d6d09e643e1aadec0a1e8ce}{}\label{class_rubric_item_ac12fa4604d6d09e643e1aadec0a1e8ce} 
+\index{Rubric\+Item@{Rubric\+Item}!when\+Correct@{when\+Correct}}
+\index{when\+Correct@{when\+Correct}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{when\+Correct()}{whenCorrect()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rubric\+Item\+::when\+Correct (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message }\end{DoxyParamCaption})}
+
+Set the message to give to students if this \hyperlink{class_rubric_item}{Rubric\+Item} passes. Optional. \hypertarget{class_rubric_item_aeb48935d288d2c6b0ea43e97b51b0d72}{}\label{class_rubric_item_aeb48935d288d2c6b0ea43e97b51b0d72} 
+\index{Rubric\+Item@{Rubric\+Item}!when\+Correct@{when\+Correct}}
+\index{when\+Correct@{when\+Correct}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{when\+Correct()}{whenCorrect()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Rubric\+Item\+::when\+Correct (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message,  }\item[{const std\+::string \&}]{tag }\end{DoxyParamCaption})}
+
+Set the message and tag to give to students if this \hyperlink{class_rubric_item}{Rubric\+Item} passes. Optional. \hypertarget{class_rubric_item_a76e977dea00f6bb3512e4f6538e6354f}{}\label{class_rubric_item_a76e977dea00f6bb3512e4f6538e6354f} 
+\index{Rubric\+Item@{Rubric\+Item}!when\+Incorrect@{when\+Incorrect}}
+\index{when\+Incorrect@{when\+Incorrect}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{when\+Incorrect()}{whenIncorrect()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Rubric\+Item\+::when\+Incorrect (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message }\end{DoxyParamCaption})}
+
+Set the message to give to students if this \hyperlink{class_rubric_item}{Rubric\+Item} fails. Optional. \hypertarget{class_rubric_item_a90a45d8e42eb51b4f85ebdb2963da26b}{}\label{class_rubric_item_a90a45d8e42eb51b4f85ebdb2963da26b} 
+\index{Rubric\+Item@{Rubric\+Item}!when\+Incorrect@{when\+Incorrect}}
+\index{when\+Incorrect@{when\+Incorrect}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{when\+Incorrect()}{whenIncorrect()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Rubric\+Item\+::when\+Incorrect (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message,  }\item[{const std\+::string \&}]{tag }\end{DoxyParamCaption})}
+
+Set the message and tag to give to students if this \hyperlink{class_rubric_item}{Rubric\+Item} fails. Optional. 
+
+\subsection{Member Data Documentation}
+\hypertarget{class_rubric_item_a0f240be9e7b0dc6853b3e2b0df5713b8}{}\label{class_rubric_item_a0f240be9e7b0dc6853b3e2b0df5713b8} 
+\index{Rubric\+Item@{Rubric\+Item}!checkpoint@{checkpoint}}
+\index{checkpoint@{checkpoint}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{checkpoint}{checkpoint}}
+{\footnotesize\ttfamily bool Rubric\+Item\+::checkpoint = false}
+
+If checkpoint, no Rubric\+Items after this one will evaluate if this one fails. \hypertarget{class_rubric_item_accc3649acf6ae1bb543b56d826a3d01f}{}\label{class_rubric_item_accc3649acf6ae1bb543b56d826a3d01f} 
+\index{Rubric\+Item@{Rubric\+Item}!name@{name}}
+\index{name@{name}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily std\+::string Rubric\+Item\+::name}
+
+Optional identifier of the \hyperlink{class_rubric_item}{Rubric\+Item}. \hypertarget{class_rubric_item_aebc5a7d15f0c2f5addc66fdb854693c0}{}\label{class_rubric_item_aebc5a7d15f0c2f5addc66fdb854693c0} 
+\index{Rubric\+Item@{Rubric\+Item}!optional@{optional}}
+\index{optional@{optional}!Rubric\+Item@{Rubric\+Item}}
+\subsubsection{\texorpdfstring{optional}{optional}}
+{\footnotesize\ttfamily bool Rubric\+Item\+::optional = false}
+
+If optional, the \hyperlink{class_rubric_item}{Rubric\+Item} does not count towards the \hyperlink{class_grader}{Grader} pass/fail state. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{_rubric_item_8h}{Rubric\+Item.\+h}\item 
+include/\hyperlink{_rubric_item_8cpp}{Rubric\+Item.\+cpp}\end{DoxyCompactItemize}
