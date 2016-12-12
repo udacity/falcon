@@ -301,6 +301,9 @@ class Flyer:
             return success_state
 
         def symlink(src, dst):
+            """
+            Because os.symlink isn't recursive.
+            """
             if os.path.isdir(src):
                 new_dst = os.path.join(dst, os.path.split(src)[1])
                 # the symlink appears to already be there

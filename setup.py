@@ -34,6 +34,12 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 def recurse_falcon_libs():
+    """
+    Because setuptools (or distutils?) refuses to do recursive globbing AFAICT.
+
+    Returns:
+        list: allllll the directories in falcon/lib and falcon/graderlib.
+    """
     a = []
     for root, dirs, files in os.walk('falcon/graderlib'):
         # the [7:] gets rid of 'falcon/' at the beginning,
