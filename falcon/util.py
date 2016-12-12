@@ -25,7 +25,7 @@ def read_file(filepath):
 def does_file_exist(filepath):
     return os.path.isfile(filepath)
 
-def deos_something_exist(filepath):
+def does_something_exist(filepath):
     return os.path.exists(filepath)
 
 def get_file_with_basename(path, basename):
