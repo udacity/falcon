@@ -303,6 +303,9 @@ class Flyer:
         def symlink(src, dst):
             if os.path.isdir(src):
                 new_dst = os.path.join(dst, os.path.split(src)[1])
+                # the symlink appears to already be there
+                if os.path.islink(new_dst):
+                    return True
                 os.symlink(src, new_dst, target_is_directory=True)
                 SYMLINKS.append(new_dst)
             try:
