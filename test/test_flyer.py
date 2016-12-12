@@ -252,5 +252,5 @@ def test_symlinking_libraries():
     """)
     flyer = Flyer(mode='test', env=env)
     flyer.symlink_libraries()
-    assert does_file_exist('cpp/main.cpp')
+    assert does_file_exist('cpp/include/Grader.h')
     remove_symlink('cpp')
