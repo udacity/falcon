@@ -1,9 +1,12 @@
 """Formats remote execution output for the classroom or local debug."""
 
 import os
+import pprint
 import sys
 import json
 from falcon.util import *
+
+pp = pprint.PrettyPrinter(indent=4)
 
 """
 Formatter parses and formats output from each Step.
@@ -33,14 +36,13 @@ class Formatter:
         if elapsed_time is not None:
             self.results['elapsed_time'] = elapsed_time
 
-    def generate_results(self, flyer, debug=False):
+    def generate_results(self, flyer, debug=True):
         self.results['mode'] = flyer.mode
         steps = self.parse_steps(flyer)
         self.results['student_out'] = self.get_student_out(flyer)
         self.results['student_err'] = self.get_student_err(flyer)
         self.results['is_correct'] = self.get_is_correct(self.results['student_out'])
-        if debug:
-            self.results['steps'] = steps
+        self.results['steps'] = steps
 
     def get_student_out(self, flyer):
         """
@@ -52,7 +54,6 @@ class Formatter:
         postprocess_out = None
         grading_code_out = read_udacity_out()
         main_out = None
-        print(grading_code_out)
 
         if exists(dictionary=flyer.outs, key='main'):
             main_out = flyer.outs['main']
@@ -136,17 +137,6 @@ class Formatter:
     def get_meta_info(self, flyer):
         pass
 
-    def remove_trailing_whitespace(self, string):
-        """
-        Get rid of the newlines that subprocess likes to add.
-
-        string (string): String to strip.
-
-        Returns:
-            string: string sans trailing whitespace.
-        """
-        return string
-
     def pipe_student_out(self):
         self.results[student_out] = student_out
         pass
@@ -166,12 +156,11 @@ class Formatter:
         """
         return json.dumps(dictionary)
 
-    def pipe_debug_to_stdout(self):
-        pass
+    def pipe_debug_to_stdout(self, flyer):
+        self.generate_results(flyer, True)
+        print('Output to classroom:')
+        pp.pprint(self.results)
 
-    def pipe_to_stdout(self):
-        result = {}
-        result_json = self.json(result)
-        # result_json = self.json(self.results)
-        print(result_json)
-        return result_json
+    def pipe_to_stdout(self, flyer):
+        self.generate_results(flyer, True)
+        print(self.json(self.results))

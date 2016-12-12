@@ -85,6 +85,14 @@ def fly(args, falconf, env):
     ELAPSED_TIME = end_time - start_time
     return flyer
 
+def format_results(flyer, debug):
+    formatter = Formatter(flyer, elapsed_time=ELAPSED_TIME)
+    formatter.parse_steps(flyer)
+    if debug:
+        formatter.pipe_debug_to_stdout(flyer)
+    else:
+        formatter.pipe_to_stdout(flyer)
+
 def main(args=None):
     """
     The main event.
@@ -120,11 +128,7 @@ def main(args=None):
     # run student code
     if falconf is not None:
         flyer = fly(args, falconf, env)
-        formatter = Formatter(flyer, elapsed_time=ELAPSED_TIME)
-        if args.debug:
-            formatter.pipe_debug_to_stdout()
-        else:
-            formatter.pipe_to_stdout()
+        format_results(flyer, args.debug)
         exit_code = 0
 
     # something is with the config or the config is missing
