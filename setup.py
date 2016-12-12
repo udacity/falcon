@@ -33,6 +33,17 @@ class PyTest(TestCommand):
         errno = pytest.main(shlex.split(self.pytest_args))
         sys.exit(errno)
 
+def recurse_falcon_libs():
+    a = []
+    for root, dirs, files in os.walk('falcon/graderlib'):
+        # the [7:] gets rid of 'falcon/' at the beginning,
+        # which isn't necessary because it's specified for
+        # the falcon package.
+        a += [(os.path.join(root, d) + '/*')[7:] for d in dirs]
+    for root, dirs, files in os.walk('falcon/lib'):
+        a += [(os.path.join(root, d) + '/*')[7:] for d in dirs]
+    return a
+
 setup(
     name = 'Falcon',
     version = '0.1.0',
@@ -43,6 +54,9 @@ setup(
     keywords = 'udacity middleware rex',
     url = 'https://github.com/udacity/falcon',
     packages = ['falcon', 'falcon/graderlib', 'falcon/lib'],
+    package_data={
+        'falcon': recurse_falcon_libs()
+    },
     long_description = read('README.md'),
     setup_requires = ['pytest-runner'],
     tests_require = ['pytest'],

@@ -3,6 +3,7 @@ Handles any execution that needs to happen at any stage.
 """
 
 from collections import OrderedDict
+import glob
 import os
 import re
 import shlex
@@ -33,6 +34,7 @@ class Flyer:
         """
 
         self.falconf = {}
+        self.falconf_dir = ''
         self.has_flown = False
         self.elapsed_time = 0
         self.times = {}
@@ -272,26 +274,60 @@ class Flyer:
             for key, value in evar.items():
                 self.set_env_var(key, value)
 
-    def symlink_libraries(self):
+    def symlink_libraries(self, library=None):
         """
         Symlink libraries available in Falcon. Looks through grader-lib/ first then lib/. Fails silently if not in debug mode.
+
+        Args:
+            library (string): Optional way to add another libraries.
+
+        Returns:
+            bool: Whether or not the operation was successful.
         """
+        success_state = False
+        libs = []
+        destination_path = self.falconf_dir or os.getcwd()
         if exists(dictionary=self.falconf, key='libraries'):
             libs = self.falconf['libraries']
-
             if isinstance(libs, str):
                 libs = [libs]
 
-            for lib in libs:
-                grader_lib_path = get_grader_lib(lib)
-                lib_path = get_lib(lib)
-                if deos_something_exist(grader_lib_path):
-                    dst = os.path.join(self.falconf_dir, lib)
-                    os.symlink(grader_lib_path, dst, target_is_directory=True)
-                    SYMLINKS.append(dst)
-                elif deos_something_exist(lib_path):
-                    dst = os.path.join(self.falconf_dir, lib)
-                    os.symlink(lib_path, dst, target_is_directory=True)
-                    SYMLINKS.append(dst)
-                elif self.debug:
-                    print('Library not found: {}'.format(lib))
+        elif library is not None:
+            libs.append(library)
+
+        if len(libs) == 0:
+            return success_state
+
+        def symlink(src, dst):
+            if os.path.isdir(src):
+                new_dst = os.path.join(dst, os.path.split(src)[1])
+                os.symlink(src, new_dst, target_is_directory=True)
+                SYMLINKS.append(new_dst)
+            try:
+                names = os.listdir(src)
+            except os.error as e:
+                raise e
+            for name in names:
+                if os.path.isdir(name) and not os.path.islink(name):
+                    try:
+                        new_dst = os.path.join(name, dst)
+                        os.symlink(name, new_dst, target_is_directory=True)
+                        ok = True
+                    except:
+                        ok = False
+                    if ok:
+                        symlink(name, new_dst)
+                        SYMLINKS.append(new_dst)
+            return True
+
+        for lib in libs:
+            grader_lib_path = get_grader_lib(lib)
+            lib_path = get_lib(lib)
+            if does_something_exist(grader_lib_path):
+                success_state = symlink(grader_lib_path, destination_path)
+            elif does_something_exist(lib_path):
+                success_state = symlink(lib_path, destination_path)
+            elif self.debug:
+                print('Library not found: {}'.format(lib))
+        return success_state
+
