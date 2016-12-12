@@ -158,7 +158,7 @@ class Formatter:
 
     def pipe_debug_to_stdout(self, flyer):
         self.generate_results(flyer, True)
-        print('Output to classroom:')
+        print('------------\nOUTPUT SENT TO CLASSROOM:')
         pp.pprint(self.results)
 
     def pipe_to_stdout(self, flyer):

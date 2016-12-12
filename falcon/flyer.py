@@ -90,6 +90,8 @@ class Flyer:
                 print('Created {} step with command: {}'.format(step.name, step.falconf_command))
 
     def pre_run(self):
+        if self.debug:
+            print('The falcon is ready to fly! Beginning {} mode run!'.format(self.mode))
         makedir('.falcontmp')
         if exists(dictionary=self.falconf, key='env_vars'):
             self.set_env_vars(self.falconf['env_vars'])
@@ -234,7 +236,7 @@ class Flyer:
         with open(path_to_output, 'w') as f:
             f.write(out)
         if self.debug and len(out) > 0:
-            print('Output:\n' + str(out))
+            print('Output:\n' + str(out).strip())
 
     def generate_err(self, stepname, err):
         """
