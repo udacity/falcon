@@ -40,6 +40,12 @@ def parse_args(args):
                         dest='debug',
                         required=False,
                         help='Print output from each step.')
+    PARSER.add_argument('-l', '--link',
+                        action='store',
+                        default=False,
+                        dest='link',
+                        required=False,
+                        help='Symlink a falcon library here for testing.')
     # PARSER.add_argument(['-i', '--init'],
     #                     required=False,
     #                     help='Helper to create a new falconf.yaml file.')
@@ -95,6 +101,14 @@ def main(args=None):
     env = Environment()
 
     args = parse_args(args)
+
+    # symlink and then shortcircuit if they used --link
+    if args.link:
+        flyer = Flyer()
+        if flyer.symlink_libraries(args.link):
+            return 0
+        else:
+            return 1
 
     # find a falconf file
     if is_valid_falconf_specified(args):
