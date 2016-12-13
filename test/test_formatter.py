@@ -44,8 +44,11 @@ def capture_stdout(func):
         func()
     return f.getvalue()
 
-def test_formatter_pipes_a_json_string_to_stdout(successfulFormat):
-    out = capture_stdout(lambda : successfulFormat.pipe_to_stdout())
+def test_formatter_pipes_a_json_string_to_stdout():
+    env = Environment('falconf.yaml')
+    flyer = Flyer(mode='test', env=env)
+    formatter = Formatter(flyer)
+    out = capture_stdout(lambda : formatter.pipe_to_stdout(flyer))
     assert isinstance(json.loads(out), dict)
 
 def test_formatter_pulls_info_from_each_step(successfulFlyer):
