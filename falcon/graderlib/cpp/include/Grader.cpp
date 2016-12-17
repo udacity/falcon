@@ -1,10 +1,10 @@
 #include <memory>
-#include "json.hpp"
+#include "json/json.h"
 #include "Grader.h"
 #include "RubricItem.h"
 
 using namespace std;
-using namespace nlohmann;
+typedef Json::Value json;
 
 void Grader::run()
 {
@@ -73,8 +73,4 @@ json Grader::resultsJson()
 string Grader::results()
 {
   return stats.results();
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> bbc17f205dd18926b1719099bcd6fd9fa9084e8f

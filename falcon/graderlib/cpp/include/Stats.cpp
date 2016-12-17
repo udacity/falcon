@@ -1,13 +1,14 @@
+#include <algorithm>
 #include <iostream>
 #include <memory>
 #include <numeric>
 #include <string>
 #include <vector>
-#include "json.hpp"
+#include "json/json.h"
 #include "Stats.h"
 
-using namespace nlohmann; // for json
 using namespace std;
+typedef Json::Value json;
 
 string join_with_newline(vector<string>& vec)
 {
@@ -69,7 +70,8 @@ void Stats::record(shared_ptr<RubricItem> item)
 string Stats::results()
 {
   buildJsonResults();
-  return report.dump();
+  Json::FastWriter writer;
+  return writer.write(report);
 }
 
 double Stats::getTotalEvalTime()
@@ -107,9 +109,9 @@ json Stats::buildRubricItemsReport()
   {
     json item = buildRubricItemReport(i);
     if (i->passed())
-      tests["passed"].push_back(item);
+      tests["passed"].append(item);
     else
-      tests["failed"].push_back(item);
+      tests["failed"].append(item);
   }
   return tests;
 }

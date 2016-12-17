@@ -50,7 +50,7 @@ public:
   /**
   * Get a JSON representation of the evaluation results.
   */
-  nlohmann::json resultsJson();
+  Json::Value resultsJson();
   /**
   * Get a stringified JSON representation of the evaluation results. Good for outputting to another environment.
   */

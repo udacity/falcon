@@ -1,11 +1,11 @@
 #include <iostream>
 #include "gtest/gtest.h"
-#include "json.hpp"
+#include "json/json.h"
 #include "Grader.h"
 
 using namespace ::testing;
 using namespace std;
-using namespace nlohmann;
+typedef Json::Value json;
 
 class AGrader: public Test {
 public:
@@ -56,7 +56,7 @@ TEST_F(AGrader, CanKeepTrackOfTheNumberOfTests)
 TEST_F(AGrader, CanGenerateAReportBeforeRunningItems)
 {
   json report = grader.resultsJson();
-  ASSERT_EQ(report["num_created"].get<unsigned>(), 0u);
+  ASSERT_EQ(report["num_created"].asUInt(), 0u);
 }
 
 TEST_F(AGrader, KnowsWhenItRanAtLeastOneTest)
@@ -69,7 +69,7 @@ TEST_F(AGrader, CanRunMoreThanOneTest) {
   create_passing_item(grader);
   create_passing_item(grader);
   grader.run();
-  ASSERT_EQ(grader.resultsJson()["num_run"].get<unsigned>(), 2u);
+  ASSERT_EQ(grader.resultsJson()["num_run"].asUInt(), 2u);
 }
 
 TEST_F(AGrader, CanDetermineOverallPassState)
@@ -77,7 +77,7 @@ TEST_F(AGrader, CanDetermineOverallPassState)
   create_passing_item(grader);
   create_passing_item(grader);
   grader.run();
-  ASSERT_TRUE(grader.resultsJson()["is_correct"].get<bool>());
+  ASSERT_TRUE(grader.resultsJson()["is_correct"].asBool());
 }
 
 TEST_F(AGrader, CanDetermineOverallFailState)
@@ -85,7 +85,7 @@ TEST_F(AGrader, CanDetermineOverallFailState)
   create_passing_item(grader);
   create_failing_item(grader);
   grader.run();
-  ASSERT_FALSE(grader.resultsJson()["is_correct"].get<bool>());
+  ASSERT_FALSE(grader.resultsJson()["is_correct"].asBool());
 }
 
 TEST_F(AGrader, StopsRunningAfterACheckpoint)
@@ -94,7 +94,7 @@ TEST_F(AGrader, StopsRunningAfterACheckpoint)
   create_failing_item(grader);
   create_passing_item(grader);
   grader.run();
-  ASSERT_EQ(grader.resultsJson()["num_run"].get<unsigned>(), 2u);
+  ASSERT_EQ(grader.resultsJson()["num_run"].asUInt(), 2u);
 }
 
 TEST_F(AGrader, KeepsRunningWhenAnOptionalCheckpointFails)
@@ -103,7 +103,7 @@ TEST_F(AGrader, KeepsRunningWhenAnOptionalCheckpointFails)
   create_failing_item(grader, true);
   create_passing_item(grader);
   grader.run();
-  ASSERT_EQ(grader.resultsJson()["num_run"].get<unsigned>(), 3u);
+  ASSERT_EQ(grader.resultsJson()["num_run"].asUInt(), 3u);
 }
 
 TEST_F(AGrader, RunsThroughCheckpointsWhenDebugging)
@@ -112,5 +112,5 @@ TEST_F(AGrader, RunsThroughCheckpointsWhenDebugging)
   create_failing_item(grader);
   create_passing_item(grader);
   grader.run_debug();
-  ASSERT_EQ(grader.resultsJson()["num_run"].get<unsigned>(), 3u);
+  ASSERT_EQ(grader.resultsJson()["num_run"].asUInt(), 3u);
 }

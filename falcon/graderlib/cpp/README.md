@@ -59,7 +59,7 @@ where each `test` in `"passed"` and `"failed"` is:
 
 #### Dependencies
 
-* [JSON](https://github.com/nlohmann/json) (included in lib/)
+* [JSON](https://github.com/open-source-parsers/jsoncpp) (included in lib/)
 * [Google Test](https://github.com/google/googletest) (for testing during `Grader` development, not for using `Grader` against student code.)
   1. Create a env var called `GTEST_HOME` pointing to Google Test's home dir (eg. `export GTEST_HOME=/path/to/googletest/googletest`).
   2. [Build googletest](https://github.com/google/googletest/tree/master/googletest#generic-build-instructions) to ${GTEST_HOME}/mybuild.
@@ -67,10 +67,16 @@ where each `test` in `"passed"` and `"failed"` is:
 #### Making Changes
 
 1. Checkout a new branch.
-2. `chmod a+x remake.sh`
-3. Make changes.
-4. `./remake.sh` to compile tests (you can just run `make` after the first time you run `./remake.sh`).
-5. `./grader_tests` to run tests.
-6. Repeat steps 3-5 as necessary.
-7. Update API in README.
-8. Submit pull request!
+2. On Linux (or at least Ubuntu 16.04):
+  * Switch the last two lines of CMakeLists.txt (link to `gtest` before `pthread`). (See [here](https://github.com/google/googletest/issues/391) for more info.)
+3. `chmod a+x remake.sh`
+4. Make changes.
+5. `./remake.sh` to compile tests (you can just run `make` after the first time you run `./remake.sh`).
+6. `./grader_tests` to run tests.
+7. Repeat steps 4-7 as necessary.
+8. Update API in README.
+9. Submit pull request!
+
+#### Hints
+
+* Having trouble with jsoncpp? Read [this](https://en.wikibooks.org/wiki/JsonCpp).

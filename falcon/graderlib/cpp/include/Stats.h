@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "json.hpp"
+#include "json/json.h"
 #include "Feedback.h"
 #include "RubricItem.h"
 
@@ -52,10 +52,10 @@ public:
   /**
   * Get a JSON of the overall stats.
   */
-  nlohmann::json resultsJson();
+  Json::Value resultsJson();
 
 private:
-  nlohmann::json report; /**< Manipulated to create the output results. */
+  Json::Value report; /**< Manipulated to create the output results. */
   bool is_correct = false; /**< Whether or not the pass/fail state is passed. */
   std::vector<std::string> student_feedback; /**< Holds the formatted feedback written for student eyes. */
 
@@ -67,11 +67,11 @@ private:
   /**
   * Aggregate stats on one (evaluted) RubricItem for output.
   */
-  nlohmann::json buildRubricItemReport(std::shared_ptr<RubricItem>);
+  Json::Value buildRubricItemReport(std::shared_ptr<RubricItem>);
   /**
   * Aggregate stats on all (evaluated) RubricItems for output.
   */
-  nlohmann::json buildRubricItemsReport();
+  Json::Value buildRubricItemsReport();
   /**
   * Create a properly formatted JSON for output.
   */
