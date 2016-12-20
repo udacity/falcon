@@ -148,9 +148,12 @@ class Flyer:
         if exists(dictionary=self.falconf, key=step.name):
             falconf = self.falconf[step.name]
 
+            # executable
             if self.has_executable_file(falconf):
                 filepath = os.path.join(self.falconf_dir, falconf)
                 step.set_shell_executable(filepath)
+
+            # falcon.action
             elif self.has_falcon_command(falconf):
                 try:
                     step.set_falcon_command(falconf)
@@ -158,8 +161,12 @@ class Flyer:
                     if self.debug:
                         raise Exception('Error prepping {}. `{}` is not a valid falcon command.'.format(step.name, falconf))
                     step.set_noop()
+
+            # shell command
             elif self.has_shell_command(falconf):
                 step.set_shell_command(falconf)
+
+            # fingers crossed that it's an executable
             else:
                 filepath = os.path.join(self.falconf_dir, falconf)
                 step.set_shell_executable(filepath)
@@ -169,12 +176,12 @@ class Flyer:
             # for reference later
             step.falconf_command = falconf
 
-        # no falconf
+        # no falconf but a default file was found
         elif default_file is not None:
             step.set_shell_executable(default_file)
             step.falconf_command = default_file
 
-        # don't do anything!
+        # don't do anything! no default file, no command
         else:
             step.set_noop()
             step.falconf_command = 'noop'
