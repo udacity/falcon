@@ -186,7 +186,13 @@ class Flyer:
         Returns:
             bool
         """
-        return re.match('^\S+\.\S+', falconf, re.I) and re.match('^falcon\.', falconf, re.I) is None
+        maybe_command = shlex.split(falconf)[0]
+
+        is_not_command = not check_valid_shell_command(maybe_command)
+        probably_has_extension = re.match('^\S+\.\S+', falconf, re.I)
+        does_not_start_with_falcon = re.match('^falcon\.', falconf, re.I) is None
+
+        return is_not_command and probably_has_extension and does_not_start_with_falcon
 
     def has_falcon_command(self, falconf):
         """
