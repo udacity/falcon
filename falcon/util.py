@@ -175,11 +175,17 @@ def check_valid_shell_command(cmd):
 
 def concat_files(*files):
     """
-    Concat some files together.
+    Concat some files together. Returns out and err to keep parity with shell commands.
 
     Args:
         *files: src1, src2, ..., srcN, dst.
+
+    Returns:
+        out: string
+        err: string
     """
+    out = ''
+    err = ''
     dst_name = files[-1]
     sources = [files[f] for f in range(len(files)) if f < len(files) - 1]
     with open(dst_name, 'w') as dst:
@@ -187,23 +193,32 @@ def concat_files(*files):
             with open(f, 'r') as src:
                 for line in src:
                     dst.write(line)
+    return out, err
 
 def delete_files(*files, rmdirs=False):
     """
-    Delete some files. Deletes directories if rmdirs is true.
+    Delete some files. Deletes directories if rmdirs is true. Returns out and err to keep parity with shell commands.
 
     Args:
         *files: filenames
         rmdir (boolean): Whether or not to remove directories too.
+
+    Returns:
+        out: string
+        err: string
     """
+    out = ''
+    err = ''
     for f in files:
         try:
             os.remove(f)
         except OSError:
             if not rmdirs:
-                raise Exception('{} is a directory. Cannot remove.'.format(f))
+                err = '{} is a directory. Cannot remove.'.format(f)
             else:
                 os.rmdir(f)
+    return out, err
+
 
 def write_udacity_out(string):
     """

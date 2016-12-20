@@ -84,7 +84,7 @@ def test_generate_udacity_out():
 def test_concat_files():
     filename = 'deleteme'
     concat_files('concat_test1', 'concat_test2', filename)
-    with open(filename) as d:
+    with open(filename, 'r') as d:
         contents = d.read()
         assert 'baby' in contents and 'honey' in contents
     delete_files(filename)

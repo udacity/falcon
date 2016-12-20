@@ -2,6 +2,7 @@ import os
 import pytest
 
 from falcon.step import Step
+from falcon.util import *
 
 def chdir_sample_dir():
     if 'test/sample' not in os.getcwd():
@@ -59,6 +60,9 @@ def test_set_noop(testStep):
     assert out == ''
     assert testStep.type == 'noop'
 
-def test_set_falcon_command(testStep):
-    # TODO
-    pass
+def test_set_falcon_command_concat(testStep):
+    testStep.set_falcon_command('falcon.concat concat_test1 concat_test2 deleteme')
+    testStep.run()
+    with open('deleteme', 'r') as f:
+        assert 'baby' in f.read()
+    delete_files('deleteme')
