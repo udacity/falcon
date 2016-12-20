@@ -173,6 +173,38 @@ def check_valid_shell_command(cmd):
     else:
         return shutil.which(cmd)
 
+def concat_files(*files):
+    """
+    Concat some files together.
+
+    Args:
+        *files: src1, src2, ..., srcN, dst.
+    """
+    dst_name = files[-1]
+    sources = [files[f] for f in range(len(files)) if f < len(files) - 1]
+    with open(dst_name, 'w') as dst:
+        for f in sources:
+            with open(f, 'r') as src:
+                for line in src:
+                    dst.write(line)
+
+def delete_files(*files, rmdirs=False):
+    """
+    Delete some files. Deletes directories if rmdirs is true.
+
+    Args:
+        *files: filenames
+        rmdir (boolean): Whether or not to remove directories too.
+    """
+    for f in files:
+        try:
+            os.remove(f)
+        except OSError:
+            if not rmdirs:
+                raise Exception('{} is a directory. Cannot remove.'.format(f))
+            else:
+                os.rmdir(f)
+
 def write_udacity_out(string):
     """
     Helper method to capture Udacity generated output. Generally use this to save grading code results. If used, the resulting file will be favored over main_out for creating student_out.
