@@ -114,3 +114,14 @@ TEST_F(AGrader, RunsThroughCheckpointsWhenDebugging)
   grader.run_debug();
   ASSERT_EQ(grader.resultsJson()["num_run"].asUInt(), 3u);
 }
+
+TEST(Test, RunsCorrectFromStartToFinish)
+{
+  Grader grader;
+  shared_ptr<RubricItem> item = grader.createRubricItem("this item passes");
+  item->whenCorrect("Good job! You got this thing right.");
+  item->whenIncorrect("Bad job. Give up.");
+  item->setCallback([]() { return true; });
+  grader.run();
+  ASSERT_TRUE(grader.passed());
+}

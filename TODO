@@ -10,12 +10,25 @@ For Getting Started:
 * how to isolate Udacity feedback
 * available libraries and how to link them
 
+Bugs:
+* is total elapsed time working?
+* is correct should stay none for test mode
+* show config in classroom output?
+* permission denied for executable. chmod not working?
+* get rid of path in error codes???
+* gcc-4.9 is picked up as a filename! not a program
+
+* call out student_out, is_correct more
+
+* PARSER.print_help() isn't a thing.
+* look for falconf.yml as well as falconf.yaml
+
 Backlog
-* link libraries
 * static file checking
 * man page with http://www.sphinx-doc.org/en/1.5/
 
-CPP-GRADER:
+GRADERS:
+* parse standardized grader outs for is_correct and student_feedback!
 * set up semantic versioning - directory by version
 
 UTILITY FUNCTIONS:
