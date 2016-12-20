@@ -139,7 +139,7 @@ class Flyer:
         1)  file.ext            |      <--        |   ./file.ext
         2)  falcon.action ...   |       *         |   falcon action
         3)  echo "bar"          |       *         |   echo "bar"
-        4)      --              | stepname.ext    |   ./stepname.ext
+        4)      --              |mode_stepname.ext| ./mode_stepname.ext
         5)      --              |      --         |         --
         """
         default_file = self.get_default_file(step.name)
@@ -278,7 +278,7 @@ class Flyer:
 
     def symlink_libraries(self, library=None):
         """
-        Symlink libraries available in Falcon. Looks through grader-lib/ first then lib/. Fails silently if not in debug mode.
+        Symlink libraries available in Falcon. Library should be within a directory. Looks through grader-lib/ first then lib/. Fails silently if not in debug mode.
 
         Args:
             library (string): Optional way to add another libraries.
@@ -320,12 +320,12 @@ class Flyer:
                     try:
                         new_dst = os.path.join(name, dst)
                         os.symlink(name, new_dst, target_is_directory=True)
+                        SYMLINKS.append(new_dst)
                         ok = True
                     except:
                         ok = False
                     if ok:
                         symlink(name, new_dst)
-                        SYMLINKS.append(new_dst)
             return True
 
         for lib in libs:
@@ -338,4 +338,3 @@ class Flyer:
             elif self.debug:
                 print('Library not found: {}'.format(lib))
         return success_state
-
