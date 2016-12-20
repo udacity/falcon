@@ -66,3 +66,15 @@ def test_set_falcon_command_concat(testStep):
     with open('deleteme', 'r') as f:
         assert 'baby' in f.read()
     delete_files('deleteme')
+
+def test_set_falcon_command_delete(testStep):
+    filename = 'deleeeeeeteme'
+    testStep.set_falcon_command('falcon.delete {}'.format(filename))
+    with open(filename, 'w') as f:
+        f.write('deleteeeee')
+    testStep.run()
+    assert not does_file_exist(filename)
+
+def test_set_invalid_falcon_command(testStep):
+    with pytest.raises(KeyError):
+        testStep.set_falcon_command('falcon.bad_command')
