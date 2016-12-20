@@ -48,8 +48,30 @@ class Step:
         else:
             self.command = lambda : run_shell_cmd(cmd)
 
-    def set_falcon_command(self, cmd, args, tempdir=None):
-        pass
+    def set_falcon_command(self, falconf, tempdir=None):
+        """
+        Run a preconfigured falcon command.
+
+        Args:
+            falconf (string): In the form of `falcon.command arg1, arg2, ..., argN`
+            tmpdir (string): Temporary directory to execute command.
+        """
+        possible_commands = {
+            'concat': concat_files
+        }
+
+        # get command and args
+        falcon_action = shlex.split(falconf)[0]
+        cmd = falcon_action.split('.')[1]
+        falcon_args = shlex.split(falconf)[1:]
+
+        # match command with actual function
+        command = possible_commands[cmd]
+
+        if tempdir is not None:
+            self.command = lambda : self.chdir(tempdir, lambda : command(*falcon_args))
+        else:
+            self.command = lambda : command(*falcon_args)
 
     def set_shell_executable(self, cmd, tempdir=None):
         """
