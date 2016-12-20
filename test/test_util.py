@@ -80,3 +80,18 @@ def test_generate_udacity_out():
     msg = 'tesssstttststststsasdfasdf'
     write_udacity_out(msg)
     assert msg in read_udacity_out()
+
+def test_concat_files():
+    filename = 'deleteme'
+    concat_files('concat_test1', 'concat_test2', filename)
+    with open(filename) as d:
+        contents = d.read()
+        assert 'baby' in contents and 'honey' in contents
+    delete_files(filename)
+
+def test_delete_files():
+    filename = 'deleteme'
+    with open(filename, 'w') as d:
+        d.write(filename)
+    delete_files(filename)
+    assert not does_file_exist(filename)
