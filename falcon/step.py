@@ -57,7 +57,8 @@ class Step:
             tmpdir (string): Temporary directory to execute command.
         """
         possible_commands = {
-            'concat': concat_files
+            'concat': concat_files,
+            'delete': delete_files
         }
 
         # get command and args
@@ -66,8 +67,13 @@ class Step:
         falcon_args = shlex.split(falconf)[1:]
 
         # match command with actual function
-        command = possible_commands[cmd]
+        try:
+            command = possible_commands[cmd]
+        except KeyError as e:
+            # not a valid falcon command. let the flyer handle it
+            raise e
 
+        self.type = 'falcon'
         if tempdir is not None:
             self.command = lambda : self.chdir(tempdir, lambda : command(*falcon_args))
         else:

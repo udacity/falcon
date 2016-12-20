@@ -152,7 +152,12 @@ class Flyer:
                 filepath = os.path.join(self.falconf_dir, falconf)
                 step.set_shell_executable(filepath)
             elif self.has_falcon_command(falconf):
-                step.set_falcon_command(falconf)
+                try:
+                    step.set_falcon_command(falconf)
+                except KeyError:
+                    if self.debug:
+                        raise Exception('Error prepping {}. `{}` is not a valid falcon command.'.format(step.name, falconf))
+                    step.set_noop()
             elif self.has_shell_command(falconf):
                 step.set_shell_command(falconf)
             else:
@@ -196,13 +201,17 @@ class Flyer:
 
     def has_falcon_command(self, falconf):
         """
-        FIXME: NOT READY YET!
         Match the falconf against a command of the style falcon.foo.
 
         Args:
             falconf (string): Falcon command.
         """
-        return re.match('^falcon\.', falconf, re.I)
+        maybe_command = shlex.split(falconf)[0]
+
+        is_not_command = not check_valid_shell_command(maybe_command)
+        starts_with_falcon = re.match('^falcon\.', falconf, re.I)
+
+        return is_not_command and starts_with_falcon
 
     def has_shell_command(self, falconf):
         """
