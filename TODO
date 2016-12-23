@@ -23,3 +23,7 @@ UTILITY FUNCTIONS:
 * could build a falconf.yaml initializer
 * base64
 * copying, moving files
+
+For reference:
+copy to rex
+rsync -avz ~/Udacity/etc/falcon/ rex:falcon
