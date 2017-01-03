@@ -42,7 +42,7 @@ To run/fly with Falcon, you must understand how it is executes — it uses a ser
 |5    |`postprocess`        |prepare output to be sent back to classroom          |
 |6    |`tear_down`          |clean up executing environment; remove temp files    |
 
-Each step represents a point during execution where you can specify your own custom commands. The steps and commands must be defined in a `falcon.yaml` file. Here’s a simple `falconf.yaml` for a Swift programming quiz:
+Each step represents a point during execution where you can specify your own custom commands. The steps and commands must be defined in a `falconf.yaml` file. Here’s a simple `falconf.yaml` for a Swift programming quiz:
 
 ```yaml
 test:
