@@ -2,17 +2,17 @@
 
 Programming quizzes (PQs) are assessments which test a student’s understanding of a programming concept by asking them to write code which can be evaluated for correctness. Here’s an example of a PQ displayed in the Udacity classroom with labels for the main sections:
 
-[image]
+<img src="https://github.com/jarrodparkes/images/blob/master/falcon-classroom.png?raw=true" width="600" />
 
-A. Coding Area - displays code that a student can read and edit
-B. Test Feedback Area - displays output when a student tests/submits code
-C. Test Code Button - runs code without evaluation for correctness
-D. Submit Code Button - submits code to be evaluated for correctness
-E. Reset Quiz Button - resets quiz to initial state
+1. Coding Area - displays code that a student can read and edit
+2. Test Feedback Area - displays output when a student tests/submits code
+3. Test Code Button - runs code without evaluation for correctness
+4. Submit Code Button - submits code to be evaluated for correctness
+5. Reset Quiz Button - resets quiz to initial state
 
 Not shown in the example above is the Main Feedback dialog:
 
-[image]
+<img src="https://github.com/jarrodparkes/images/blob/master/falcon-feedback.png?raw=true" width="600" />
 
 When a student submits the code (by pressing the "Submit Code" button), this dialog informs the student whether they correctly answered the quiz as well as any additional feedback that may be helpful for addressing incorrect answers or providing encouragement.
 
