@@ -2,20 +2,76 @@
 
 # Falcon
 
-Falcon is a Python command-line tool for authoring and testing programming quizzes using [Udacity's remote execution stack (REX)](https://github.com/udacity/udacity-clyde).
+Falcon is a command-line program for authoring, testing, and running programming quizzes using [Udacity's remote execution stack (REX)](https://github.com/udacity/udacity-clyde).
 
-## falconf.yaml
+> **Note:** If you are unfamiliar with programming quizzes, then please take a moment to read [Programming Quizzes](Quizzes.md) before continuing.
 
-Sample falconf.yaml
+## Dependencies
+
+Minimally, Falcon requires the following dependencies:
+
+- `python3.4+`
+- `pip` (should be included with Python)
+
+As you begin using Falcon to write quizzes for certain programming languages and their associated testing harnesses, you may need to install other dependencies.
+
+## Installing Falcon
+
+To install Falcon run the following commands:
+
+- `git clone https://github.com/udacity/falcon`
+- `cd falcon`
+- `pip install requirements.txt`
+- `python setup.py install`
+- `python setup.py test`
+
+The final two commands (python `setup.py`) will build and install a command line program called `falcon` onto your machine, make `falcon` available on your $PATH, and test `falcon` to ensure it works. Assuming all goes well, you can begin authoring programming quizzes wherever and whenever your heart desires :sparkling_heart:! Seriously, you don’t even need to venture into this repository anymore... unless Falcon changes, and you have to re-build it :wink:.
+
+## Using Falcon
+
+### Execution Steps
+
+To run/fly with Falcon, you must understand how it is executes — it uses a series of execution steps:
+
+|Order|Execution Step       |Typical Uses                                         |
+|-----|---------------------|-----------------------------------------------------|
+|1    |`preprocess`         |setup and configure the executing environment        |
+|2    |`compile`            |compile (student’s) code                             |
+|3    |`static_file_check`  |analyze student files                                |
+|4    |`main`               |run student’s code with or without a test harness    |
+|5    |`postprocess`        |prepare output to be sent back to classroom          |
+|6    |`tear_down`          |clean up executing environment; remove temp files    |
+
+Each step represents a point during execution where you can specify your own custom commands. The steps and commands must be defined in a `falcon.yaml` file. Here’s a simple `falconf.yaml` for a Swift programming quiz:
+
+```yaml
+test:
+  main: swift StudentMain.swift
+submit:
+  preprocess: falcon.concat SwizzleInclude.swift SwizzleBefore.swift StudentMain.swift SwizzleAfter.swift SwizzledMain.swift
+  main: swift SwizzledMain.swift
+  tear_down: rm SwizzledMain.swift
+```
+
+Notice the file is split into `test` and `submit` sections. These sections correspond to Falcon’s `test` and `submit` modes, and they control which steps/commands are run when Falcon is invoked (using `falcon -m test` or `falcon -m submit`). The only required step for either section is `main`.
+
+> **Note:** Any steps not listed for a section will be skipped. Steps can also be listed in any order, but they will always executed in same order (`preprocess`, `compile`, ...).
+
+The `test` and `submit` modes should emulate what happens when a student selects “Test Code” or “Submit Code” in the classroom. Specifically, `test` should run a student’s code without evaluating it for correctness, and `submit` should evaluate the student’s code by testing it for correctness.
+
+### falconf.yaml
+
+Here’s an expanded `falconf.yaml` template:
+
 ```yaml
 test:
   env_vars:
     VAR: value
     VAR2: value2
-  grader_libs: [cpp-grader]
+  grader_libs: [lib1, lib2]
   preprocess: cmd
   compile: cmd
-  static\_file\_check: cmd
+  static_file_check: cmd
   main: cmd
   postprocess: cmd
   tear_down: cmd
@@ -23,74 +79,101 @@ submit:
   (same structure as test)
 ```
 
-Where each `cmd` can be one of (in priority order):
+It includes new entries — `env_vars` and `grader_libs` — in addition to the execution steps. (@cameronwp can you elaborate here?)
 
-        falconf         |      file       |       Action
-------------------------|-----------------|---------------------
-1)  file.ext            |      <--        |   ./file.ext
-2)  falcon.action ...   |       *         |   falcon action
-3)  echo "bar"          |       *         |   echo "bar"
-4)      --              | stepname.ext    |   ./stepname.ext
-5)      --              |      --         |         --
+### From Commands to Execution
 
-Falcon commands take the form of `falcon.concat file1 file2 ... fileN outfile`.
+For each step listed in `falconf.yaml`, its associated command will be interpreted and executed using one of the following rules:
 
-EXECUTABLES MUST HAVE AN EXTENSION!
+|#|Command Type                       |Example of Command   |File Required for Command    |What’s Executed by Falcon? |
+|-|-----------------------------------|---------------------|-----------------------------|---------------------------|
+|1|Run a program/script               |file.ext             |file.ext                     |./file.ext                 |
+|2|Run a Falcon utility function      |falcon.function      |                             |falcon function            |
+|3|Run a shell command                |echo “bar”           |                             |echo “bar                  |
+|4|Auto-run a program/script          |                     |stepname.ext                 | ./stepname.ext            |
+|5|Omit step                          |                     |                             |                           | |
 
-## Modes
+A few more things to know about the rules:
 
-In Falcon, two evaluation modes are supported:
+- All executables must have an extension!
+- For a full listing of Falcon utility functions, do [X] (@cameronwp can you elaborate here?)
+- For Rule 4, if Falcon detects a filename matching the stepname, then it will attempt to execute that file for the step.
 
-- Test: Runs student's code without evaluating it for correctness
-- Submit: Evaluate student's code by testing it for correctness.
+### Falcon Output
 
-## Stacks
+As Falcon executes, it produces output for each execution step (as a JSON-like string) so that it can be passed back to the classroom for further evaluation. Here’s example output generated by Falcon using the Swift example (for submit) from above:
 
-In Falcon, a stack refers to a programming language and testing framework. Currently, the following stacks are supported:
+```json
+{   'config_file': '',
+    'elapsed_time': 0,
+    'is_correct': None,
+    'mode': 'submit',
+    'steps': [   {   'command': 'swift SwizzledMain.swift',
+                     'elapsed_time': 111,
+                     'err': '',
+                     'name': 'main',
+                     'out': 'hello from swift.\n'
+                            '<PASS::>larger(x: 0, y: 0) returns 0\n'
+                            '<PASS::>larger(x: -100, y: 100) returns 100\n'
+                            '<PASS::>larger(x: 10, y: 20) returns 20\n'
+                            '<PASS::>larger(x: 5, y: 3) returns 5',
+                     'type': 'shell'},
+                 {   'command': 'falcon.concat SwizzleInclude.swift '
+                                'SwizzleBefore.swift StudentMain.swift '
+                                'SwizzleAfter.swift SwizzledMain.swift',
+                     'elapsed_time': 1,
+                     'err': '',
+                     'name': 'preprocess',
+                     'out': '',
+                     'type': 'falcon'},
+                 {   'command': 'rm SwizzledMain.swift',
+                     'elapsed_time': 5,
+                     'err': '',
+                     'name': 'tear_down',
+                     'out': '',
+                     'type': 'shell'},
+                 {   'command': 'noop',
+                     'elapsed_time': 0,
+                     'err': '',
+                     'name': 'postprocess',
+                     'out': '',
+                     'type': 'noop'},
+                 {   'command': 'noop',
+                     'elapsed_time': 0,
+                     'err': '',
+                     'name': 'compile',
+                     'out': '',
+                     'type': 'noop'}],
+    'student_err': '',
+    'student_out': 'hello from swift.\n'
+                   '<PASS::>larger(x: 0, y: 0) returns 0\n'
+                   '<PASS::>larger(x: -100, y: 100) returns 100\n'
+                   '<PASS::>larger(x: 10, y: 20) returns 20\n'
+                   '<PASS::>larger(x: 5, y: 3) returns 5'}
+```
 
-- Swift^
-- Javascript^
-- Javascript + Mocha
-- Ruby^
-- C++
+> **Note:** Depending on how you design your quizzes, you can determine whether or not a student’s submission is correct during Falcon’s execution (the `is_correct` key/value pair) or later in the classroom. For example, using the output from above, one could determine correctness later, in the classroom, by analyzing the `<PASS::>` tags in the `student_out` key/value pair.
 
-^ These stacks use simple pass/fail functions (like asserts) for testing.
+### Running Falcon from the Command Line
 
-## Running Locally
+Once Falcon is installed on your $PATH, you can run it from anywhere. By default, it looks for a `falconf.yaml` file in the execution directory, but you can provide a custom path as well.
 
-To run Falcon locally, use a command like the following:
+#### Usage Instructions
 
-`python falcon.py -s swift -m test -l`
+`falcon -h`
 
-In this case, this tells Falcon to...
+#### Run Falcon using Test Mode
 
-1. evaluate the student's code in  **test** mode using the **swift** stack
-2. substitute the local sandbox files as the "student's code"
-3. use the **swift** stack's local-only functionality for setting up and tearing down your environment
+`falcon -m test`
 
-Assuming you have all the proper tools installed (in this case, the Swift compiler — `swift`), and they are accessible via your `$PATH`, then you should be able to run this example without error. However, if you need to custom configure your environment or `$PATH`to run a stack, then you should take the following steps:
+#### Run Falcon using Submit Mode
 
-1. Create a **config** folder at the root
-2. Create a file for the stack in the **config** folder (ex. `config/swift.sh`)
-  - This file should contain any bash commands needed to configure your local environment to run the specified stack
+`falcon -m submit`
 
-### Special Flags
+#### Run Falcon and See Debug Output for Each Execution Step
 
-- use `-h` to see Falcon usage instructions
-- use `-p` to "pretty format" results from **submit** mode
-- if you are developing `falcon` and running into problems, use `-d` to see uncaught exceptions
-
-## Running on REX
-
-For the following reasons, running Falcon on REX is much easier than running it locally:
-
-- REX environment and `$PATH` are preconfigured to work with each stack
-- The student's code is delivered into the environment instead of being substituted from a local sandbox
-
-To run previous example on REX, the following command would be used:
-
-`python falcon.py -s swift -m test`
+`falcon [-m MODE] -d`
 
 ## Maintainers
 
-@jarrodparkes
+@jarrodparkes, @cameronwp
