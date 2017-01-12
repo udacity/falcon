@@ -4,6 +4,39 @@
 
 Falcon is a Python command-line tool for authoring and testing programming quizzes using [Udacity's remote execution stack (REX)](https://github.com/udacity/udacity-clyde).
 
+## falconf.yaml
+
+Sample falconf.yaml
+```yaml
+test:
+  env_vars:
+    VAR: value
+    VAR2: value2
+  grader_libs: [cpp-grader]
+  preprocess: cmd
+  compile: cmd
+  static\_file\_check: cmd
+  main: cmd
+  postprocess: cmd
+  tear_down: cmd
+submit:
+  (same structure as test)
+```
+
+Where each `cmd` can be one of (in priority order):
+
+        falconf         |      file       |       Action
+------------------------|-----------------|---------------------
+1)  file.ext            |      <--        |   ./file.ext
+2)  falcon.action ...   |       *         |   falcon action
+3)  echo "bar"          |       *         |   echo "bar"
+4)      --              | stepname.ext    |   ./stepname.ext
+5)      --              |      --         |         --
+
+Falcon commands take the form of `falcon.concat file1 file2 ... fileN outfile`.
+
+EXECUTABLES MUST HAVE AN EXTENSION!
+
 ## Modes
 
 In Falcon, two evaluation modes are supported:
@@ -19,6 +52,7 @@ In Falcon, a stack refers to a programming language and testing framework. Curre
 - Javascript^
 - Javascript + Mocha
 - Ruby^
+- C++
 
 ^ These stacks use simple pass/fail functions (like asserts) for testing.
 

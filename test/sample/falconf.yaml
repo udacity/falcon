@@ -1,0 +1,20 @@
+test:
+  env_vars:
+    - VAR: value
+    - VAR2: value2
+  grader_libs: [cpp-grader]
+  static_file_check: echo 'static'
+  main: python main.py
+  postprocess: echo "postprocessing"
+  tear_down: tear_down.sh
+submit:
+  env_vars:
+    - VAR: value
+    - VAR2: value2
+  grader_libs: [cpp-grader]
+  preprocess: echo 'preprocess'
+  compile: echo 'compile'
+  static_file_check: echo 'static'
+  main: echo 'main'
+  postprocess: echo 'postprocess'
+  tear_down: echo 'tear_down'
