@@ -1,7 +1,7 @@
 import pytest
 import os
 
-from falcon.environment import Environment
+from udfalcon.environment import Environment
 
 def chdir_sample_dir():
     if 'test/sample' not in os.getcwd():

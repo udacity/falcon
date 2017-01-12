@@ -1,0 +1,3 @@
+[console_scripts]
+falcon = udfalcon.falcon:main
+

@@ -4,7 +4,7 @@ import io
 import os
 from contextlib import redirect_stdout
 
-from falcon.util import *
+from udfalcon.util import *
 
 def chdir_sample_dir():
     if 'test/sample' not in os.getcwd():

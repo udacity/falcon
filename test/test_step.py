@@ -1,8 +1,8 @@
 import os
 import pytest
 
-from falcon.step import Step
-from falcon.util import *
+from udfalcon.step import Step
+from udfalcon.util import *
 
 def chdir_sample_dir():
     if 'test/sample' not in os.getcwd():

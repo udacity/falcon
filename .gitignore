@@ -1,10 +1,12 @@
+*.DS_Store
+
 # Local Config
 config/*.sh
 venv/
+.vagrant/
 
 # build
 build/
-dist/
 
 # Temp Text Files
 .tmp/**/*
@@ -12,14 +14,13 @@ dist/
 # Python pyc files
 *.pyc
 Falcon.egg-info/**/*
+falcon.egg-info/**/*
 .cache/**/*
 .eggs/**/*
 
 # Don't track NPM modules
 node_modules
 npm-debug.log
-
-*.DS_Store
 
 # pyenv
 .python-version

@@ -4,10 +4,10 @@ from contextlib import contextmanager
 from contextlib import redirect_stdout
 import json
 
-from falcon.environment import Environment
-from falcon.flyer import Flyer
-from falcon.formatter import Formatter
-from falcon.util import *
+from udfalcon.environment import Environment
+from udfalcon.flyer import Flyer
+from udfalcon.formatter import Formatter
+from udfalcon.util import *
 
 @pytest.fixture
 def successfulFlyer():
