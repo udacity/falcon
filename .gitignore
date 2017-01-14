@@ -15,8 +15,10 @@ build/
 *.pyc
 Falcon.egg-info/**/*
 falcon.egg-info/**/*
+falcon.egg-info
 .cache/**/*
 .eggs/**/*
+dist/*
 
 # Don't track NPM modules
 node_modules
