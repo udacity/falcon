@@ -91,7 +91,7 @@ For each step listed in `falconf.yaml`, its associated command will be interpret
 |2|Run a Falcon utility function      |falcon.function      |                             |falcon function            |
 |3|Run a shell command                |echo “bar”           |                             |echo “bar                  |
 |4|Auto-run a program/script          |                     |stepname.ext                 | ./stepname.ext            |
-|5|Omit step                          |                     |                             |                           | |
+|5|Omit step                          |                     |                             |                           | 
 
 A few more things to know about the rules:
 
