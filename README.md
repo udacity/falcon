@@ -85,13 +85,13 @@ It includes new entries — `env_vars` and `grader_libs` — in addition to the 
 
 For each step listed in `falconf.yaml`, its associated command will be interpreted and executed using one of the following rules:
 
-|#|Command Type                       |Example of Command   |File Required for Command    |What’s Executed by Falcon? |
-|-|-----------------------------------|---------------------|-----------------------------|---------------------------|
-|1|Run a program/script               |file.ext             |file.ext                     |./file.ext                 |
-|2|Run a Falcon utility function      |falcon.function      |                             |falcon function            |
-|3|Run a shell command                |echo “bar”           |                             |echo “bar                  |
-|4|Auto-run a program/script          |                     |stepname.ext                 | ./stepname.ext            |
-|5|Omit step                          |                     |                             |                           |
+|Step |Command Type                       |Example of Command   |File Required for Command    |What’s Executed by Falcon? |
+|-----|-----------------------------------|---------------------|-----------------------------|---------------------------|
+|1    |Run a program/script               |file.ext             |file.ext                     |./file.ext                 |
+|2    |Run a Falcon utility function      |falcon.function      |                             |falcon function            |
+|3    |Run a shell command                |echo “bar”           |                             |echo “bar                  |
+|4    |Auto-run a program/script          |                     |stepname.ext                 | ./stepname.ext            |
+|5    |Omit step                          |                     |                             |                           |
 
 A few more things to know about the rules:
 
