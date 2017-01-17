@@ -10,8 +10,8 @@ import shlex
 import time
 from udfalcon.step import Step
 from udfalcon.util import *
-from udfalcon.graderlib import get_grader_lib
-from udfalcon.lib import get_lib
+import udfalcon.graderlib as graderlib
+import udfalcon.lib as otherlib
 
 # use for timing
 CURRENT_MILLI_TIME = lambda: int(round(time.time() * 1000))
@@ -351,8 +351,8 @@ class Flyer:
             return True
 
         for lib in libs:
-            grader_lib_path = get_grader_lib(lib)
-            lib_path = get_lib(lib)
+            grader_lib_path = graderlib.get_grader_lib(lib)
+            lib_path = otherlib.get_lib(lib)
             if does_something_exist(grader_lib_path):
                 success_state = symlink(grader_lib_path, destination_path)
             elif does_something_exist(lib_path):

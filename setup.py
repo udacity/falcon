@@ -11,7 +11,7 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
 # horrible hack, I'm sorry. setuptools is weird.
-os.environ['FALCON_HOME'] = os.getcwd()
+# os.environ['FALCON_HOME'] = os.getcwd()
 
 # Utility function to read the README file.
 # Used for the long_description. It's nice, because now 1) we have a top level
@@ -40,19 +40,19 @@ def recurse_falcon_libs():
     Because setuptools (or distutils?) refuses to do recursive globbing AFAICT.
 
     Returns:
-        list: allllll the directories in falcon/lib and falcon/graderlib.
+        list: allllll the directories in udfalcon/lib and udfalcon/graderlib.
     """
     a = []
 
-    for root, dirs, files in os.walk('falcon/graderlib'):
+    for root, dirs, files in os.walk('udfalcon/graderlib'):
         # the [7:] gets rid of 'falcon/' at the beginning,
         # which isn't necessary because it's specified for
         # the falcon package.
         if not 'docs' in root:
-            a += [(os.path.join(root, d) + '/*')[7:] for d in dirs if not 'docs' in d]
-    for root, dirs, files in os.walk('falcon/lib'):
+            a += [(os.path.join(root, d) + '/*')[9:] for d in dirs if not 'docs' in d]
+    for root, dirs, files in os.walk('udfalcon/lib'):
         if not 'docs' in root:
-            a += [(os.path.join(root, d) + '/*')[7:] for d in dirs if not 'docs' in d]
+            a += [(os.path.join(root, d) + '/*')[9:] for d in dirs if not 'docs' in d]
     return a
 
 setup(
@@ -66,16 +66,16 @@ setup(
     url = 'https://github.com/udacity/falcon',
     packages = ['udfalcon', 'test'],
     package_data={
-        'falcon': recurse_falcon_libs()
+        'udfalcon': recurse_falcon_libs()
     },
     long_description = read('README.md'),
     setup_requires = ['pytest-runner'],
     tests_require = ['pytest'],
-    test_suite = 'falcon.test.test_falcon',
+    test_suite = 'falcon.test',
     cmdclass = {'test': PyTest},
     entry_points = {
         "console_scripts": [
-            'falcon = udfalcon.falcon:main'
+            'falcon = udfalcon.falcon:main' # eventually udfalcon.__main__:main
         ]
     },
     platforms = 'any',
