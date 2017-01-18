@@ -45,6 +45,12 @@ class Environment:
             return self.submit
 
     def parse_falconf(self, falconf_string):
+        """
+        Actually read falconf.yaml and save it.
+
+        Args:
+            falconf_string (string): String of YAML.
+        """
         loaded_something = False
         falconf = yaml.load(falconf_string)
         if exists(dictionary=falconf, key='test'):
