@@ -11,7 +11,7 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
 # horrible hack, I'm sorry. setuptools is weird.
-# os.environ['FALCON_HOME'] = os.getcwd()
+os.environ['FALCON_HOME'] = os.getcwd()
 
 # Utility function to read the README file.
 # Used for the long_description. It's nice, because now 1) we have a top level
@@ -45,7 +45,7 @@ def recurse_falcon_libs():
     a = []
 
     for root, dirs, files in os.walk('udfalcon/graderlib'):
-        # the [7:] gets rid of 'falcon/' at the beginning,
+        # the [7:] gets rid of 'udfalcon/' at the beginning,
         # which isn't necessary because it's specified for
         # the falcon package.
         if not 'docs' in root:
@@ -75,7 +75,7 @@ setup(
     cmdclass = {'test': PyTest},
     entry_points = {
         "console_scripts": [
-            'falcon = udfalcon.falcon:main' # eventually udfalcon.__main__:main
+            'falcon = udfalcon.__main__:main'
         ]
     },
     platforms = 'any',

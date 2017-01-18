@@ -2,7 +2,7 @@
 
 """Python middleware for evaluating programming quizzes."""
 
-import argparse
+# import argparse
 import os
 import sys
 import time
@@ -12,46 +12,46 @@ from udfalcon.formatter import Formatter
 from udfalcon.util import *
 
 CURRENT_MILLI_TIME = lambda: int(round(time.time() * 1000))
-PARSER = None
+# PARSER = None
 ELAPSED_TIME = 0
 
-def parse_args(args):
-    PARSER = argparse.ArgumentParser(description='middleware for evaluating programming quizzes')
-    PARSER.add_argument('-c', '--config',
-                        type=argparse.FileType('r', errors='ignore'),
-                        action='store',
-                        dest='config',
-                        required=False,
-                        help='Path to falconf.yaml.')
-    PARSER.add_argument('-m', '--mode',
-                        action='store',
-                        default='submit',
-                        dest='mode',
-                        required=False,
-                        help='The evaluation mode ("test" or "submit"). Defaults to "submit".')
-    PARSER.add_argument('-p', '--pretty',
-                        action='store_true',
-                        dest='show_pretty_submit',
-                        required=False,
-                        help='show formatted submit output')
-    PARSER.add_argument('-d', '--debug',
-                        action='store_true',
-                        default=False,
-                        dest='debug',
-                        required=False,
-                        help='Print output from each step.')
-    PARSER.add_argument('-l', '--link',
-                        action='store',
-                        default=False,
-                        dest='link',
-                        required=False,
-                        help='Symlink a falcon library here for testing.')
-    # PARSER.add_argument(['-i', '--init'],
-    #                     required=False,
-    #                     help='Helper to create a new falconf.yaml file.')
+# def parse_args(args):
+#     PARSER = argparse.ArgumentParser(description='middleware for evaluating programming quizzes')
+#     PARSER.add_argument('-c', '--config',
+#                         type=argparse.FileType('r', errors='ignore'),
+#                         action='store',
+#                         dest='config',
+#                         required=False,
+#                         help='Path to falconf.yaml.')
+#     PARSER.add_argument('-m', '--mode',
+#                         action='store',
+#                         default='submit',
+#                         dest='mode',
+#                         required=False,
+#                         help='The evaluation mode ("test" or "submit"). Defaults to "submit".')
+#     PARSER.add_argument('-p', '--pretty',
+#                         action='store_true',
+#                         dest='show_pretty_submit',
+#                         required=False,
+#                         help='show formatted submit output')
+#     PARSER.add_argument('-d', '--debug',
+#                         action='store_true',
+#                         default=False,
+#                         dest='debug',
+#                         required=False,
+#                         help='Print output from each step.')
+#     PARSER.add_argument('-l', '--link',
+#                         action='store',
+#                         default=False,
+#                         dest='link',
+#                         required=False,
+#                         help='Symlink a falcon library here for testing.')
+#     # PARSER.add_argument(['-i', '--init'],
+#     #                     required=False,
+#     #                     help='Helper to create a new falconf.yaml file.')
 
-    args = PARSER.parse_args(args)
-    return args
+    # args = PARSER.parse_args(args)
+    # return args
 
 def is_valid_falconf_specified(args=None):
     """
@@ -60,9 +60,19 @@ def is_valid_falconf_specified(args=None):
     Args:
         args (dict): From argparse.
     """
-    return (exists(dictionary=args, key='config') and
-            args['config'] is not None and
-            file_exists(args['config']))
+    in_config = False
+    does_exist = False
+
+    in_config = exists(dictionary=args, key='config') and args['config'] is not None
+
+    if in_config:
+        try:
+            does_exist = file_exists(args['config'])
+        except KeyError as e:
+            if args['debug']:
+                eprint('Invalid config file: {}'.format(args['config']))
+
+    return in_config and does_exist
 
 def fly(args, falconf, env):
     """
@@ -78,7 +88,7 @@ def fly(args, falconf, env):
     """
     start_time = CURRENT_MILLI_TIME()
     env.parse_falconf(falconf)
-    flyer = Flyer(mode=args.mode, debug=args.debug, env=env)
+    flyer = Flyer(mode=args['mode'], debug=args['debug'], env=env)
     flyer.create_sequence()
     flyer.run_sequence()
     end_time = CURRENT_MILLI_TIME()
@@ -93,12 +103,12 @@ def format_results(flyer, debug):
     else:
         formatter.pipe_to_stdout(flyer)
 
-def main(args=None):
+def main(args={}):
     """
     The main event.
 
     Args:
-        args (dict): From argparse.
+        args (dict)
 
     Returns:
         int: Exit code.
@@ -108,35 +118,39 @@ def main(args=None):
     local_falconf = None
     env = Environment()
 
-    args = parse_args(args)
+    if not exists(dictionary=args, key='mode'):
+        args['mode'] = 'test'
+
+    if not exists(dictionary=args, key='debug'):
+        args['debug'] = False
 
     # symlink and then shortcircuit if they used --link
-    if args.link:
+    if exists(dictionary=args, key='link') and args['link']:
         flyer = Flyer()
-        if flyer.symlink_libraries(args.link):
+        if flyer.symlink_libraries(args['link']):
             return 0
         else:
             return 1
 
     # find a falconf file
     if is_valid_falconf_specified(args):
-        falconf = args.config
-        os.chdir(os.path.dirname(falconf))
-    elif file_exists('falconf.yaml'):
+        with open(args['config'], 'r') as f:
+            falconf = f.read()
+
+        # change the path if the falconf is elsewhere
+        newpath = os.path.dirname(falconf)
+        if newpath != '':
+            os.chdir(newpath)
+
+    elif file_exists('falconf.yaml') or file_exists('falconf.yml'):
+        if args['debug']:
+            eprint('Using local falconf file.')
         falconf = env.get_local_falconf()
 
     # run student code
     if falconf is not None:
         flyer = fly(args, falconf, env)
-        format_results(flyer, args.debug)
+        format_results(flyer, args['debug'])
         exit_code = 0
 
-    # something is with the config or the config is missing
-    else:
-        PARSER.print_help()
-        exit_code = 1
-
     return exit_code
-
-if __name__ == '__main__':
-    main(sys.argv[1:])
