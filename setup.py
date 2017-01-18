@@ -10,9 +10,6 @@ import wheel
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
-# horrible hack, I'm sorry. setuptools is weird.
-os.environ['FALCON_HOME'] = os.getcwd()
-
 # Utility function to read the README file.
 # Used for the long_description. It's nice, because now 1) we have a top level
 # README file and 2) it's easier to type in the README file than to put a raw
@@ -40,26 +37,22 @@ def recurse_falcon_libs():
     Because setuptools (or distutils?) refuses to do recursive globbing AFAICT.
 
     Returns:
-        list: allllll the directories in udfalcon/lib and udfalcon/graderlib.
+        list: allllll the directories and udfalcon/graderlib.
     """
     a = []
 
     for root, dirs, files in os.walk('udfalcon/graderlib'):
-        # the [7:] gets rid of 'udfalcon/' at the beginning,
-        # which isn't necessary because it's specified for
-        # the falcon package.
-        if not 'docs' in root:
-            a += [(os.path.join(root, d) + '/*')[9:] for d in dirs if not 'docs' in d]
-    for root, dirs, files in os.walk('udfalcon/lib'):
+        # the [9:] gets rid of 'udfalcon/' at the beginning, which isn't
+        # necessary because it's specified for the falcon package.
         if not 'docs' in root:
             a += [(os.path.join(root, d) + '/*')[9:] for d in dirs if not 'docs' in d]
     return a
 
 setup(
     name = 'falcon',
-    version = '0.1.0',
+    version = '0.2.0',
     author = 'Udacity',
-    author_email = 'jarrod@udacity.com',
+    author_email = 'cameron@udacity.com',
     description = ('Python middleware for REX programming quizzes.'),
     license = 'MIT',
     keywords = 'udacity middleware rex',
