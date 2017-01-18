@@ -50,7 +50,7 @@ def main():
     args, parser = parse_args(sys.argv[1:])
     exit_code = falcon_main(vars(args))
 
-    if exit_code != 1:
+    if exit_code != 0:
         parser.print_help()
 
 if __name__ == '__main__':
