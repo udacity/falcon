@@ -80,7 +80,8 @@ class Environment:
         Returns:
             string: contents of falconf.yaml if found, otherwise None
         """
-        # local_falconf = self.get_file_in_cwd('falconf.yaml')
-        # if local_falconf is not None:
-        #     self.parse_falconf(local_falconf)
-        return self.get_file_in_cwd('falconf.yaml')
+        try:
+            return self.get_file_in_cwd('falconf.yaml')
+        except Exception as e:
+            return self.get_file_in_cwd('falconf.yml')
+
