@@ -25,11 +25,6 @@ def parse_args(args):
                         dest='mode',
                         required=False,
                         help='The evaluation mode ("test" or "submit"). Defaults to "submit".')
-    parser.add_argument('-p', '--pretty',
-                        action='store_true',
-                        dest='show_pretty_submit',
-                        required=False,
-                        help='show formatted submit output')
     parser.add_argument('-d', '--debug',
                         action='store_true',
                         default=False,
