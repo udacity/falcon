@@ -47,7 +47,7 @@ For that, you need to get a little creative. In the past, we've printed special 
 
 // something about compiling c++
 
-// something about temp out
+// something about temp out and it's priority for the output
 
 ## Falcon Dependencies
 
