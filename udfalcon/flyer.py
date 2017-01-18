@@ -11,7 +11,7 @@ import time
 from udfalcon.step import Step
 from udfalcon.util import *
 import udfalcon.graderlib as graderlib
-import udfalcon.lib as otherlib
+# import udfalcon.lib as otherlib
 
 # use for timing
 CURRENT_MILLI_TIME = lambda: int(round(time.time() * 1000))
@@ -356,11 +356,11 @@ class Flyer:
 
         for lib in libs:
             grader_lib_path = graderlib.get_grader_lib(lib)
-            lib_path = otherlib.get_lib(lib)
+            # lib_path = otherlib.get_lib(lib)
             if does_something_exist(grader_lib_path):
                 success_state = symlink(grader_lib_path, destination_path)
-            elif does_something_exist(lib_path):
-                success_state = symlink(lib_path, destination_path)
+            # elif does_something_exist(lib_path):
+            #     success_state = symlink(lib_path, destination_path)
             elif self.debug:
                 print('Library not found: {}'.format(lib))
         return success_state

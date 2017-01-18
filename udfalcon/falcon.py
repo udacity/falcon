@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """Python middleware for evaluating programming quizzes."""
 
 # import argparse
@@ -12,46 +10,7 @@ from udfalcon.formatter import Formatter
 from udfalcon.util import *
 
 CURRENT_MILLI_TIME = lambda: int(round(time.time() * 1000))
-# PARSER = None
 ELAPSED_TIME = 0
-
-# def parse_args(args):
-#     PARSER = argparse.ArgumentParser(description='middleware for evaluating programming quizzes')
-#     PARSER.add_argument('-c', '--config',
-#                         type=argparse.FileType('r', errors='ignore'),
-#                         action='store',
-#                         dest='config',
-#                         required=False,
-#                         help='Path to falconf.yaml.')
-#     PARSER.add_argument('-m', '--mode',
-#                         action='store',
-#                         default='submit',
-#                         dest='mode',
-#                         required=False,
-#                         help='The evaluation mode ("test" or "submit"). Defaults to "submit".')
-#     PARSER.add_argument('-p', '--pretty',
-#                         action='store_true',
-#                         dest='show_pretty_submit',
-#                         required=False,
-#                         help='show formatted submit output')
-#     PARSER.add_argument('-d', '--debug',
-#                         action='store_true',
-#                         default=False,
-#                         dest='debug',
-#                         required=False,
-#                         help='Print output from each step.')
-#     PARSER.add_argument('-l', '--link',
-#                         action='store',
-#                         default=False,
-#                         dest='link',
-#                         required=False,
-#                         help='Symlink a falcon library here for testing.')
-#     # PARSER.add_argument(['-i', '--init'],
-#     #                     required=False,
-#     #                     help='Helper to create a new falconf.yaml file.')
-
-    # args = PARSER.parse_args(args)
-    # return args
 
 def is_valid_falconf_specified(args=None):
     """
@@ -152,5 +111,7 @@ def main(args={}):
         flyer = fly(args, falconf, env)
         format_results(flyer, args['debug'])
         exit_code = 0
+    elif args['debug']:
+        eprint('No falconf found.')
 
     return exit_code
