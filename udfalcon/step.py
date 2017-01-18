@@ -89,6 +89,9 @@ class Step:
             tempdir (string): Temporary directory to execute command.
         """
         self.type = 'executable'
+
+        # TODO: chown file if you want to #! anything
+
         if tempdir is not None:
             self.command = lambda : self.chdir(tempdir, lambda : run_shell_executable(cmd))
         else:

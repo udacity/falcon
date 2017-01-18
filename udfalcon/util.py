@@ -147,9 +147,12 @@ def call_subprocess(args, shell=False):
         if completedProcess.returncode != 0:
             err = '\n'.join(['return code: ' + str(completedProcess.returncode), err])
     except OSError as e:
-        raise OSError('The file may not exist or you might have forgotten the #!', e)
+        # eprint(e)
+        # raise OSError('Error executing {}'.format(args))
+        err = e
     except ValueError as e:
         # bad args
+        eprint(e)
         raise ValueError('Are these valid args? ' + ', '.join(args))
     except Exception as e:
         # something maybe wrong with the process? student code (or grading code) is bad

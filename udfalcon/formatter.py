@@ -154,7 +154,10 @@ class Formatter:
         Returns:
             string: stringified JSON of the dict.
         """
-        return json.dumps(dictionary)
+        try:
+            return json.dumps(dictionary)
+        except Exception as e:
+            return json.dumps(str(dictionary))
 
     def pipe_debug_to_stdout(self, flyer):
         self.generate_results(flyer, True)

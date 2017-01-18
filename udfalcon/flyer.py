@@ -255,6 +255,10 @@ class Flyer:
         self.outs[stepname] = str(out).strip()
         output_file = '{}_{}_out.txt'.format(self.mode, stepname)
         path_to_output = os.path.join(os.getcwd(), '.falcontmp', output_file)
+
+        if out is None:
+            out = ''
+
         with open(path_to_output, 'w') as f:
             f.write(out)
         if self.debug and len(out) > 0:
