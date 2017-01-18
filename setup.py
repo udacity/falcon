@@ -64,7 +64,7 @@ setup(
     license = 'MIT',
     keywords = 'udacity middleware rex',
     url = 'https://github.com/udacity/falcon',
-    packages = ['udfalcon', 'test'],
+    packages = ['udfalcon'],
     package_data={
         'udfalcon': recurse_falcon_libs()
     },
