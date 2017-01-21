@@ -103,7 +103,7 @@ def main(args={}):
 
     elif file_exists('falconf.yaml') or file_exists('falconf.yml'):
         if args['debug']:
-            eprint('Using local falconf file.')
+            print('Using local falconf file.')
         falconf = env.get_local_falconf()
 
     # run student code

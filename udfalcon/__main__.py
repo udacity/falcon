@@ -30,7 +30,7 @@ def parse_args(args):
                         default=False,
                         dest='debug',
                         required=False,
-                        help='Print output from each step.')
+                        help='Get more information along the way and print output from each step.')
     parser.add_argument('-l', '--link',
                         action='store',
                         default=False,
