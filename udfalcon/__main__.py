@@ -37,9 +37,14 @@ def parse_args(args):
                         dest='link',
                         required=False,
                         help='Symlink a falcon library here for testing.')
-    # parser.add_argument(['-i', '--init'],
-    #                     required=False,
-    #                     help='Helper to create a new falconf.yaml file.')
+    parser.add_argument('-o', '--output',
+                        action='store',
+                        choices=['json', 'stdout', 'return'],
+                        default='json',
+                        dest='output',
+                        required=False,
+                        help='Output type.')
+
     args = parser.parse_args(args)
     return args, parser
 
