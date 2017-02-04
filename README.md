@@ -62,7 +62,7 @@ Falcon requires the following dependencies for installation and execution:
 Testing on REX can be a pain, but you can mimic it by running Falcon locally. To do so, install Falcon with:
 
 ```sh
-pip3 install [INSERTURL].whl
+pip3 install https://github.com/udacity/falcon/blob/master/dist/falcon-0.2.0-py32-none-any.whl?raw=true
 ````
 
 You can now import Falcon or run it as a module from the command line.
@@ -268,6 +268,10 @@ There's a feature to symlink a library to cwd without running Falcon.
 5. `python setup.py test`
 
 The final two commands (python `setup.py`) will build and install a command line program called `falcon` onto your machine, make `falcon` available on your $PATH, and test `falcon` to ensure it works. Assuming all goes well, you can begin authoring programming quizzes wherever and whenever your heart desires :sparkling_heart:! Seriously, you don't even need to venture into this repository anymore... unless Falcon changes, and you have to re-build it :wink:.
+
+### Testing with Vagrant
+
+`vagrant login -c` if you have 2FA set.
 
 ## Maintainers
 
