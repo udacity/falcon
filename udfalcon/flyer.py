@@ -41,8 +41,8 @@ class Flyer:
         self.mode = mode
         self.debug = debug
         self.local = local
-        self.errs = {}
-        self.outs = {}
+        self.errs = OrderedDict()
+        self.outs = OrderedDict()
 
         self.prep_sequence(mode, env)
 

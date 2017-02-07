@@ -14,7 +14,6 @@ def parse_args(args):
     """
     parser = argparse.ArgumentParser(description='middleware for evaluating programming quizzes')
     parser.add_argument('-c', '--config',
-                        type=argparse.FileType('r', errors='ignore'),
                         action='store',
                         dest='config',
                         required=False,
@@ -39,11 +38,11 @@ def parse_args(args):
                         help='Symlink a falcon library here for testing.')
     parser.add_argument('-o', '--output',
                         action='store',
-                        choices=['json', 'stdout', 'return'],
+                        choices=['json', 'formatted', 'clean', 'return'],
                         default='json',
                         dest='output',
                         required=False,
-                        help='Output type.')
+                        help='Output type. Note that if in "debug" mode, output is always "json".')
 
     args = parser.parse_args(args)
     return args, parser
