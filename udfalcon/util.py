@@ -241,9 +241,9 @@ def read_udacity_out():
     Helper method to read the output of Udacity generated output (likely grading code results). Noop if you never called write_udacity_out(). Deletes the temp file after reading it.
 
     Returns:
-        string (or None if nothing was written)
+        string
     """
-    ret = None
+    ret = ''
     if does_file_exist(UD_TEMP_OUT):
         with open(UD_TEMP_OUT, 'r') as f:
             ret = f.read()
