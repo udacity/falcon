@@ -46,9 +46,6 @@ def test_is_valid_falconf_specified_when_exists():
 def test_is_valid_falconf_specified():
     assert not is_valid_falconf_specified()
 
-# def test_fly(good_args, good_falconf, good_env):
-#     flyer = fly(good_args, good_falconf, good_env)
-
 def test_works_without_falconf_given():
     # we're in a directory with it
     assert main() == 0
