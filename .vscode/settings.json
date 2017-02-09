@@ -3,5 +3,6 @@
   "editor.detectIndentation": true,
   "editor.tabSize": 4,
   "python.linting.pylintEnabled": false,
-  "python.linting.lintOnTextChange": false
+  "python.linting.lintOnTextChange": false,
+  "vsicons.presets.angular": false
 }
