@@ -122,6 +122,7 @@ def test_get_is_correct_is_none_if_no_tag():
     assert formatter.get_is_correct(student_out) is None
 
 def test_get_is_correct_is_false_if_fail_tag():
+    # manually passes in output
     env = Environment(falconf_string="""
     test:
         main: echo '<::FAIL>'
@@ -135,14 +136,8 @@ def test_get_is_correct_is_false_if_fail_tag():
     assert not formatter.get_is_correct(student_out)
 
 def test_get_is_correct_is_true_if_pass_tag():
-    env = Environment(falconf_string="""
-    test:
-        main: echo '<::PASS>'
-    """)
-    flyer = Flyer(mode='test', env=env)
-    flyer.create_sequence()
-    flyer.run_sequence()
-    formatter = Formatter(flyer)
-    steps = formatter.parse_steps(flyer)
-    student_out = formatter.get_student_out(flyer)
-    assert formatter.get_is_correct(student_out)
+    # output pulled from udacity_out file
+    msg = '<::PASS>'
+    write_udacity_out(msg)
+    formatter = Formatter()
+    assert formatter.get_is_correct()
