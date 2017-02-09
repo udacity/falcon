@@ -18,7 +18,7 @@ class Formatter:
         Default constructor.
 
         Args:
-            flyer (Flyer)
+            flyer (Flyer): Flyer that has already completed its sequence.
         """
         self.elapsed_time = elapsed_time
 
@@ -38,6 +38,12 @@ class Formatter:
             self.results['elapsed_time'] = elapsed_time
 
     def generate_results(self, flyer):
+        """
+        Create the flight results dict.
+
+        Args:
+            flyer (Flyer): Flyer that has already completed its sequence.
+        """
         self.results['mode'] = flyer.mode
         steps = self.parse_steps(flyer)
         self.results['student_out'] = self.get_student_out(flyer)
@@ -47,7 +53,7 @@ class Formatter:
 
     def get_student_out(self, flyer):
         """
-        Get output from student code. This is postprocess if it exists, otherwise main.
+        Get output from student code. This is postprocess if it exists, otherwise custom grading output, otherwise main.
 
         Args:
             flyer (Flyer): Flyer that has already completed its sequence.
@@ -94,18 +100,23 @@ class Formatter:
         else:
             return ''
 
-    def get_is_correct(self, student_out, key=None):
+    def get_is_correct(self, student_out):
         """
-        Pull is_correct from student_out.
+        Pull is_correct from student_out. While student_out may come from main or postprocess, this is only useful when student_out corresponds to the file pulled from read_udacity_out() as it looks for the tag <::PASS>.
 
         Args:
             student_out (stringified json): Student output.
-            key (string): If present, use the boolean from the key to determine is_correct.
 
         Returns:
-            bool: True if confirmed, False if missing or malformed.
+            bool: if <::PASS> or <::FAIL> exist
+            None: if neither exist
         """
-        pass
+        if '<::PASS>' in student_out:
+            return True
+        elif '<::FAIL>' in student_out:
+            return False
+        else:
+            return None
 
     def get_step_result(self, name, flyer):
         """
@@ -130,17 +141,13 @@ class Formatter:
         Get info on each Step and the way it ran.
 
         Args:
-            flyer (Flyer)
+            flyer (Flyer): Flyer that has already completed its sequence.
         """
         result = OrderedDict()
         for name in flyer.outs:
             result[name] = self.get_step_result(name, flyer)
 
         return [v for v in result.values()]
-
-    def pipe_student_out(self):
-        self.results[student_out] = student_out
-        pass
 
     def json(self, dictionary):
         """
@@ -158,14 +165,29 @@ class Formatter:
             return json.dumps(str(dictionary))
 
     def pipe_debug_to_stdout(self, flyer):
+        """
+        Print the flight results as a pretty, human-readable JSON.
+
+        Args:
+            flyer (Flyer): Flyer that has already completed its sequence.
+        """
         self.generate_results(flyer)
         print('------------\nOUTPUT SENT TO CLASSROOM:')
         pp.pprint(self.results)
 
     def pipe_to_stdout(self, flyer):
+        """
+        Print the flight results as a dict.
+
+        Args:
+            flyer (Flyer): Flyer that has already completed its sequence.
+        """
         self.generate_results(flyer)
         print(self.json(self.results))
 
     def return_results(self, flyer):
+        """
+        Return the results of the flight to the caller. This is only used when importing the library (eg. `udfalcon.fly()`).
+        """
         self.generate_results(flyer)
         return self.results
