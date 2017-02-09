@@ -81,7 +81,7 @@ def test_get_student_out_finds_main_out_if_no_postprocess():
     steps = formatter.parse_steps(flyer)
     assert 'student_outtttt' in formatter.get_student_out(flyer)
 
-def test_get_student_out_finds_main_out_if_postprocess():
+def test_get_student_out_finds_postprocess_out_if_postprocess():
     env = Environment(falconf_string="""
     test:
         main: python testMain.py
