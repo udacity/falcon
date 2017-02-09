@@ -1,4 +1,6 @@
 import pytest
+from contextlib import contextmanager
+from contextlib import redirect_stdout
 
 from udfalcon.falcon import *
 
@@ -7,6 +9,18 @@ def chdir_sample_dir():
         os.chdir(os.path.dirname(os.path.join(os.getcwd(), 'test/sample/falconf.yaml'))) # done in main()
 
 chdir_sample_dir()
+
+def capture_stderr(exceptionType, func):
+    f = io.StringIO()
+    with redirect_stderr(f), pytest.raises(exceptionType):
+        func()
+    return f.getvalue()
+
+def capture_stdout(func):
+    f = io.StringIO()
+    with redirect_stdout(f):
+        func()
+    return f.getvalue()
 
 @pytest.fixture
 def good_args():
@@ -32,9 +46,6 @@ def test_is_valid_falconf_specified_when_exists():
 def test_is_valid_falconf_specified():
     assert not is_valid_falconf_specified()
 
-# def test_fly(good_args, good_falconf, good_env):
-#     flyer = fly(good_args, good_falconf, good_env)
-
 def test_works_without_falconf_given():
     # we're in a directory with it
     assert main() == 0
@@ -43,11 +54,15 @@ def test_works_with_falconf():
     # assert main(['-c', 'falconf.yaml']) == 0
     assert main({'config': 'falconf.yaml'}) == 0
 
-# TODO: call falcon from command line instead
-# def test_errs_if_no_falconf_found():
-#     # use the error thing
-#     with pytest.raises(SystemExit):
-#         main(['-c', 'notarealfile'])
+def test_outputs_formatted_results(capsys):
+    # the string 'Executing `' starts every command's output
+    out = capture_stdout(lambda : main({'output': 'formatted'}))
+    assert 'Executing `' in out
 
-# test all the args and their combos
-# test formatting
+def test_outpust_clean_results():
+    # this will break if the sample steps are ever changed.
+    out = capture_stdout(lambda : main({'output': 'clean'}))
+    assert 'preprocess\ncompile\nmain' in out
+
+def test_outputs_return_results():
+    assert isinstance(main({'output': 'return', 'mode': 'test'}), dict)

@@ -1,3 +1,6 @@
+Needs:
+* just output mode
+
 For Getting Started:
 * overview
 * how to fly falcon
@@ -34,3 +37,6 @@ UTILITY FUNCTIONS:
 For reference:
 copy to rex
 rsync -avz ~/Udacity/etc/falcon/ rex:falcon
+
+Installing the vagrant box (see https://github.com/Varying-Vagrant-Vagrants/VVV/issues/401)
+vagrant box add udacity/unsafer-nogpu -c

@@ -1,5 +1,6 @@
 """Formats remote execution output for the classroom or local debug."""
 
+from collections import OrderedDict
 import os
 import pprint
 import sys
@@ -31,12 +32,12 @@ class Formatter:
             'student_err': ''
         }
         if flyer is not None and flyer.has_flown:
-            self.generate_results(flyer, debug)
+            self.generate_results(flyer)
 
         if elapsed_time is not None:
             self.results['elapsed_time'] = elapsed_time
 
-    def generate_results(self, flyer, debug=True):
+    def generate_results(self, flyer):
         self.results['mode'] = flyer.mode
         steps = self.parse_steps(flyer)
         self.results['student_out'] = self.get_student_out(flyer)
@@ -127,21 +128,18 @@ class Formatter:
     def parse_steps(self, flyer):
         """
         Get info on each Step and the way it ran.
+
+        Args:
+            flyer (Flyer)
         """
-        result = {}
+        result = OrderedDict()
         for name in flyer.outs:
             result[name] = self.get_step_result(name, flyer)
 
         return [v for v in result.values()]
 
-    def get_meta_info(self, flyer):
-        pass
-
     def pipe_student_out(self):
         self.results[student_out] = student_out
-        pass
-
-    def pipe_student_err(self):
         pass
 
     def json(self, dictionary):
@@ -160,10 +158,14 @@ class Formatter:
             return json.dumps(str(dictionary))
 
     def pipe_debug_to_stdout(self, flyer):
-        self.generate_results(flyer, True)
+        self.generate_results(flyer)
         print('------------\nOUTPUT SENT TO CLASSROOM:')
         pp.pprint(self.results)
 
     def pipe_to_stdout(self, flyer):
-        self.generate_results(flyer, True)
+        self.generate_results(flyer)
         print(self.json(self.results))
+
+    def return_results(self, flyer):
+        self.generate_results(flyer)
+        return self.results

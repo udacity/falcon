@@ -50,7 +50,7 @@ def recurse_falcon_libs():
 
 setup(
     name = 'falcon',
-    version = '0.2.0',
+    version = '0.3.0',
     author = 'Udacity',
     author_email = 'cameron@udacity.com',
     description = ('Python middleware for REX programming quizzes.'),
