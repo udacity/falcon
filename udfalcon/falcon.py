@@ -54,34 +54,39 @@ def fly(args, falconf, env):
     ELAPSED_TIME = end_time - start_time
     return flyer
 
-def format_results(flyer, debug, output):
+def format_results(flyer, debug, output='json'):
     """
     Use debug and output to decide how to show results of the run.
 
     Args:
         flyer (Flyer)
         debug (boolean)
-        output (string): One of 'json', 'formatted', 'clean', 'return'
+        output (string): One of 'json', 'formatted', 'clean', 'return'. Defaults to 'json'.
 
     Returns:
         None: if output != 'return'
-        JSON: if output == 'return'
+        dict: if output == 'return'
     """
     formatter = Formatter(flyer, elapsed_time=ELAPSED_TIME)
     formatter.parse_steps(flyer)
 
     if debug:
-        # print a nice version of the results JSON
+        # print a pretty version of the results JSON
         formatter.pipe_debug_to_stdout(flyer)
         return None
     elif output == 'return':
-        # just return the results JSON
+        # just return the results dict
         return formatter.return_results(flyer)
     elif output == 'formatted':
-        # print results as:
-        # Command:
-        # stderr
-        # stdout
+        """
+        print results as:
+
+        ------------------
+        Executing `command` ...
+        stderr
+        stdout
+        ------------------
+        """
         results = formatter.return_results(flyer)
         steps = results['steps']
 
@@ -98,9 +103,12 @@ def format_results(flyer, debug, output):
                     print('\n------------------')
         return None
     elif output == 'clean':
-        # print results as:
-        # stderr
-        # stdout
+        """
+        print results as a sequence of:
+
+        stderr
+        stdout
+        """
         results = formatter.return_results(flyer)
         steps = results['steps']
 
@@ -113,6 +121,7 @@ def format_results(flyer, debug, output):
                 if out != '':
                     print(out)
     else:
+        # print the results JSON
         formatter.pipe_to_stdout(flyer)
         return None
 
@@ -132,6 +141,7 @@ def main(args={}):
     local_falconf = None
     env = Environment()
 
+    # this dictionary checking exists to rectify usage with command line args and the config dict passed to udfalcon.fly()
     if not exists(dictionary=args, key='mode'):
         args['mode'] = 'submit'
 

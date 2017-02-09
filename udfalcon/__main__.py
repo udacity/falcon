@@ -18,31 +18,31 @@ def parse_args(args):
                         dest='config',
                         required=False,
                         help='Path to falconf.yaml.')
+    parser.add_argument('-d', '--debug',
+                        action='store_true',
+                        default=False,
+                        dest='debug',
+                        required=False,
+                        help='Get more information along the way and print output from each step. This option forces --output to equal "json"')
+    parser.add_argument('-l', '--link',
+                        action='store',
+                        default=False,
+                        dest='link',
+                        required=False,
+                        help='ONLY symlink a falcon library here for testing. This option does not actually fly falcon.')
     parser.add_argument('-m', '--mode',
                         action='store',
                         default='submit',
                         dest='mode',
                         required=False,
                         help='The evaluation mode ("test" or "submit"). Defaults to "submit".')
-    parser.add_argument('-d', '--debug',
-                        action='store_true',
-                        default=False,
-                        dest='debug',
-                        required=False,
-                        help='Get more information along the way and print output from each step.')
-    parser.add_argument('-l', '--link',
-                        action='store',
-                        default=False,
-                        dest='link',
-                        required=False,
-                        help='Symlink a falcon library here for testing.')
     parser.add_argument('-o', '--output',
                         action='store',
                         choices=['json', 'formatted', 'clean', 'return'],
                         default='json',
                         dest='output',
                         required=False,
-                        help='Output type. Note that if in "debug" mode, output is always "json".')
+                        help='Output type. Note that if running with --debug, output is always "json". "return" is only useful when imported as a library.')
 
     args = parser.parse_args(args)
     return args, parser
