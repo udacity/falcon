@@ -141,12 +141,15 @@ def main(args={}):
     local_falconf = None
     env = Environment()
 
-    # this dictionary checking exists to rectify usage with command line args and the config dict passed to udfalcon.fly()
-    if not exists(dictionary=args, key='mode'):
-        args['mode'] = 'submit'
-
+    # this dictionary checking exists to rectify defaults with command line args and the config dict passed to udfalcon.fly()
     if not exists(dictionary=args, key='debug'):
         args['debug'] = False
+
+    if not exists(dictionary=args, key='link'):
+        args['link'] = False
+
+    if not exists(dictionary=args, key='mode'):
+        args['mode'] = 'submit'
 
     if not exists(dictionary=args, key='output'):
         args['output'] = 'json'
