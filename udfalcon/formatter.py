@@ -48,7 +48,7 @@ class Formatter:
         steps = self.parse_steps(flyer)
         self.results['student_out'] = self.get_student_out(flyer)
         self.results['student_err'] = self.get_student_err(flyer)
-        self.results['is_correct'] = self.get_is_correct(self.results['student_out'])
+        self.results['is_correct'] = self.get_is_correct()
         self.results['steps'] = steps
 
     def get_student_out(self, flyer):
@@ -100,20 +100,20 @@ class Formatter:
         else:
             return ''
 
-    def get_is_correct(self, student_out):
+    def get_is_correct(self, grading_code_out=None):
         """
-        Pull is_correct from student_out. While student_out may come from main or postprocess, this is only useful when student_out corresponds to the file pulled from read_udacity_out() as it looks for the tag <::PASS>.
-
-        Args:
-            student_out (stringified json): Student output.
+        Pull is_correct from the file pulled from read_udacity_out(). Looks for the tags <::PASS> or <::FAIL>.
 
         Returns:
             bool: if <::PASS> or <::FAIL> exist
             None: if neither exist
         """
-        if '<::PASS>' in student_out:
+        if grading_code_out is None:
+            grading_code_out = read_udacity_out()
+
+        if '<::PASS>' in grading_code_out:
             return True
-        elif '<::FAIL>' in student_out:
+        elif '<::FAIL>' in grading_code_out:
             return False
         else:
             return None
