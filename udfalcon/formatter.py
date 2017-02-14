@@ -44,6 +44,7 @@ class Formatter:
         Args:
             flyer (Flyer): Flyer that has already completed its sequence.
         """
+
         self.results['mode'] = flyer.mode
         steps = self.parse_steps(flyer)
         self.results['student_out'] = self.get_student_out(flyer)
