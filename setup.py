@@ -10,6 +10,8 @@ import wheel
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
+os.environ['FALCON_HOME'] = os.getcwd()
+
 # Utility function to read README file contents.
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()

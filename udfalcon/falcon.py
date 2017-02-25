@@ -154,6 +154,9 @@ def main(args={}):
     if not exists(dictionary=args, key='output'):
         args['output'] = 'json'
 
+    if not exists(dictionary=args, key='config'):
+        args['config'] = None
+
     # symlink and then shortcircuit if they used --link
     if exists(dictionary=args, key='link') and args['link']:
         flyer = Flyer()
@@ -168,7 +171,7 @@ def main(args={}):
             falconf = f.read()
 
         # change the path if the falconf is elsewhere
-        newpath = os.path.dirname(falconf)
+        newpath = os.path.dirname(args['config'])
         if newpath != '':
             os.chdir(newpath)
 

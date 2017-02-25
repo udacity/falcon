@@ -354,7 +354,10 @@ class Flyer:
             return True
 
         for lib in libs:
-            grader_lib_path = graderlib.get_grader_lib(lib)
+            try:
+                grader_lib_path = graderlib.get_grader_lib(lib)
+            except:
+                grader_lib_path = udfalcon.graderlib.get_grader_lib(lib)
             if does_something_exist(grader_lib_path):
                 success_state = symlink(grader_lib_path, destination_path)
             elif self.debug:
