@@ -1,0 +1,5 @@
+submit:
+    libraries: ['cpp']
+    compile: cmake CMakeLists.txt && make
+    main: ./submit
+    tear_down: rm -rf cmake_install.cmake cpp Makefile CMakeCache.txt submit CMakeFiles
