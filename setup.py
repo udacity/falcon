@@ -15,8 +15,6 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 class PyTest(TestCommand):
-    user_options = [('pytest-args=', 'a', "Arguments to pass to pytest")]
-
     def finalize_options(self):
         TestCommand.initialize_options(self)
         self.test_args = []
@@ -47,7 +45,7 @@ def recurse_falcon_libs():
 
 setup(
     name = 'falcon',
-    version = '0.3.0',
+    version = '0.3.1',
     author = 'Udacity',
     author_email = 'cameron@udacity.com',
     description = ('Python middleware for REX programming quizzes.'),
