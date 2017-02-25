@@ -3,7 +3,6 @@ set -e;
 
 main() {
     rm -rf build;
-    rm -rf dist;
     rm -rf .cache;
     rm -rf .eggs;
     rm -rf falcon.egg-info;
