@@ -475,7 +475,7 @@ These files are automatically deleted at the end of every run.
 
 1. `git clone https://github.com/udacity/falcon`
 2. `cd falcon`
-3. `pip install requirements.txt`
+3. `pip install -r requirements.txt`
 4. `python setup.py install`
 5. `python setup.py test`
 
