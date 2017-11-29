@@ -83,6 +83,7 @@ def submit(run_local, bash_config):
                 try:
                     with open(fname) as infile:
                         outfile.write(infile.read())
+                        outfile.write(';')
                 except IOError:
                     errors.append('file ' + fname + ' not found')
                 else:
